@@ -8,7 +8,7 @@ const double PI = M_PI;
 
 #include "point_base.h"
 
-class RADIAN
+class Radian
 {
 private:
 	//PI*0 ~ PI*2
@@ -22,7 +22,7 @@ protected:
 public:
 	//往指定方向移動
 	template<class T>
-	static void MoveToDirection(PointBase<T> self, const double& radian)
+	static void MoveToDirection(PointBase<T> self, double speed, const double& radian)
 	{
 		double shiftX = cos(radian)*speed;
 		double shiftY = -sin(radian)*speed;
@@ -31,9 +31,9 @@ public:
 
 	//往目前方向移動
 	template<class T>
-	void MoveToCurrentDirection(double speed)
+	void MoveToCurrentDirection(PointBase<T> self,double speed)
 	{
-		MoveToDirection<T>(speed, radian);
+		MoveToDirection<T>(self, speed, radian);
 	}
 	//目前方向不變往目前方向的偏移方向移動
 	template<class T>
