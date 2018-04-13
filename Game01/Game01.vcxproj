@@ -144,6 +144,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Standard\radian.cpp" />
+    <ClCompile Include="..\Standard\random.cpp" />
     <ClCompile Include="..\Standard\time_ex.cpp" />
     <ClCompile Include="..\Windows\BaseWindow.cpp" />
     <ClCompile Include="..\Windows\GetAsyncKeyStateManger.cpp" />
@@ -151,6 +153,9 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Standard\point_base.h" />
+    <ClInclude Include="..\Standard\radian.h" />
+    <ClInclude Include="..\Standard\random.h" />
     <ClInclude Include="..\Standard\time_ex.h" />
     <ClInclude Include="..\Windows\BaseWindow.h" />
     <ClInclude Include="..\Windows\GetAsyncKeyStateManger.h" />

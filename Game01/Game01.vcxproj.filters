@@ -36,6 +36,12 @@
     <ClCompile Include="..\Standard\time_ex.cpp">
       <Filter>Standard</Filter>
     </ClCompile>
+    <ClCompile Include="..\Standard\random.cpp">
+      <Filter>Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Standard\radian.cpp">
+      <Filter>Standard</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Windows\BaseWindow.h">
@@ -48,6 +54,15 @@
       <Filter>Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\Standard\time_ex.h">
+      <Filter>Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Standard\random.h">
+      <Filter>Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Standard\point_base.h">
+      <Filter>Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Standard\radian.h">
       <Filter>Standard</Filter>
     </ClInclude>
   </ItemGroup>
