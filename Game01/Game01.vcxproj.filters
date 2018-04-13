@@ -16,6 +16,9 @@
     <Filter Include="Windows">
       <UniqueIdentifier>{182450dd-2c9d-471c-aae6-037362cc0b6a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Standard">
+      <UniqueIdentifier>{ec7bc20a-6b74-4f0c-b643-ac5b30386714}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Windows\BaseWindow.cpp">
@@ -24,10 +27,28 @@
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Windows\GetAsyncKeyStateManger.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Windows\TcString.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Standard\time_ex.cpp">
+      <Filter>Standard</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Windows\BaseWindow.h">
       <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Windows\GetAsyncKeyStateManger.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Windows\TcString.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Standard\time_ex.h">
+      <Filter>Standard</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

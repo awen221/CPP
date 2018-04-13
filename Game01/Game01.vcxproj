@@ -78,7 +78,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\Windows;$(IncludePath)</IncludePath>
+    <IncludePath>..\Standard;..\Windows;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -144,11 +144,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Standard\time_ex.cpp" />
     <ClCompile Include="..\Windows\BaseWindow.cpp" />
+    <ClCompile Include="..\Windows\GetAsyncKeyStateManger.cpp" />
+    <ClCompile Include="..\Windows\TcString.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Standard\time_ex.h" />
     <ClInclude Include="..\Windows\BaseWindow.h" />
+    <ClInclude Include="..\Windows\GetAsyncKeyStateManger.h" />
+    <ClInclude Include="..\Windows\TcString.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
