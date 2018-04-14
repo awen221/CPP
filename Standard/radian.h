@@ -22,7 +22,7 @@ protected:
 public:
 	//往指定方向移動
 	template<class T>
-	static void MoveToDirection(PointBase<T> self, double speed, const double& radian)
+	static void MoveToDirection(PointBase<T>& self, double speed, const double& radian)
 	{
 		double shiftX = cos(radian)*speed;
 		double shiftY = -sin(radian)*speed;
@@ -31,7 +31,7 @@ public:
 
 	//往目前方向移動
 	template<class T>
-	void MoveToCurrentDirection(PointBase<T> self,double speed)
+	void MoveToCurrentDirection(PointBase<T>& self,double speed)
 	{
 		MoveToDirection<T>(self, speed, radian);
 	}
