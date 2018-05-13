@@ -72,17 +72,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\Standard;..\Windows;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Larry\Desktop\CPP\Windows;C:\Users\Larry\Desktop\CPP\Standard;..\Standard;..\Windows;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\Larry\Desktop\CPP\Windows;C:\Users\Larry\Desktop\CPP\Standard;C:\Users\Larry\Desktop\CPP\Standard;C:\Users\Larry\Desktop\CPP\Windows;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\Standard;..\Windows;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Larry\Desktop\CPP\Windows;C:\Users\Larry\Desktop\CPP\Standard;..\Standard;..\Windows;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Users\Larry\Desktop\CPP\Windows;C:\Users\Larry\Desktop\CPP\Standard;C:\Users\Larry\Desktop\CPP\Standard;C:\Users\Larry\Desktop\CPP\Windows;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
