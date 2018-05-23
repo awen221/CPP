@@ -3,33 +3,89 @@
 #include "TcString.h"
 
 #include "time_ex.h"
-#include "point_base.h"
+
 #include "random.h"
 #include "radian.h"
 
+#include "point_base.h"
 
+const double defaultSize = 20;
+const double defaultSpeed = 4;
+const double defaultHP = 1000;
+const double defaultAttackDistance = 20;
+const double defaultAttackRadius = 25;
+
+const double RandomPos_xMin = 0;
+const double RandomPos_xMax = 800;
+const double RandomPos_yMin = 0;
+const double RandomPos_yMax = 600;
 
 class Character :public PointBaseD,public Radian
 {
+//尺寸
 private:
 	double Size;
-	double Speed;
-	virtual double GetDefaultSize() { return 20; }
-	virtual double GetDefaultSpeed() { return 4; }
-
-	int HP;
-	virtual int GetDefaultHP() { return 1000; }
-
-	double AttackRange;
-	virtual double GetDefaultAttackRange() { return 5; }
-
+	virtual double GetDefaultSize() { return defaultSize; }
 public:
 	double GetSize() { return Size; }
 	void SetSize(double value) { Size = value; }
+
+//速度
+private:
+	double Speed;
+	virtual double GetDefaultSpeed() { return defaultSpeed; }
+public:
 	double GetSpeed() { return Speed; }
 	void SetSpeed(double value) { Speed = value; }
 
-	//將點設置到參數座標範圍內之隨機位置
+//生命值
+private:
+	int HP;
+	virtual int GetDefaultHP() { return defaultHP; }
+public:
+	int GetHP()
+	{
+		return HP;
+	}
+	void SetHP(int value)
+	{
+		HP = value;
+	}
+	void AddHP(int value)
+	{
+		SetHP(HP + value);
+	}
+	void SubHP(int value)
+	{
+		SetHP(HP - value);
+	}
+	bool IsDead()
+	{
+		return HP <= 0;
+	}
+
+//攻擊範圍
+private:
+	//攻擊距離
+	double AttackDistance;
+	virtual double GetDefaultAttackDistance() { return defaultAttackDistance; }
+	//攻擊半徑
+	double AttackRadius;
+	virtual double GetDefaultAttackRadius() { return defaultAttackRadius; }
+public:
+	//取得攻擊中心點
+	PointBaseD GetAttackCenterPoint()
+	{
+		Character pnt = *this;
+
+		pnt.MoveToCurrentDirection(pnt, AttackDistance);
+
+		return pnt;
+	}
+	double GetAttackRadius() { return AttackRadius; }
+
+//將點設置到參數座標範圍內之隨機位置
+public:
 	void Rand(double xMin, double xMax, double yMin, double yMax)
 	{
 		static RANDOM random = RANDOM();
@@ -42,37 +98,37 @@ public:
 		X = X_rand;
 		Y = Y_rand;
 	}
-	//亂數座標
-	void SetRandomPos() { Rand(100, 700, 100, 500); }
+	void SetRandomPos()
+	{ 
+		Rand(RandomPos_xMin, RandomPos_xMax, RandomPos_yMin, RandomPos_yMax);
+	}
 
-	//往目標角色移動
-	void StepToCharacter(Character targetCharacter, double speed)
+
+//往目標角色移動
+	void StepToCharacter(const Character& targetCharacter, double speed)
 	{
+		//目標由對方中心點改為雙方接觸點
 		Character target = targetCharacter;
-
-		//簡易碰撞
-		double dis = GetDistance(targetCharacter);
-		dis -= Size + targetCharacter.GetSize();
-		target = *this;
-		target.Step(targetCharacter, dis);
-
+		target.Step(*this, Size + targetCharacter.Size);
 		Step(target, speed);
 	}
 
-	int GetHP() { return HP; }
-	void SetHP(int value) { HP = value; }
-	void AddHP(int value) { HP += value; }
-	void SubHP(int value) { HP -= value; }
 
 	//近身攻擊
 	void nearAttackAuto(Character& targetCharacter, int damage)
 	{
-		if (GetDistance(targetCharacter) <= (Size * 2) + AttackRange)
+		PointBaseD pnt = GetAttackCenterPoint();
+		if (pnt.GetDistance(targetCharacter) <= (targetCharacter.Size + AttackRadius))
 		{
 			targetCharacter.SubHP(damage);
 		}
+
+		//if (GetDistance(targetCharacter) <= (Size * 2) + AttackRange)
+		//{
+		//	targetCharacter.SubHP(damage);
+		//}
 	}
-	bool IsDead() { return HP <= 0; }
+
 
 	void Init()
 	{
@@ -82,7 +138,8 @@ public:
 
 		SetRandomPos();
 
-		AttackRange = GetDefaultAttackRange();
+		AttackDistance = GetDefaultAttackDistance();
+		AttackRadius = GetDefaultAttackRadius();
 	}
 };
 
@@ -91,6 +148,7 @@ class Monster :public Character
 private:
 	double GetDefaultSpeed()override final { return 2; }
 };
+
 
 class Game
 {
@@ -212,7 +270,6 @@ public:
 	}
 };
 
-
 class WinGame:public Game
 {
 private:
@@ -227,8 +284,18 @@ private:
 
 	void DrawCharacter(HDC hdc, Character character)
 	{
+		//攻擊範圍
+		PointBaseD pntD = character.GetAttackCenterPoint();
+		Ellipse(hdc
+			, pntD.GetX() - character.GetAttackRadius()
+			, pntD.GetY() - character.GetAttackRadius()
+			, pntD.GetX() + character.GetAttackRadius()
+			, pntD.GetY() + character.GetAttackRadius());
+
+
 		//SIZE
-		Ellipse(hdc, character.GetX() - character.GetSize(), character.GetY() - character.GetSize(), character.GetX() + character.GetSize(), character.GetY() + character.GetSize());
+		Ellipse(hdc, character.GetX() - character.GetSize(), character.GetY() - character.GetSize()
+			, character.GetX() + character.GetSize(), character.GetY() + character.GetSize());
 
 		//HP
 		TcString buf = TcString();
