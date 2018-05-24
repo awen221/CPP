@@ -22,13 +22,24 @@ const double RandomPos_yMax = 600;
 
 class Character :public PointBaseD,public Radian
 {
-//尺寸
-private:
-	double Size;
-	virtual double GetDefaultSize() { return defaultSize; }
+//將點設置到參數座標範圍內之隨機位置
 public:
-	double GetSize() { return Size; }
-	void SetSize(double value) { Size = value; }
+	void Rand(double xMin, double xMax, double yMin, double yMax)
+	{
+		static RANDOM random = RANDOM();
+		int randX = random.GetRand();
+		int randY = random.GetRand();
+
+		double X_rand = xMin + randX % (int)(xMax - xMin);
+		double Y_rand = yMin + randY % (int)(yMax - yMin);
+
+		X = X_rand;
+		Y = Y_rand;
+	}
+	void SetRandomPos()
+	{
+		Rand(RandomPos_xMin, RandomPos_xMax, RandomPos_yMin, RandomPos_yMax);
+	}
 
 //速度
 private:
@@ -37,6 +48,14 @@ private:
 public:
 	double GetSpeed() { return Speed; }
 	void SetSpeed(double value) { Speed = value; }
+	//往目標角色移動
+	void StepToCharacter(const Character& targetCharacter, double speed)
+	{
+		//目標由對方中心點改為雙方接觸點
+		Character target = targetCharacter;
+		target.Step(*this, Size + targetCharacter.Size);
+		Step(target, speed);
+	}
 
 //生命值
 private:
@@ -64,6 +83,14 @@ public:
 		return HP <= 0;
 	}
 
+//尺寸
+private:
+	double Size;
+	virtual double GetDefaultSize() { return defaultSize; }
+public:
+	double GetSize() { return Size; }
+	void SetSize(double value) { Size = value; }
+
 //攻擊範圍
 private:
 	//攻擊距離
@@ -83,53 +110,20 @@ public:
 		return pnt;
 	}
 	double GetAttackRadius() { return AttackRadius; }
-
-//將點設置到參數座標範圍內之隨機位置
-public:
-	void Rand(double xMin, double xMax, double yMin, double yMax)
-	{
-		static RANDOM random = RANDOM();
-		int randX = random.GetRand();
-		int randY = random.GetRand();
-
-		double X_rand = xMin + randX % (int)(xMax - xMin);
-		double Y_rand = yMin + randY % (int)(yMax - yMin);
-
-		X = X_rand;
-		Y = Y_rand;
-	}
-	void SetRandomPos()
-	{ 
-		Rand(RandomPos_xMin, RandomPos_xMax, RandomPos_yMin, RandomPos_yMax);
-	}
-
-
-//往目標角色移動
-	void StepToCharacter(const Character& targetCharacter, double speed)
-	{
-		//目標由對方中心點改為雙方接觸點
-		Character target = targetCharacter;
-		target.Step(*this, Size + targetCharacter.Size);
-		Step(target, speed);
-	}
-
-
 	//近身攻擊
 	void nearAttackAuto(Character& targetCharacter, int damage)
 	{
 		PointBaseD pnt = GetAttackCenterPoint();
+		//取得攻擊範圍是否與對象角色重疊
 		if (pnt.GetDistance(targetCharacter) <= (targetCharacter.Size + AttackRadius))
 		{
 			targetCharacter.SubHP(damage);
 		}
 
-		//if (GetDistance(targetCharacter) <= (Size * 2) + AttackRange)
-		//{
-		//	targetCharacter.SubHP(damage);
-		//}
 	}
 
-
+//初始化	
+public:
 	void Init()
 	{
 		Size = GetDefaultSize();
