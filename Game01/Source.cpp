@@ -1,28 +1,30 @@
 #include "BaseWindow.h"
 #include "GetAsyncKeyStateManger.h"
 #include "TcString.h"
-
 #include "time_ex.h"
-
 #include "random.h"
 #include "radian.h"
-
 #include "point_base.h"
 
-const double defaultSize = 20;
-const double defaultSpeed = 4;
-const double defaultHP = 1000;
-const double defaultAttackDistance = 20;
-const double defaultAttackRadius = 25;
 
-const double RandomPos_xMin = 0;
-const double RandomPos_xMax = 800;
-const double RandomPos_yMin = 0;
-const double RandomPos_yMax = 600;
-
-class Character :public PointBaseD,public Radian
+class GameObject :public PointBaseD, public Radian
 {
-//將點設置到參數座標範圍內之隨機位置
+private:
+	enum RandomPos
+	{
+		xMin = 0,
+		xMax = 800,
+		yMin = 0,
+		yMax = 600,
+	};
+	enum Speed
+	{
+		Default = 4,
+	};
+	enum Size
+	{
+		SizeDefault = 20,
+	};
 public:
 	void Rand(double xMin, double xMax, double yMin, double yMax)
 	{
@@ -38,26 +40,70 @@ public:
 	}
 	void SetRandomPos()
 	{
-		Rand(RandomPos_xMin, RandomPos_xMax, RandomPos_yMin, RandomPos_yMax);
+		Rand(RandomPos::xMin, RandomPos::xMax, RandomPos::yMin, RandomPos::yMax);
 	}
 
-//速度
-private:
+protected:
 	double Speed;
-	virtual double GetDefaultSpeed() { return defaultSpeed; }
+	virtual double GetDefaultSpeed() { return Speed::Default; }
 public:
 	double GetSpeed() { return Speed; }
 	void SetSpeed(double value) { Speed = value; }
-	//往目標角色移動
-	void StepToCharacter(const Character& targetCharacter, double speed)
+
+	void StepToCharacter(const GameObject& targetCharacter, double speed)
 	{
-		//目標由對方中心點改為雙方接觸點
-		Character target = targetCharacter;
+		GameObject target = targetCharacter;
+		//目標為雙方接觸點
 		target.Step(*this, Size + targetCharacter.Size);
 		Step(target, speed);
 	}
 
-//生命值
+protected:
+	double Size;
+	virtual double GetDefaultSize() { return Size::SizeDefault; }
+public:
+	double GetSize() { return Size; }
+	void SetSize(double value) { Size = value; }
+
+public:
+	virtual void Init()
+	{
+		SetRandomPos();
+		Speed = GetDefaultSpeed();
+		Size = GetDefaultSize();
+	}
+
+	//取得與指定座標之夾角
+	double GetRadianFromPoint(PointBaseD target)
+	{
+		double radian;
+
+		//笛卡兒座標系(第一象限)公式
+		radian = atan2(target.GetY() - Y, target.GetX() - X);
+		//轉成Windows座標系(第三象限)要加負號
+		radian = -radian;
+
+		return radian;
+	}
+	
+protected:
+		bool bDead = false;
+public:
+	virtual bool IsDead() { return bDead; }
+};
+
+
+
+class Character :public GameObject
+{
+private:
+	enum
+	{
+		defaultHP = 1000,
+		defaultAttackDistance = 20,
+		defaultAttackRadius = 25,
+	};
+
 private:
 	int HP;
 	virtual int GetDefaultHP() { return defaultHP; }
@@ -78,29 +124,17 @@ public:
 	{
 		SetHP(HP - value);
 	}
-	bool IsDead()
+	bool IsDead()override final
 	{
 		return HP <= 0;
 	}
 
-//尺寸
 private:
-	double Size;
-	virtual double GetDefaultSize() { return defaultSize; }
-public:
-	double GetSize() { return Size; }
-	void SetSize(double value) { Size = value; }
-
-//攻擊範圍
-private:
-	//攻擊距離
 	double AttackDistance;
 	virtual double GetDefaultAttackDistance() { return defaultAttackDistance; }
-	//攻擊半徑
 	double AttackRadius;
 	virtual double GetDefaultAttackRadius() { return defaultAttackRadius; }
 public:
-	//取得攻擊中心點
 	PointBaseD GetAttackCenterPoint()
 	{
 		Character pnt = *this;
@@ -115,23 +149,18 @@ public:
 	{
 		PointBaseD pnt = GetAttackCenterPoint();
 		//取得攻擊範圍是否與對象角色重疊
-		if (pnt.GetDistance(targetCharacter) <= (targetCharacter.Size + AttackRadius))
+		if (pnt.GetDistance(targetCharacter) <= (targetCharacter.GetSize() + AttackRadius))
 		{
 			targetCharacter.SubHP(damage);
 		}
-
 	}
 
-//初始化	
 public:
 	void Init()
 	{
-		Size = GetDefaultSize();
-		Speed = GetDefaultSpeed();
+		GameObject::Init();
+
 		HP = GetDefaultHP();
-
-		SetRandomPos();
-
 		AttackDistance = GetDefaultAttackDistance();
 		AttackRadius = GetDefaultAttackRadius();
 	}
@@ -141,16 +170,69 @@ class Monster :public Character
 {
 private:
 	double GetDefaultSpeed()override final { return 2; }
+public :
+	void Work(Character& player)
+	{
+		SetRadian(GetRadianFromPoint(player));
+		StepToCharacter(player, GetSpeed());
+		nearAttackAuto(player, 2);
+	}
 };
 
+class Bullet :public GameObject
+{
+private:
+	double GetDefaultSpeed()override final { return 10; }
+protected:
+	double GetDefaultSize()override final { return 5; }
+public:
+	void Init()override final
+	{
+		bDead = false;
+		Speed = GetDefaultSpeed();
+		Size = GetDefaultSize();
+	}
+
+	void Work()
+	{
+		MoveToCurrentDirection(*this, Speed);
+
+		if (X < 0)bDead = true;
+		if (Y < 0)bDead = true;
+		if (X > 800)bDead = true;
+		if (Y > 600)bDead = true;
+	}
+
+	bool IsDead()override final
+	{
+		return bDead;
+	}
+
+	//偵測擊中
+	void CheckHit(Character& targetCharacter, int damage)
+	{
+		//取得是否與對象角色重疊
+		if (GetDistance(targetCharacter) <= (targetCharacter.GetSize()))
+		{
+			targetCharacter.SubHP(damage);
+			bDead = true;
+		}
+	}
+};
 
 class Game
 {
 protected:
-	enum { MAX_MONSTER = 10 };
+
 	Character player;
+
+	enum { MAX_MONSTER = 10 };
 	int monstersCount;
 	Monster monsters[MAX_MONSTER];
+
+	enum { MAX_Bullet = 20 };
+	int bulletsCount;
+	Bullet bullets[MAX_Bullet];
 
 	bool Pause = false;
 
@@ -161,6 +243,7 @@ protected:
 	virtual bool InputMonsterRandom() = 0;
 	virtual bool InputMonsterCreate() = 0;
 	virtual bool InputPlayerAttack() = 0;
+	virtual bool InputPlayerFire() = 0;
 	virtual bool InputPause() = 0;
 
 	void playerWork()
@@ -177,42 +260,29 @@ protected:
 		{
 			player.SetDirectionLeft();
 			player.MoveToCurrentDirection<double>(player,player.GetSpeed());
-			//player.Shift(-player.GetSpeed(), 0);
-			return;
 		}
 		if (InputRight())
 		{
 			player.SetDirectionRight();
 			player.MoveToCurrentDirection<double>(player, player.GetSpeed());
-			//player.Shift(player.GetSpeed(), 0);
-			return;
 		}
 		if (InputTop())
 		{
 			player.SetDirectionUp();
 			player.MoveToCurrentDirection<double>(player, player.GetSpeed());
-			//player.Shift(0, -player.GetSpeed());
-			return;
 		}
 		if (InputDown())
 		{
 			player.SetDirectionDown();
 			player.MoveToCurrentDirection<double>(player, player.GetSpeed());
-			//player.Shift(0, player.GetSpeed());
-			return;
 		}
-
-
-
-	}
-	void monsterWork(Monster& monster, Character& player)
-	{
-		monster.SetRadian(monster.GetRadianFromPoint<double>(monster,player));
-		monster.StepToCharacter(player, monster.GetSpeed());
-		monster.nearAttackAuto(player, 2);
 	}
 
 public:
+	enum {
+		WindowsWidth = 800,
+		WindowsHeight = 600,
+	};
 	virtual void Init()
 	{
 		player = Character();
@@ -226,6 +296,43 @@ public:
 			Pause = !Pause;
 		}
 		if (Pause)return;
+
+		playerWork();
+
+
+		if (InputPlayerFire())
+		{
+			if (bulletsCount < MAX_Bullet)
+			{
+				bullets[bulletsCount].Init();
+				double r = player.GetRadian();
+				bullets[bulletsCount].Set(player.GetX(), player.GetY());
+				bullets[bulletsCount].SetRadian(r);
+				bulletsCount++;
+			}
+		}
+
+		for (int i = 0; i < bulletsCount; i++)
+		{
+			bullets[i].Work();
+			for (int m = 0; m < monstersCount; m++)
+			{
+				bullets[i].CheckHit(monsters[m], 100);
+			}
+		}
+
+		for (int i = 0; i < bulletsCount; i++)
+		{
+			if (bullets[i].IsDead())
+			{
+				bulletsCount--;
+				for (int m = i; m < bulletsCount; m++)
+				{
+					bullets[m] = bullets[m + 1];
+				}
+			}
+		}
+
 
 		if (InputMonsterCreate())
 		{
@@ -244,10 +351,9 @@ public:
 			}
 		}
 
-		playerWork();
 		for (int i = 0; i < monstersCount; i++)
 		{
-			monsterWork(monsters[i], player);
+			monsters[i].Work(player);
 		}
 
 		for (int i = 0; i < monstersCount; i++)
@@ -261,6 +367,7 @@ public:
 				}
 			}
 		}
+		
 	}
 };
 
@@ -274,35 +381,59 @@ private:
 	bool InputMonsterRandom()final override { return keyStateManager.IsTriggerDown(VK_F1); }
 	bool InputMonsterCreate()final override { return keyStateManager.IsTriggerDown(VK_F2); }
 	bool InputPlayerAttack()final override { return keyStateManager.IsDown(VK_SPACE); }
+	bool InputPlayerFire()final override { return keyStateManager.IsTriggerDown('F'); }
 	bool InputPause()final override { return keyStateManager.IsTriggerDown('P'); }
+
+	void DrawGameObject(HDC hdc, GameObject gameObject)
+	{
+		//SIZE
+		Ellipse(hdc,
+			(int)(gameObject.GetX() - gameObject.GetSize()),
+			(int)(gameObject.GetY() - gameObject.GetSize()),
+			(int)(gameObject.GetX() + gameObject.GetSize()),
+			(int)(gameObject.GetY() + gameObject.GetSize())
+		);
+	}
 
 	void DrawCharacter(HDC hdc, Character character)
 	{
 		//攻擊範圍
 		PointBaseD pntD = character.GetAttackCenterPoint();
-		Ellipse(hdc
-			, pntD.GetX() - character.GetAttackRadius()
-			, pntD.GetY() - character.GetAttackRadius()
-			, pntD.GetX() + character.GetAttackRadius()
-			, pntD.GetY() + character.GetAttackRadius());
+		Ellipse(hdc, 
+			(int)(pntD.GetX() - character.GetAttackRadius()),
+			(int)(pntD.GetY() - character.GetAttackRadius()),
+			(int)(pntD.GetX() + character.GetAttackRadius()), 
+			(int)(pntD.GetY() + character.GetAttackRadius())
+		);
 
 
 		//SIZE
-		Ellipse(hdc, character.GetX() - character.GetSize(), character.GetY() - character.GetSize()
-			, character.GetX() + character.GetSize(), character.GetY() + character.GetSize());
+		Ellipse(hdc, 
+			(int)(character.GetX() - character.GetSize()), 
+			(int)(character.GetY() - character.GetSize()), 
+			(int)(character.GetX() + character.GetSize()),
+			(int)(character.GetY() + character.GetSize())
+		);
 
 		//HP
 		TcString buf = TcString();
 		buf = L"HP:";
 		buf += character.GetHP();
-		TextOut(hdc, character.GetX(), character.GetY(), buf, buf.len);
+		TextOut(hdc, 
+			(int)(character.GetX()),
+			(int)(character.GetY()), 
+			buf, buf.len);
 
 		//Direction
 		POINT pnt;
-		MoveToEx(hdc, character.GetX(), character.GetY(), &pnt);
-		LineTo(hdc
-			, character.GetX() + cos(character.GetRadian())*character.GetSize()
-			, character.GetY() - sin(character.GetRadian())*character.GetSize()
+		MoveToEx(hdc,
+			(int)(character.GetX()), 
+			(int)(character.GetY()),
+			&pnt);
+
+		LineTo(hdc,
+			(int)(character.GetX() + cos(character.GetRadian())*character.GetSize()),
+			(int)(character.GetY() - sin(character.GetRadian())*character.GetSize())
 		);
 
 		//Ellipse(hdc, character.GetX() - character.GetSize(), character.GetY() - character.GetSize(), character.GetX() + character.GetSize(), character.GetY() + character.GetSize());
@@ -379,6 +510,7 @@ public:
 		keyStateManager.AddKeyState(VK_F1);
 		keyStateManager.AddKeyState(VK_F2);
 		keyStateManager.AddKeyState(VK_SPACE);
+		keyStateManager.AddKeyState('F');
 		keyStateManager.AddKeyState('P');
 
 		Game::Init();
@@ -401,6 +533,8 @@ public:
 
 		DrawCharacter(hdc, player);
 		for (int i = 0; i < monstersCount; i++)DrawCharacter(hdc, monsters[i]);
+		for (int i = 0; i < bulletsCount; i++)
+			DrawGameObject(hdc, bullets[i]);
 	}
 };
 
@@ -408,38 +542,31 @@ class mainWindow :private BaseWindow
 {
 private:
 	///overwrite abstract
-	//標題文字
 	TCHAR * GetTitle()override 
 	{
 		return (TCHAR *)TEXT("mainWindows"); 
 	}
-	//視窗類別
 	TCHAR* GetWindowsClass()override 
 	{
 		return (TCHAR *)TEXT("mainWindows");
 	}
-	//視窗寬
 	int GetWindowsWidth()override 
 	{
-		return 800; 
+		return Game::WindowsWidth; 
 	}
-	//視窗高
 	int GetWindowsHeight()override 
 	{
-		return 600; 
+		return Game::WindowsHeight; 
 	}
 
-	//初始
 	void Init()override 
 	{
 		winGame.Init();
 	}
-	//工作
 	void Proc()override 
 	{
 		winGame.Work();
 	}
-	//繪圖
 	void Draw(HDC hdc)override 
 	{
 		winGame.Draw(hdc);

@@ -2,11 +2,10 @@
 #define _POINT_BASE_H_
 
 ///template class不能拆分.cpp,會編譯不過
-template<class P>
+template<class ValueType>
 class PointBase
 {
 
-//Point
 public:
 	PointBase()
 	{
@@ -15,35 +14,68 @@ public:
 	{
 	}
 
-//座標
 protected:
-	P X;
-	P Y;
+	ValueType X;
+	ValueType Y;
 public:
 	virtual void Init()
 	{
 		X = 0;
 		Y = 0;
 	}
-	//座標 存取
-	void SetX(const P x) { X = x; }
-	P GetX() { return X; }
-	void SetY(const P y) { Y = y; }
-	P GetY() { return Y; }
-	void Set(const P x, const P y) { X = x; Y = y; }
-	void Get(P& x, P& y) { x = X; y = Y; }
-	//Shift 座標
-	void ShiftX(const P& dx) { X += dx; }
-	void ShiftY(const P& dy) { Y += dy; }
-	void Shift(const P& dx, const P& dy) { ShiftX(dx); ShiftY(dy); }
-	//GetDistance 取得距離
-	P GetDistance(const P& tx, const P& ty) { return sqrt((X - tx)*(X - tx) + (Y - ty)*(Y - ty)); }
-	//GetDistance 取得距離
-	P GetDistance(const PointBase<P>& target) { return GetDistance(target.X, target.Y); }
-	//Step 往目標步進
-	bool Step(const P& tx, const P& ty, const P& speed)
+
+	void SetX(const ValueType& x) 
 	{
-		P distance = GetDistance(tx, ty);
+		X = x; 
+	}
+	ValueType GetX() 
+	{
+		return X; 
+	}
+	void SetY(const ValueType& y) 
+	{
+		Y = y; 
+	}
+	ValueType GetY() 
+	{
+		return Y; 
+	}
+	void Set(const ValueType& x, const ValueType& y) 
+	{
+		X = x;
+		Y = y; 
+	}
+	void Get(ValueType& x, ValueType& y) 
+	{
+		x = X;
+		y = Y;
+	}
+	void ShiftX(const ValueType& dx) 
+	{
+		X += dx; 
+	}
+	void ShiftY(const ValueType& dy) 
+	{ 
+		Y += dy; 
+	}
+	void Shift(const ValueType& dx, const ValueType& dy) 
+	{ 
+		ShiftX(dx);
+		ShiftY(dy); 
+	}
+
+	ValueType GetDistance(const ValueType& tx, const ValueType& ty) 
+	{ 
+		return sqrt((X - tx)*(X - tx) + (Y - ty)*(Y - ty)); 
+	}
+	ValueType GetDistance(const PointBase<ValueType>& target) 
+	{ 
+		return GetDistance(target.X, target.Y); 
+	}
+
+	bool Step(const ValueType& tx, const ValueType& ty, const ValueType& speed)
+	{
+		ValueType distance = GetDistance(tx, ty);
 		if (speed >= distance)
 		{
 			Set(tx, ty);
@@ -51,15 +83,17 @@ public:
 			return true;
 		}
 
-		P dx = (tx - X)*speed / distance;
-		P dy = (ty - Y)*speed / distance;
+		ValueType dx = (tx - X)*speed / distance;
+		ValueType dy = (ty - Y)*speed / distance;
 		Shift(dx, dy);
 		return false;
 	}
-	//Step 往目標步進
-	bool Step(const PointBase<P>& target, const P& speed) { return Step(target.X, target.Y, speed); }
-
+	bool Step(const PointBase<ValueType>& target, const ValueType& distance) 
+	{
+		return Step(target.X, target.Y, distance); 
+	}
 };
+
 typedef PointBase<double> PointBaseD;
 
 #endif

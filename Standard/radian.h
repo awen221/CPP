@@ -20,7 +20,6 @@ protected:
 		radian = 0;
 	}
 public:
-	//往指定方向移動
 	template<class T>
 	static void MoveToDirection(PointBase<T>& self, double speed, const double& radian)
 	{
@@ -29,7 +28,6 @@ public:
 		self.Shift(shiftX, shiftY);
 	}
 
-	//往目前方向移動
 	template<class T>
 	void MoveToCurrentDirection(PointBase<T>& self,double speed)
 	{
