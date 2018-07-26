@@ -65,5 +65,8 @@
     <ClInclude Include="..\Standard\radian.h">
       <Filter>Standard</Filter>
     </ClInclude>
+    <ClInclude Include="..\Standard\ArrayTemplate.h">
+      <Filter>Standard</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

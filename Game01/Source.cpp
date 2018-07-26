@@ -5,6 +5,7 @@
 #include "random.h"
 #include "radian.h"
 #include "point_base.h"
+#include "ArrayTemplate.h"
 
 
 class GameObject :public PointBaseD, public Radian
@@ -182,7 +183,7 @@ public :
 class Bullet :public GameObject
 {
 private:
-	double GetDefaultSpeed()override final { return 10; }
+	double GetDefaultSpeed()override final { return 20; }
 protected:
 	double GetDefaultSize()override final { return 5; }
 public:
@@ -226,17 +227,17 @@ protected:
 
 	Character player;
 
-	enum { MAX_MONSTER = 10 };
+	enum { MonsterMaxCount = 10 };
 	int monstersCount;
-	Monster monsters[MAX_MONSTER];
+	Monster monsters[MonsterMaxCount];
 
-	enum { MAX_Bullet = 20 };
+	enum { BulletsMaxCount = 100 };
 	int bulletsCount;
-	Bullet bullets[MAX_Bullet];
+	Bullet bullets[BulletsMaxCount];
 
 	bool Pause = false;
 
-	virtual bool InputTop() = 0;
+	virtual bool InputUp() = 0;
 	virtual bool InputDown() = 0;
 	virtual bool InputLeft() = 0;
 	virtual bool InputRight() = 0;
@@ -277,7 +278,7 @@ protected:
 			player.SetDirectionRight();
 			player.MoveToCurrentDirection<double>(player, player.GetSpeed());
 		}
-		if (InputTop())
+		if (InputUp())
 		{
 			player.SetDirectionUp();
 			player.MoveToCurrentDirection<double>(player, player.GetSpeed());
@@ -313,13 +314,14 @@ public:
 
 		if (InputPlayerFire())
 		{
-			if (bulletsCount < MAX_Bullet)
+			//生子彈
+			Bullet* Bullet = ArrayTemplate::AddObj(bulletsCount, BulletsMaxCount, bullets);
+			if (Bullet != NULL)
 			{
-				bullets[bulletsCount].Init();
+				Bullet->Init();
 				double r = player.GetRadian();
-				bullets[bulletsCount].Set(player.GetX(), player.GetY());
-				bullets[bulletsCount].SetRadian(r);
-				bulletsCount++;
+				Bullet->Set(player.GetX(), player.GetY());
+				Bullet->SetRadian(r);
 			}
 		}
 
@@ -336,21 +338,19 @@ public:
 		{
 			if (bullets[i].IsDead())
 			{
-				bulletsCount--;
-				for (int m = i; m < bulletsCount; m++)
-				{
-					bullets[m] = bullets[m + 1];
-				}
+				//移除子彈
+				ArrayTemplate::RemoveObj(i, bulletsCount, bullets);
 			}
 		}
 
 
 		if (InputMonsterCreate())
 		{
-			if (monstersCount < MAX_MONSTER)
+			//生怪
+			Monster* pMonster = ArrayTemplate::AddObj(monstersCount, MonsterMaxCount, monsters);
+			if (pMonster != NULL)
 			{
-				monsters[monstersCount].Init();
-				monstersCount++;
+				pMonster->Init();
 			}
 		}
 
@@ -371,11 +371,8 @@ public:
 		{
 			if (monsters[i].IsDead())
 			{
-				monstersCount--;
-				for (int m = i; m < monstersCount; m++)
-				{
-					monsters[m] = monsters[m + 1];
-				}
+				//移除怪物
+				ArrayTemplate::RemoveObj(i, monstersCount, monsters);
 			}
 		}
 		
@@ -385,7 +382,7 @@ public:
 class WinGame:public Game
 {
 private:
-	bool InputTop()final override { return keyStateManager.IsDown(VK_UP); }
+	bool InputUp()final override { return keyStateManager.IsDown(VK_UP); }
 	bool InputDown()final override { return keyStateManager.IsDown(VK_DOWN); }
 	bool InputLeft()final override { return keyStateManager.IsDown(VK_LEFT); }
 	bool InputRight()final override { return keyStateManager.IsDown(VK_RIGHT); }
