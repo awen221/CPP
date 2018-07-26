@@ -244,6 +244,8 @@ protected:
 	virtual bool InputMonsterCreate() = 0;
 	virtual bool InputPlayerAttack() = 0;
 	virtual bool InputPlayerFire() = 0;
+	virtual bool InputPlayerRadianForward() = 0;
+	virtual bool InputPlayerRadianReverse() = 0;
 	virtual bool InputPause() = 0;
 
 	void playerWork()
@@ -254,6 +256,15 @@ protected:
 			{
 				player.nearAttackAuto(monsters[i], 100);
 			}
+		}
+
+		if (InputPlayerRadianForward())
+		{
+			player.SetRadian(player.GetRadian() + 0.1);
+		}
+		if (InputPlayerRadianReverse())
+		{
+			player.SetRadian(player.GetRadian() - 0.1);
 		}
 
 		if (InputLeft())
@@ -381,7 +392,9 @@ private:
 	bool InputMonsterRandom()final override { return keyStateManager.IsTriggerDown(VK_F1); }
 	bool InputMonsterCreate()final override { return keyStateManager.IsTriggerDown(VK_F2); }
 	bool InputPlayerAttack()final override { return keyStateManager.IsDown(VK_SPACE); }
-	bool InputPlayerFire()final override { return keyStateManager.IsTriggerDown('F'); }
+	bool InputPlayerFire()final override { return keyStateManager.IsDown('F'); }
+	bool InputPlayerRadianForward()final override { return keyStateManager.IsDown('A'); }
+	bool InputPlayerRadianReverse()final override { return keyStateManager.IsDown('D'); }
 	bool InputPause()final override { return keyStateManager.IsTriggerDown('P'); }
 
 	void DrawGameObject(HDC hdc, GameObject gameObject)
@@ -511,6 +524,8 @@ public:
 		keyStateManager.AddKeyState(VK_F2);
 		keyStateManager.AddKeyState(VK_SPACE);
 		keyStateManager.AddKeyState('F');
+		keyStateManager.AddKeyState('A');
+		keyStateManager.AddKeyState('D');
 		keyStateManager.AddKeyState('P');
 
 		Game::Init();
