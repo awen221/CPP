@@ -9,6 +9,7 @@
 class WinGame:public Game
 {
 private:
+	KeyStateManager keyStateManager = KeyStateManager();
 	bool InputUp()final override { return keyStateManager.IsDown(VK_UP); }
 	bool InputDown()final override { return keyStateManager.IsDown(VK_DOWN); }
 	bool InputLeft()final override { return keyStateManager.IsDown(VK_LEFT); }
@@ -77,7 +78,6 @@ private:
 	}
 
 
-	KeyStateManager keyStateManager = KeyStateManager();
 
 	class TimePassWin : public TimePass
 	{

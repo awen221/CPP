@@ -1,12 +1,20 @@
-#include "Game.h"
+#include "GamePuzzle.h"
 
 #include "BaseWindow.h"
+#include "GetAsyncKeyStateManger.h"
 
-class WinGame :public Game
+class WinGame :public GamePuzzle
 {
 private:
 	//HPEN hPEN[COLOR_COUNT];
 	HBRUSH hBRUSH[COLOR_COUNT];
+	HBRUSH hollowBRUSH;
+
+	KeyStateManager keyStateManager = KeyStateManager();
+	bool InputUp()final override { return keyStateManager.IsTriggerDown(VK_UP); }
+	bool InputDown()final override { return keyStateManager.IsTriggerDown(VK_DOWN); }
+	bool InputLeft()final override { return keyStateManager.IsTriggerDown(VK_LEFT); }
+	bool InputRight()final override { return keyStateManager.IsTriggerDown(VK_RIGHT); }
 public:
 
 	void Init()final override
@@ -21,11 +29,20 @@ public:
 		hBRUSH[BLUE] = CreateSolidBrush(RGB(0, 0, 255));
 		hBRUSH[YELLOW] = CreateSolidBrush(RGB(255, 255, 0));
 
-		Game::Init();
+		hollowBRUSH = (HBRUSH)GetStockObject(HOLLOW_BRUSH);
+
+		keyStateManager = KeyStateManager();
+		keyStateManager.AddKeyState(VK_UP);
+		keyStateManager.AddKeyState(VK_DOWN);
+		keyStateManager.AddKeyState(VK_LEFT);
+		keyStateManager.AddKeyState(VK_RIGHT);
+
+		GamePuzzle::Init();
 	}
 	void Work()
 	{
-		Game::Work();
+		keyStateManager.Work();
+		GamePuzzle::Work();
 	}
 	void Draw(HDC hdc)
 	{
@@ -41,6 +58,10 @@ public:
 				//SelectObject(hdc, oriPen);
 				SelectObject(hdc, oriBrush);
 			}
+
+		HBRUSH oriBrush = (HBRUSH)SelectObject(hdc, hollowBRUSH);
+		Rectangle(hdc, FocusX*PUZZLE_SIZE_W, FocusY*PUZZLE_SIZE_H, (FocusX + 1)*PUZZLE_SIZE_W, (FocusY + 1)*PUZZLE_SIZE_H);
+		SelectObject(hdc, oriBrush);
 	}
 };
 
@@ -58,11 +79,11 @@ private:
 	}
 	int GetWindowsWidth()override
 	{
-		return Game::WindowsWidth;
+		return GamePuzzle::WindowsWidth;
 	}
 	int GetWindowsHeight()override
 	{
-		return Game::WindowsHeight;
+		return GamePuzzle::WindowsHeight;
 	}
 
 	void Init()override

@@ -30,9 +30,6 @@
     <ClCompile Include="..\Windows\TcString.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Standard\radian.cpp">
       <Filter>Standard</Filter>
     </ClCompile>
@@ -41,6 +38,9 @@
     </ClCompile>
     <ClCompile Include="..\Standard\time_ex.cpp">
       <Filter>Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="SourcePuzzle.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -68,7 +68,7 @@
     <ClInclude Include="..\Standard\time_ex.h">
       <Filter>Standard</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="GamePuzzle.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
