@@ -7,23 +7,20 @@
     </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Windows">
-      <UniqueIdentifier>{a0290764-2e3e-46a0-a780-0f9093d2a376}</UniqueIdentifier>
+      <UniqueIdentifier>{199051a7-2c1a-46c3-bdf0-7bc2e8243898}</UniqueIdentifier>
     </Filter>
     <Filter Include="Standard">
-      <UniqueIdentifier>{d1ce80d9-0393-4787-8551-4d99d84a5bee}</UniqueIdentifier>
+      <UniqueIdentifier>{c0f366c1-4d0c-4326-8ab4-d9f615f93639}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Windows\BaseWindow.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
@@ -32,6 +29,9 @@
     </ClCompile>
     <ClCompile Include="..\Windows\TcString.cpp">
       <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Standard\radian.cpp">
       <Filter>Standard</Filter>
