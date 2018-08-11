@@ -1,5 +1,5 @@
-#ifndef _GAME_H_
-#define _GAME_H_
+#ifndef _GAME_PUZZLE_H_
+#define _GAME_PUZZLE_H_
 
 #include "random.h"
 
