@@ -176,6 +176,7 @@
     <ClInclude Include="..\Windows\BaseWindow.h" />
     <ClInclude Include="..\Windows\GetAsyncKeyStateManger.h" />
     <ClInclude Include="..\Windows\TcString.h" />
+    <ClInclude Include="Game.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

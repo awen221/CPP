@@ -1,142 +1,46 @@
+#include "Game.h"
+
 #include "BaseWindow.h"
-#include "GetAsyncKeyStateManger.h"
-#include "TcString.h"
-#include "time_ex.h"
-
-class Game
-{
-protected:
-
-	bool Pause = false;
-
-	virtual bool InputUp() = 0;
-	virtual bool InputDown() = 0;
-	virtual bool InputLeft() = 0;
-	virtual bool InputRight() = 0;
-
-	virtual bool InputPause() = 0;
-
-
-public:
-	enum {
-		WindowsWidth = 800,
-		WindowsHeight = 600,
-	};
-	virtual void Init()
-	{
-
-	}
-	virtual void Work()
-	{
-		if (InputPause())
-		{
-			Pause = !Pause;
-		}
-		if (Pause)return;
-	}
-};
 
 class WinGame :public Game
 {
 private:
-	bool InputUp()final override { return keyStateManager.IsDown(VK_UP); }
-	bool InputDown()final override { return keyStateManager.IsDown(VK_DOWN); }
-	bool InputLeft()final override { return keyStateManager.IsDown(VK_LEFT); }
-	bool InputRight()final override { return keyStateManager.IsDown(VK_RIGHT); }
-	bool InputPause()final override { return keyStateManager.IsTriggerDown('P'); }
-
-
-	class TimePassWin : public TimePass
-	{
-	public:
-		void Draw(HDC hdc)
-		{
-			TcString tString = TcString();
-			tString = L"TimePass : ";
-			unsigned int tp = GetTimePass();
-			tString += tp;
-			TextOut(hdc, 0, 0, tString, tString.len);
-		}
-	};
-	KeyStateManager keyStateManager = KeyStateManager();
-	class TimerWin : public Timer
-	{
-	public:
-		TimerWin(unsigned int len) :Timer(len) {};
-
-		void Draw(HDC hdc)
-		{
-			TcString tString = TcString();
-			tString = L"Timer : ";
-			static bool OnTimerPluse = false;
-			if (GetOnTimer())
-			{
-				OnTimerPluse = !OnTimerPluse;
-			}
-
-			if (OnTimerPluse)
-			{
-				tString += L"O";
-			}
-			else
-			{
-				tString += L"X";
-			}
-
-			TextOut(hdc, 0, 20, tString, tString.len);
-		}
-	};
-	class FpsWin : public FPS
-	{
-	public:
-		void Draw(HDC hdc)
-		{
-			TcString tString = TcString();
-			tString = L"FPS : ";
-			tString += GetFPS();
-
-			TextOut(hdc, 0, 40, tString, tString.len);
-		}
-	};
-	TimePassWin tw = TimePassWin();
-	TimerWin tr = TimerWin(1000 / 30);
-	FpsWin fw = FpsWin();
-
-
+	//HPEN hPEN[COLOR_COUNT];
+	HBRUSH hBRUSH[COLOR_COUNT];
 public:
 
 	void Init()final override
 	{
-		keyStateManager = KeyStateManager();
-		keyStateManager.AddKeyState(VK_UP);
-		keyStateManager.AddKeyState(VK_DOWN);
-		keyStateManager.AddKeyState(VK_LEFT);
-		keyStateManager.AddKeyState(VK_RIGHT);
-		keyStateManager.AddKeyState(VK_F1);
-		keyStateManager.AddKeyState(VK_F2);
-		keyStateManager.AddKeyState(VK_SPACE);
-		keyStateManager.AddKeyState('F');
-		keyStateManager.AddKeyState('A');
-		keyStateManager.AddKeyState('D');
-		keyStateManager.AddKeyState('P');
+		//hPEN[RED] = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
+		//hPEN[GREEN] = CreatePen(PS_SOLID, 1, RGB(0, 255, 0));
+		//hPEN[BLUE] = CreatePen(PS_SOLID, 1, RGB(0, 0, 255));
+		//hPEN[YELLOW] = CreatePen(PS_SOLID, 1, RGB(255, 255, 0));
+
+		hBRUSH[RED] = CreateSolidBrush(RGB(255, 0, 0));
+		hBRUSH[GREEN] = CreateSolidBrush(RGB(0, 255, 0));
+		hBRUSH[BLUE] = CreateSolidBrush(RGB(0, 0, 255));
+		hBRUSH[YELLOW] = CreateSolidBrush(RGB(255, 255, 0));
 
 		Game::Init();
 	}
 	void Work()
 	{
-		if (!tr.Work())return;
-		tw.Work();
-		fw.Work();
-
-		keyStateManager.Work();
-
 		Game::Work();
 	}
 	void Draw(HDC hdc)
 	{
-		tw.Draw(hdc);
-		tr.Draw(hdc);
-		fw.Draw(hdc);
+		for (int i = 0; i<PUZZLE_W; i++)
+			for (int j = 0; j < PUZZLE_H; j++)
+			{
+				int color = VV_PUZZLE[i][j];
+				//HPEN oriPen = (HPEN)SelectObject(hdc, hPEN[color]);
+				HBRUSH oriBrush = (HBRUSH)SelectObject(hdc, hBRUSH[color]);
+
+				Ellipse(hdc, i*PUZZLE_SIZE_W, j*PUZZLE_SIZE_H, (i + 1)*PUZZLE_SIZE_W, (j + 1)*PUZZLE_SIZE_H);
+
+				//SelectObject(hdc, oriPen);
+				SelectObject(hdc, oriBrush);
+			}
 	}
 };
 

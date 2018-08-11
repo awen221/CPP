@@ -68,5 +68,8 @@
     <ClInclude Include="..\Standard\time_ex.h">
       <Filter>Standard</Filter>
     </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
