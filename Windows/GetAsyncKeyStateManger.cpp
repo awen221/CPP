@@ -9,7 +9,10 @@ void GetAsyncKeyStateBase::SetKeyCode(const char& key_code) { KeyCode = key_code
 char GetAsyncKeyStateBase::GetKeyCode() { return KeyCode; }
 bool GetAsyncKeyStateBase::IsDown() { return PressDown; }
 bool GetAsyncKeyStateBase::IsUp() { return !PressDown; }
-bool GetAsyncKeyStateBase::IsTriggerDown() { return TriggerDown; }
+bool GetAsyncKeyStateBase::IsTriggerDown() 
+{
+	return TriggerDown; 
+}
 bool GetAsyncKeyStateBase::IsTriggerUp() { return TriggerUp; }
 void GetAsyncKeyStateBase::Work()
 {
@@ -82,7 +85,10 @@ void KeyStateManager::Work()
 		_iterator->second.Work();
 	}
 }
-bool KeyStateManager::IsTriggerDown(char key_code) { return map_KeyState[key_code].IsTriggerDown(); }
+bool KeyStateManager::IsTriggerDown(char key_code) 
+{
+	return map_KeyState[key_code].IsTriggerDown(); 
+}
 bool KeyStateManager::IsTriggerUp(char key_code) { return map_KeyState[key_code].IsTriggerUp(); }
 bool KeyStateManager::IsDown(char key_code) { return map_KeyState[key_code].IsDown(); }
 bool KeyStateManager::IsUp(char key_code) { return map_KeyState[key_code].IsUp(); }
