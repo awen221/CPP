@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Windows">
+      <UniqueIdentifier>{0195ae5d-da33-4b52-bf43-e0d17687dcf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Standard">
+      <UniqueIdentifier>{88bc18f0-a041-459a-9922-7342d2bd4ea2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Windows\BaseWindow.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Windows\GetAsyncKeyStateManger.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Windows\TcString.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Standard\radian.cpp">
+      <Filter>Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Standard\random.cpp">
+      <Filter>Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Standard\time_ex.cpp">
+      <Filter>Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceSnake.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Windows\BaseWindow.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Windows\GetAsyncKeyStateManger.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Windows\TcString.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Standard\ArrayTemplate.h">
+      <Filter>Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Standard\point_base.h">
+      <Filter>Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Standard\radian.h">
+      <Filter>Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Standard\random.h">
+      <Filter>Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Standard\time_ex.h">
+      <Filter>Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="Snake.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

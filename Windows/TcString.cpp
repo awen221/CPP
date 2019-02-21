@@ -159,6 +159,7 @@ void TcString::operator += (bool b)
 {
 	if (b == true)
 	{
+		//如果這裡的L編譯錯誤請將專案的Character Set設成Use Unicode Character Set
 		SetStr(StrAppend(L"true"));
 	}
 	else
