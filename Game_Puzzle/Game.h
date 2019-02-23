@@ -1,9 +1,76 @@
-#include "GamePuzzle.h"
+#ifndef _GAME_PUZZLE_H_
+#define _GAME_PUZZLE_H_
+
+#include "random.h"
+
+//Puzzle
+class Game
+{
+private:
+
+protected:
+	RANDOM _RANDOM = RANDOM();
+	enum { PUZZLE_W = 10, PUZZLE_H = 10 };
+	int VV_PUZZLE[PUZZLE_W][PUZZLE_H];
+	enum { RED, GREEN, BLUE, YELLOW, COLOR_COUNT };
+	enum { PUZZLE_SIZE_W = 50, PUZZLE_SIZE_H = 50 };
+	int FocusX, FocusY;
+
+	virtual bool InputUp() = 0;
+	virtual bool InputDown() = 0;
+	virtual bool InputLeft() = 0;
+	virtual bool InputRight() = 0;
+public:
+	enum { WindowsWidth = 800, WindowsHeight = 600 };
+	Game() {}
+	~Game() {}
+
+	virtual void Init()
+	{
+		FocusX = 0, FocusY = 0;
+
+		int* pPuzzle = &(VV_PUZZLE[0][0]);
+		for (int i = 0; i < PUZZLE_W*PUZZLE_H; i++)
+		{
+			pPuzzle[i] = _RANDOM.GetRand() % COLOR_COUNT;
+		}
+
+		//for (int i = 0; i<PUZZLE_W; i++)
+		//	for (int j = 0; j < PUZZLE_H; j++)
+		//	{
+		//		VV_PUZZLE[i][j] = _RANDOM.GetRand() % COLOR_COUNT;
+		//	}
+	}
+	virtual void Work()
+	{
+		if (InputUp())
+		{
+			FocusY--;
+			if (FocusY < 0)FocusY = 0;
+		}
+		if (InputDown())
+		{
+			FocusY++;
+			if (FocusY >= PUZZLE_H)FocusY = PUZZLE_H-1;
+		}
+		if (InputLeft())
+		{
+			FocusX--;
+			if (FocusX < 0)FocusX = 0;
+		}
+		if (InputRight())
+		{
+			FocusX++;
+			if (FocusX >= PUZZLE_W)FocusX = PUZZLE_W - 1;
+		}
+	}
+};
+
 
 #include "BaseWindow.h"
 #include "GetAsyncKeyStateManger.h"
 
-class WinGame :public GamePuzzle
+class WinGame :public Game
 {
 private:
 	//HPEN hPEN[COLOR_COUNT];
@@ -37,12 +104,12 @@ public:
 		keyStateManager.AddKeyState(VK_LEFT);
 		keyStateManager.AddKeyState(VK_RIGHT);
 
-		GamePuzzle::Init();
+		Game::Init();
 	}
 	void Work()
 	{
 		keyStateManager.Work();
-		GamePuzzle::Work();
+		Game::Work();
 	}
 	void Draw(HDC hdc)
 	{
@@ -65,43 +132,4 @@ public:
 	}
 };
 
-class mainWindow :private BaseWindow
-{
-private:
-	///overwrite abstract
-	TCHAR * GetTitle()override
-	{
-		return (TCHAR *)TEXT("mainWindows");
-	}
-	TCHAR* GetWindowsClass()override
-	{
-		return (TCHAR *)TEXT("mainWindows");
-	}
-	int GetWindowsWidth()override
-	{
-		return GamePuzzle::WindowsWidth;
-	}
-	int GetWindowsHeight()override
-	{
-		return GamePuzzle::WindowsHeight;
-	}
-
-	void Init()override
-	{
-		winGame.Init();
-	}
-	void Proc()override
-	{
-		winGame.Work();
-	}
-	void Draw(HDC hdc)override
-	{
-		winGame.Draw(hdc);
-	}
-
-	WinGame winGame = WinGame();
-
-public:
-	mainWindow() :BaseWindow() {}
-};
-mainWindow win = mainWindow();
+#endif#pragma once

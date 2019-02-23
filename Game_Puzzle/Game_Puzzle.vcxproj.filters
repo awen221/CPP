@@ -13,62 +13,65 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Windows">
-      <UniqueIdentifier>{199051a7-2c1a-46c3-bdf0-7bc2e8243898}</UniqueIdentifier>
+    <Filter Include="Library">
+      <UniqueIdentifier>{12f42bec-4807-4173-b759-685aa3e1eb64}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Standard">
-      <UniqueIdentifier>{c0f366c1-4d0c-4326-8ab4-d9f615f93639}</UniqueIdentifier>
+    <Filter Include="Library\Standard">
+      <UniqueIdentifier>{b3754cab-fe3e-479c-86a5-674cfdb286a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Windows">
+      <UniqueIdentifier>{76ad8f93-2899-4469-a966-851805d863d4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Windows\BaseWindow.cpp">
-      <Filter>Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Windows\GetAsyncKeyStateManger.cpp">
-      <Filter>Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Windows\TcString.cpp">
-      <Filter>Windows</Filter>
+    <ClCompile Include="..\Source.cpp">
+      <Filter>Library</Filter>
     </ClCompile>
     <ClCompile Include="..\Standard\radian.cpp">
-      <Filter>Standard</Filter>
+      <Filter>Library\Standard</Filter>
     </ClCompile>
     <ClCompile Include="..\Standard\random.cpp">
-      <Filter>Standard</Filter>
+      <Filter>Library\Standard</Filter>
     </ClCompile>
     <ClCompile Include="..\Standard\time_ex.cpp">
-      <Filter>Standard</Filter>
+      <Filter>Library\Standard</Filter>
     </ClCompile>
-    <ClCompile Include="SourcePuzzle.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\Windows\BaseWindow.cpp">
+      <Filter>Library\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Windows\GetAsyncKeyStateManger.cpp">
+      <Filter>Library\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Windows\TcString.cpp">
+      <Filter>Library\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Windows\BaseWindow.h">
-      <Filter>Windows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Windows\GetAsyncKeyStateManger.h">
-      <Filter>Windows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Windows\TcString.h">
-      <Filter>Windows</Filter>
-    </ClInclude>
     <ClInclude Include="..\Standard\ArrayTemplate.h">
-      <Filter>Standard</Filter>
+      <Filter>Library\Standard</Filter>
     </ClInclude>
     <ClInclude Include="..\Standard\point_base.h">
-      <Filter>Standard</Filter>
+      <Filter>Library\Standard</Filter>
     </ClInclude>
     <ClInclude Include="..\Standard\radian.h">
-      <Filter>Standard</Filter>
+      <Filter>Library\Standard</Filter>
     </ClInclude>
     <ClInclude Include="..\Standard\random.h">
-      <Filter>Standard</Filter>
+      <Filter>Library\Standard</Filter>
     </ClInclude>
     <ClInclude Include="..\Standard\time_ex.h">
-      <Filter>Standard</Filter>
+      <Filter>Library\Standard</Filter>
     </ClInclude>
-    <ClInclude Include="GamePuzzle.h">
+    <ClInclude Include="..\Windows\BaseWindow.h">
+      <Filter>Library\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Windows\GetAsyncKeyStateManger.h">
+      <Filter>Library\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Windows\TcString.h">
+      <Filter>Library\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

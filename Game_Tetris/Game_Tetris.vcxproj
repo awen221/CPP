@@ -75,25 +75,25 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir)bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Configuration)\$(Platform)\</IntDir>
-    <IncludePath>..\Standard;..\Windows;$(IncludePath)</IncludePath>
+    <IncludePath>.\;..\Standard;..\Windows;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir)bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Configuration)\$(Platform)\</IntDir>
-    <IncludePath>..\Standard;..\Windows;$(IncludePath)</IncludePath>
+    <IncludePath>.\;..\Standard;..\Windows;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir)bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Configuration)\$(Platform)\</IntDir>
-    <IncludePath>..\Standard;..\Windows;$(IncludePath)</IncludePath>
+    <IncludePath>.\;..\Standard;..\Windows;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir)bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Configuration)\$(Platform)\</IntDir>
-    <IncludePath>..\Standard;..\Windows;$(IncludePath)</IncludePath>
+    <IncludePath>.\;..\Standard;..\Windows;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -156,13 +156,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Source.cpp" />
     <ClCompile Include="..\Standard\radian.cpp" />
     <ClCompile Include="..\Standard\random.cpp" />
     <ClCompile Include="..\Standard\time_ex.cpp" />
     <ClCompile Include="..\Windows\BaseWindow.cpp" />
     <ClCompile Include="..\Windows\GetAsyncKeyStateManger.cpp" />
     <ClCompile Include="..\Windows\TcString.cpp" />
-    <ClCompile Include="SourceTetris.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Standard\ArrayTemplate.h" />
@@ -173,7 +173,7 @@
     <ClInclude Include="..\Windows\BaseWindow.h" />
     <ClInclude Include="..\Windows\GetAsyncKeyStateManger.h" />
     <ClInclude Include="..\Windows\TcString.h" />
-    <ClInclude Include="GameTetris.h" />
+    <ClInclude Include="Game.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

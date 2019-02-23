@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{B53279E8-5E59-4F05-A8CB-7EAB26858F09}</ProjectGuid>
+    <ProjectGuid>{5F1764CD-48ED-465F-AB57-929CA1898954}</ProjectGuid>
     <RootNamespace>GameSnake</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -54,8 +54,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Label="Shared">
-  </ImportGroup>
+  <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -70,16 +69,28 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\Standard;..\Windows;$(IncludePath)</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>..\Standard;..\Windows;$(IncludePath)</IncludePath>
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)bin\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)obj\$(Configuration)\$(Platform)\</IntDir>
+    <IncludePath>.\;..\Standard;..\Windows;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\Standard;..\Windows;$(IncludePath)</IncludePath>
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)bin\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)obj\$(Configuration)\$(Platform)\</IntDir>
+    <IncludePath>.\;..\Standard;..\Windows;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)bin\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)obj\$(Configuration)\$(Platform)\</IntDir>
+    <IncludePath>.\;..\Standard;..\Windows;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..\Standard;..\Windows;$(IncludePath)</IncludePath>
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)bin\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)obj\$(Configuration)\$(Platform)\</IntDir>
+    <IncludePath>.\;..\Standard;..\Windows;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -126,15 +137,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Standard\radian.cpp" />
-    <ClCompile Include="..\Standard\random.cpp" />
-    <ClCompile Include="..\Standard\time_ex.cpp" />
-    <ClCompile Include="..\Windows\BaseWindow.cpp" />
-    <ClCompile Include="..\Windows\GetAsyncKeyStateManger.cpp" />
-    <ClCompile Include="..\Windows\TcString.cpp" />
-    <ClCompile Include="SourceSnake.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\Standard\ArrayTemplate.h" />
     <ClInclude Include="..\Standard\point_base.h" />
     <ClInclude Include="..\Standard\radian.h" />
@@ -143,7 +145,16 @@
     <ClInclude Include="..\Windows\BaseWindow.h" />
     <ClInclude Include="..\Windows\GetAsyncKeyStateManger.h" />
     <ClInclude Include="..\Windows\TcString.h" />
-    <ClInclude Include="Snake.h" />
+    <ClInclude Include="Game.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Source.cpp" />
+    <ClCompile Include="..\Standard\radian.cpp" />
+    <ClCompile Include="..\Standard\random.cpp" />
+    <ClCompile Include="..\Standard\time_ex.cpp" />
+    <ClCompile Include="..\Windows\BaseWindow.cpp" />
+    <ClCompile Include="..\Windows\GetAsyncKeyStateManger.cpp" />
+    <ClCompile Include="..\Windows\TcString.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

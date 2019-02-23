@@ -2,8 +2,7 @@
 #include<time.h>
 
 
-
-///TimePass
+#pragma region TimePass
 //public
 TimePass::TimePass()
 {
@@ -28,8 +27,9 @@ unsigned int TimePass::GetTimePass()
 {
 	return timePass;
 }
+#pragma endregion
 
-///Timer
+#pragma region Timer
 //private
 void Timer::Init()
 {
@@ -69,8 +69,9 @@ bool Timer::Work()
 
 	return onTimer;
 }
+#pragma endregion
 
-///FPS
+#pragma region FPS
 //private
 void FPS::Init()
 {
@@ -98,3 +99,4 @@ unsigned int FPS::GetFPS()
 {
 	return Fps;
 }
+#pragma endregion

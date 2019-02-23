@@ -216,7 +216,7 @@ public:
 		}
 	}
 };
-
+//MMO
 class Game
 {
 protected:
@@ -372,6 +372,115 @@ public:
 			}
 		}
 
+	}
+};
+
+
+#include "windows.h"
+#include "TcString.h"
+#include "GetAsyncKeyStateManger.h"
+
+class WinGame :public Game
+{
+private:
+	KeyStateManager keyStateManager = KeyStateManager();
+	bool InputUp()final override { return keyStateManager.IsDown(VK_UP); }
+	bool InputDown()final override { return keyStateManager.IsDown(VK_DOWN); }
+	bool InputLeft()final override { return keyStateManager.IsDown(VK_LEFT); }
+	bool InputRight()final override { return keyStateManager.IsDown(VK_RIGHT); }
+	bool InputMonsterRandom()final override { return keyStateManager.IsTriggerDown(VK_F1); }
+	bool InputMonsterCreate()final override { return keyStateManager.IsTriggerDown(VK_F2); }
+	bool InputPlayerAttack()final override { return keyStateManager.IsDown(VK_SPACE); }
+	bool InputPlayerFire()final override { return keyStateManager.IsDown('F'); }
+	bool InputPlayerRadianForward()final override { return keyStateManager.IsDown('A'); }
+	bool InputPlayerRadianReverse()final override { return keyStateManager.IsDown('D'); }
+	bool InputPause()final override { return keyStateManager.IsTriggerDown('P'); }
+
+	void DrawGameObject(HDC hdc, GameObject gameObject)
+	{
+		//SIZE
+		Ellipse(hdc,
+			(int)(gameObject.GetX() - gameObject.GetSize()),
+			(int)(gameObject.GetY() - gameObject.GetSize()),
+			(int)(gameObject.GetX() + gameObject.GetSize()),
+			(int)(gameObject.GetY() + gameObject.GetSize())
+		);
+	}
+
+	void DrawCharacter(HDC hdc, Character character)
+	{
+		//§ðÀ»½d³ò
+		PointBaseD pntD = character.GetAttackCenterPoint();
+		Ellipse(hdc,
+			(int)(pntD.GetX() - character.GetAttackRadius()),
+			(int)(pntD.GetY() - character.GetAttackRadius()),
+			(int)(pntD.GetX() + character.GetAttackRadius()),
+			(int)(pntD.GetY() + character.GetAttackRadius())
+		);
+
+
+		//SIZE
+		Ellipse(hdc,
+			(int)(character.GetX() - character.GetSize()),
+			(int)(character.GetY() - character.GetSize()),
+			(int)(character.GetX() + character.GetSize()),
+			(int)(character.GetY() + character.GetSize())
+		);
+
+		//HP
+		TcString buf = TcString();
+		buf = L"HP:";
+		buf += character.GetHP();
+		TextOut(hdc,
+			(int)(character.GetX()),
+			(int)(character.GetY()),
+			buf, buf.len);
+
+		//Direction
+		POINT pnt;
+		MoveToEx(hdc,
+			(int)(character.GetX()),
+			(int)(character.GetY()),
+			&pnt);
+
+		LineTo(hdc,
+			(int)(character.GetX() + cos(character.GetRadian())*character.GetSize()),
+			(int)(character.GetY() - sin(character.GetRadian())*character.GetSize())
+		);
+
+		//Ellipse(hdc, character.GetX() - character.GetSize(), character.GetY() - character.GetSize(), character.GetX() + character.GetSize(), character.GetY() + character.GetSize());
+	}
+
+public:
+
+	void Init()final override
+	{
+		keyStateManager = KeyStateManager();
+		keyStateManager.AddKeyState(VK_UP);
+		keyStateManager.AddKeyState(VK_DOWN);
+		keyStateManager.AddKeyState(VK_LEFT);
+		keyStateManager.AddKeyState(VK_RIGHT);
+		keyStateManager.AddKeyState(VK_F1);
+		keyStateManager.AddKeyState(VK_F2);
+		keyStateManager.AddKeyState(VK_SPACE);
+		keyStateManager.AddKeyState('F');
+		keyStateManager.AddKeyState('A');
+		keyStateManager.AddKeyState('D');
+		keyStateManager.AddKeyState('P');
+
+		Game::Init();
+	}
+	void Work()final override
+	{
+		keyStateManager.Work();
+		Game::Work();
+	}
+	void Draw(HDC hdc)
+	{
+		DrawCharacter(hdc, player);
+		for (int i = 0; i < monstersCount; i++)DrawCharacter(hdc, monsters[i]);
+		for (int i = 0; i < bulletsCount; i++)
+			DrawGameObject(hdc, bullets[i]);
 	}
 };
 
