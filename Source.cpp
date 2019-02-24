@@ -6,6 +6,7 @@
 class mainWindow :private BaseWindow
 {
 private:
+	enum { WindowsWidth = 800, WindowsHeight = 600, };
 	///overwrite abstract
 	TCHAR * GetTitle()final override
 	{
@@ -17,11 +18,11 @@ private:
 	}
 	int GetWindowsWidth()final override
 	{
-		return Game::WindowsWidth;
+		return WindowsWidth;
 	}
 	int GetWindowsHeight()final override
 	{
-		return Game::WindowsHeight;
+		return WindowsHeight;
 	}
 
 	class TimePassWin : public TimePass

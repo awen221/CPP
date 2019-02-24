@@ -2,6 +2,7 @@
 #define _GAME_H_
 
 #include "point_base.h"
+typedef PointBase<double> PointBaseD;
 #include "radian.h"
 #include "random.h"
 #include "ArrayTemplate.h"
@@ -287,10 +288,6 @@ protected:
 	}
 
 public:
-	enum {
-		WindowsWidth = 800,
-		WindowsHeight = 600,
-	};
 	virtual void Init()
 	{
 		player = Character();

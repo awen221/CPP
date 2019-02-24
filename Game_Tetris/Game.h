@@ -40,7 +40,7 @@ protected:
 	virtual bool InputLeft() = 0;
 	virtual bool InputRight() = 0;
 public:
-	enum { WindowsWidth = 800, WindowsHeight = 600 };
+
 	Game() {}
 	~Game() {}
 

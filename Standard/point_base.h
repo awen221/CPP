@@ -94,6 +94,4 @@ public:
 	}
 };
 
-typedef PointBase<double> PointBaseD;
-
 #endif
