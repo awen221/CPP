@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Source.cpp = Source.cpp
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game_Rhytnm", "Game_Rhytnm\Game_Rhytnm.vcxproj", "{BB385564-268F-4440-BFAC-BD1D21EBACF7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +90,18 @@ Global
 		{5F1764CD-48ED-465F-AB57-929CA1898954}.Release|x64.Build.0 = Debug|Win32
 		{5F1764CD-48ED-465F-AB57-929CA1898954}.Release|x86.ActiveCfg = Debug|Win32
 		{5F1764CD-48ED-465F-AB57-929CA1898954}.Release|x86.Build.0 = Debug|Win32
+		{BB385564-268F-4440-BFAC-BD1D21EBACF7}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{BB385564-268F-4440-BFAC-BD1D21EBACF7}.Debug|Any CPU.Build.0 = Debug|Win32
+		{BB385564-268F-4440-BFAC-BD1D21EBACF7}.Debug|x64.ActiveCfg = Debug|Win32
+		{BB385564-268F-4440-BFAC-BD1D21EBACF7}.Debug|x64.Build.0 = Debug|Win32
+		{BB385564-268F-4440-BFAC-BD1D21EBACF7}.Debug|x86.ActiveCfg = Debug|Win32
+		{BB385564-268F-4440-BFAC-BD1D21EBACF7}.Debug|x86.Build.0 = Debug|Win32
+		{BB385564-268F-4440-BFAC-BD1D21EBACF7}.Release|Any CPU.ActiveCfg = Debug|Win32
+		{BB385564-268F-4440-BFAC-BD1D21EBACF7}.Release|Any CPU.Build.0 = Debug|Win32
+		{BB385564-268F-4440-BFAC-BD1D21EBACF7}.Release|x64.ActiveCfg = Debug|Win32
+		{BB385564-268F-4440-BFAC-BD1D21EBACF7}.Release|x64.Build.0 = Debug|Win32
+		{BB385564-268F-4440-BFAC-BD1D21EBACF7}.Release|x86.ActiveCfg = Debug|Win32
+		{BB385564-268F-4440-BFAC-BD1D21EBACF7}.Release|x86.Build.0 = Debug|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
