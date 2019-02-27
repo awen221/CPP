@@ -16,7 +16,7 @@ private:
 	const int defultHeadY = 3;
 	const int defultDirection = DIR_RIGHT;
 	const int BodyCountMin = 1;
-	static const int BodyCountMax = 20;
+	static const int BodyCountMax = 40;
 
 	const double Speed = 1;
 
@@ -54,7 +54,7 @@ public:
 	virtual void Init()
 	{
 		HeadDirection = defultDirection;
-		BodyCurrentCount = BodyCountMax;
+		BodyCurrentCount = BodyCountMin;
 
 		for (int i = 0; i < BodyCountMax; i++)
 		{
@@ -195,7 +195,7 @@ private:
 			TextOut(hdc, 0, 20, tString, tString.len);
 		}
 	};
-	TimerWin gtr = TimerWin(1000 / 10);
+	TimerWin gtr = TimerWin(1000/10);
 protected:
 
 	bool InputLeft()final override { return keyStateManager.IsDown(VK_LEFT); }
@@ -222,6 +222,11 @@ public:
 	{
 		Rectangle(hdc, StartX, StartY, StartX + spaceWidth, StartY + spaceHight);
 
+		TcString tString = TcString();
+		tString = L"BodyCurrentCount : ";
+		tString += BodyCurrentCount;
+		TextOut(hdc, 300, 0, tString, tString.len);
+
 		for (int i = 0; i < BodyCurrentCount; i++)
 		{
 			int x = StartX + (int)SnakeBodyArray[i].GetX() * BodySize;
@@ -232,7 +237,7 @@ public:
 
 		int foodX = StartX + Food.GetX() * BodySize;
 		int foodY = StartY + Food.GetY() * BodySize;
-		Rectangle(hdc, foodX, foodY, foodX + BodySize, foodY + BodySize);
+		Ellipse(hdc, foodX, foodY, foodX + BodySize, foodY + BodySize);
 	}
 };
 
