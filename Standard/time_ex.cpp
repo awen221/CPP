@@ -11,21 +11,38 @@ TimePass::TimePass()
 void TimePass::Reset()
 {
 	timePass = 0 ;
-	PreTime = clock();
-}
-unsigned int TimePass::Work()
-{
-	if (PreTime == 0)
-		timePass = 0;
-	else
-		timePass = clock() - PreTime;
-	PreTime = clock();
+	totalTimePass = 0;
+	int _clock = clock();
+	preTime = _clock;
 
-	return timePass;
+	startTime = _clock;
+}
+void TimePass::Work()
+{
+	if (preTime == 0)
+	{
+		Reset();
+		return;
+	}
+
+	int _clock = clock();
+
+	timePass = _clock - preTime;
+	totalTimePass = _clock - startTime;
+		
+	preTime = _clock;
 }
 unsigned int TimePass::GetTimePass()
 {
 	return timePass;
+}
+unsigned int TimePass::GetStartTime()
+{
+	return startTime;
+}
+unsigned int TimePass::GetTotalTimePass()
+{
+	return totalTimePass;
 }
 #pragma endregion
 

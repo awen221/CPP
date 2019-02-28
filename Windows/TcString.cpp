@@ -19,20 +19,17 @@ TcString::operator const LPTSTR ()
 {
 	return str;	//形態轉換
 }
-//TcString::operator const LPCWSTR()
-//{
-//	return str;	//形態轉換
-//}
 TcString::operator const TCHAR*()
 {
 	return str;	//形態轉換
 }
 
+
 void TcString::SetStr(const TCHAR* tchar)
 {
 	int newlen = int(_tcslen(tchar));
-	if(newlen>MAX_STRING_LEN)
-		newlen=MAX_STRING_LEN;
+	if (newlen>MAX_STRING_LEN)
+		newlen = MAX_STRING_LEN;
 
 	if(str != NULL && newlen!=len)
 		delete str;
@@ -40,8 +37,8 @@ void TcString::SetStr(const TCHAR* tchar)
 	if(str == NULL || newlen != len)
 		str=new TCHAR[newlen+1];
 
-	if(newlen != len)
-		len=newlen;
+	if (newlen != len)
+		len = newlen;
 
 	for(int i=0;i<len;i++)
 		str[i]=tchar[i];
@@ -57,8 +54,14 @@ void TcString::operator = (const TcString& baseStr)
 }
 void TcString::operator = (const int num)
 {
-	TCHAR buf[32] ;
-	_stprintf_s(buf,_T("%d"),num);
+	TCHAR buf[32];
+	_stprintf_s(buf, _T("%d"), num);
+	SetStr(buf);
+}
+void TcString::operator = (const float num)
+{
+	TCHAR buf[32];
+	_stprintf_s(buf, _T("%.6f"), num);
 	SetStr(buf);
 }
 
@@ -86,6 +89,12 @@ bool TcString::operator == (const int num)
 {
 	TCHAR buf[32] ;
 	_stprintf_s(buf,_T("%d"),num);
+	return CmpStr(buf);
+}
+bool TcString::operator == (const float num)
+{
+	TCHAR buf[32];
+	_stprintf_s(buf, _T("%.6f"), num);
 	return CmpStr(buf);
 }
 
@@ -124,6 +133,13 @@ const TCHAR* TcString::operator + (const int num)
 
 	return StrAppend(buf);
 }
+const TCHAR* TcString::operator + (const float num)
+{
+	TCHAR buf[256];
+	_stprintf_s(buf, _T("%.6f"), num);
+
+	return StrAppend(buf);
+}
 
 void TcString::operator += (const TCHAR* tchar)
 {
@@ -150,6 +166,15 @@ void TcString::operator += (const unsigned int num)
 {
 	TCHAR buf[32];
 	_stprintf_s(buf, _T("%d"), num);
+
+	TCHAR newstr[MAX_STRING_LEN + 1];
+	_tcscpy_s(newstr, StrAppend(buf));
+	SetStr(newstr);
+}
+void TcString::operator += (const float num)
+{
+	TCHAR buf[32];
+	_stprintf_s(buf, _T("%.6f"), num);
 
 	TCHAR newstr[MAX_STRING_LEN + 1];
 	_tcscpy_s(newstr, StrAppend(buf));

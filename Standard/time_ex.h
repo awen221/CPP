@@ -5,13 +5,19 @@
 class TimePass
 {
 private:
-	unsigned int PreTime;
+	unsigned int preTime;
+
 	unsigned int timePass;
+	unsigned int startTime;
+	unsigned int totalTimePass;
+	
 public:
 	TimePass();
 	void Reset();
+	void Work();
 	unsigned int GetTimePass();
-	unsigned int Work();
+	unsigned int GetStartTime();
+	unsigned int GetTotalTimePass();
 };
 
 class Timer :private TimePass
