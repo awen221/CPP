@@ -23,8 +23,6 @@ public:
 	operator const LPTSTR();
 	operator const TCHAR*();
 
-	const TCHAR* IntToTCHAR(int);
-
 	void operator = (const TCHAR*);
 	void operator = (const TcString&);
 	void operator = (const int);
