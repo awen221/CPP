@@ -21,12 +21,12 @@ void GetAsyncKeyStateBase::Work()
 
 	if (NowPressDown)
 	{
-		//TriggerUp = !NowPressDown;
-
+		TriggerUp = false;
 		TriggerDown = !PressDown;
 	}
 	else
 	{
+		TriggerDown = false;
 		TriggerUp = PressDown;
 	}
 
