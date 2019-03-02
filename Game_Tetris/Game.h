@@ -24,13 +24,13 @@ protected:
 	static const int Puzzle_H = 20;
 	static const int CurPuzzle_Width = 4;
 
-	//const int Puzzle_I[CurPuzzle_Width][CurPuzzle_Width] =
-	//{
-	//	{ 0,	0,		0,		0},
-	//	{ RED,	RED,	RED,	RED},
-	//	{ 0,	0,		0,		0},
-	//	{ 0,	0,		0,		0}
-	//};
+	const int Puzzle_I[CurPuzzle_Width][CurPuzzle_Width] =
+	{
+		{ 0,	0,		0,		0},
+		{ RED,	RED,	RED,	RED},
+		{ 0,	0,		0,		0},
+		{ 0,	0,		0,		0}
+	};
 	//const int Puzzle_O[CurPuzzle_Width][CurPuzzle_Width] =
 	//{
 	//	{ 0,	0,		0,		0 },
@@ -39,7 +39,7 @@ protected:
 	//	{ 0,	0,		0,		0 }
 	//};
 
-	int vvPuzzle[Puzzle_W][Puzzle_H];
+	int vvPuzzle[Puzzle_H][Puzzle_W];
 	int vvCurPuzzle[CurPuzzle_Width][CurPuzzle_Width];
 
 	int CurPuzzle_X, CurPuzzle_Y;
@@ -55,45 +55,42 @@ protected:
 	{
 		CurTetris_Init();
 
-		//for (int h = 0; h < CurPuzzle_Width; h++)
-		//	for (int w = 0; w < CurPuzzle_Width; w++)
-		//	{
-		//		vvCurPuzzle[w][h] = Puzzle_I[w][h];
-		//	}
-
-		vvCurPuzzle[0][1] = RED;
-		vvCurPuzzle[1][1] = RED;
-		vvCurPuzzle[2][1] = RED;
-		vvCurPuzzle[3][1] = RED;
+		for (int h = 0; h < CurPuzzle_Width; h++)
+			for (int w = 0; w < CurPuzzle_Width; w++)
+			{
+				vvCurPuzzle[h][w] = Puzzle_I[h][w];
+			}
 	}
 
 	virtual bool InputUp() = 0;
 	virtual bool InputDown() = 0;
 	virtual bool InputLeft() = 0;
 	virtual bool InputRight() = 0;
+
+	virtual bool InputRotate() = 0;
 public:
 
 	Game() {}
 	~Game() {}
 
-	bool CheckHit()
+	bool CheckHit(int puzzle[CurPuzzle_Width][CurPuzzle_Width])
 	{
 		for (int h = 0; h < CurPuzzle_Width; h++)
 			for (int w = 0; w < CurPuzzle_Width; w++)
 			{
-				if (vvCurPuzzle[w][h] == 0)continue;
+				if (puzzle[h][w] == 0)continue;
 				int cx = w + CurPuzzle_X;
 				int cy = h + CurPuzzle_Y;
 
 				if (cx < 0)
-					return true;
+ 					return true;
 				if (cx >= Puzzle_W)
 					return true;
 
 				if (cy >= Puzzle_H)
 					return true;
 
-				if (vvPuzzle[cx][cy] != 0)
+				if (vvPuzzle[cy][cx] != 0)
 					return true;
 			}
 
@@ -105,26 +102,57 @@ public:
 		for (int h = 0; h < CurPuzzle_Width; h++)
 			for (int w = 0; w < CurPuzzle_Width; w++)
 			{
-				if (vvCurPuzzle[w][h] == 0)continue;
+				if (vvCurPuzzle[h][w] == 0)continue;
 
 				int cx = w + CurPuzzle_X;
 				int cy = h + CurPuzzle_Y;
 
-				vvPuzzle[cx][cy] = vvCurPuzzle[w][h];
+				vvPuzzle[cy][cx] = vvCurPuzzle[h][w];
 			}
+	}
+
+	void Rotate()
+	{
+		int tmpV[CurPuzzle_Width][CurPuzzle_Width];
+
+		for (int h = 0; h < CurPuzzle_Width; h++)
+			for (int w = 0; w < CurPuzzle_Width; w++)
+				tmpV[h][(CurPuzzle_Width-1)-w] = vvCurPuzzle[w][h];
+
+		if (CheckHit(tmpV))return;
+
+		for (int h = 0; h < CurPuzzle_Width; h++)
+			for (int w = 0; w < CurPuzzle_Width; w++)
+				vvCurPuzzle[w][h] = tmpV[w][h];
+	}
+
+	bool CheckLine(int index)
+	{
+		for (int w = 0; w < Puzzle_W; w++)
+			if (vvPuzzle[index][w] == 0)
+				return false;
+		return true;
+	}
+
+	void CheckAllLine()
+	{
+		for (int h = 0; h < Puzzle_H; h++)
+			if (CheckLine(h))
+			{
+				CutLine(h);
+			}
+	}
+
+	void CutLine(int index)
+	{
+
 	}
 
 	virtual void Init()
 	{
-		for (int h = 0; h < CurPuzzle_Width; h++)
-			for (int w = 0; w < CurPuzzle_Width; w++)
-				vvPuzzle[w][h] = 0;
-
-		//int* pPuzzle = &(vvPuzzle[0][0]);
-		//for (int i = 0; i < Puzzle_W * Puzzle_H; i++)
-		//{
-		//	pPuzzle[i] = 0;
-		//}
+		for (int h = 0; h < Puzzle_H; h++)
+			for (int w = 0; w < Puzzle_W; w++)
+				vvPuzzle[h][w] = 0;
 
 		CurPuzzle_X = 0, CurPuzzle_Y = 0;
 		CurTetris_Init();
@@ -133,13 +161,16 @@ public:
 
 	virtual void Work()
 	{
-
+		if (InputRotate())
+		{
+			Rotate();
+		}
 		if (InputLeft())
 		{
 			int oriX = CurPuzzle_X;
 			CurPuzzle_X--;
 
-			if(CheckHit())
+			if(CheckHit(vvCurPuzzle))
 				CurPuzzle_X = oriX;
 
 		}
@@ -148,7 +179,7 @@ public:
 			int oriX = CurPuzzle_X;
 			CurPuzzle_X++;
 
-			if (CheckHit())
+			if (CheckHit(vvCurPuzzle))
 				CurPuzzle_X = oriX;
 		}
 
@@ -157,17 +188,17 @@ public:
 			int oriY = CurPuzzle_Y;
 			CurPuzzle_Y++;
 
-			if (CheckHit())
+			if (CheckHit(vvCurPuzzle))
 			{
 				CurPuzzle_Y = oriY;
 
 				CopyPuzzle();
 
+				CheckAllLine();
+
 				CurPuzzle_Y = 0;
 			}
-				
 		}
-
 	}
 };
 
@@ -199,34 +230,10 @@ private:
 		return keyStateManager.IsDown(VK_RIGHT); 
 	}
 
-	//class TimerWin : public Timer
-	//{
-	//public:
-	//	TimerWin(unsigned int len) :Timer(len) {};
-
-	//	void Draw(HDC hdc)
-	//	{
-	//		TcString tString = TcString();
-	//		tString = L"Timer : ";
-	//		static bool OnTimerPluse = false;
-	//		if (GetOnTimer())
-	//		{
-	//			OnTimerPluse = !OnTimerPluse;
-	//		}
-
-	//		if (OnTimerPluse)
-	//		{
-	//			tString += L"O";
-	//		}
-	//		else
-	//		{
-	//			tString += L"X";
-	//		}
-
-	//		TextOut(hdc, 0, 20, tString, tString.len);
-	//	}
-	//};
-	//TimerWin tr = TimerWin(1000 / 30);
+	bool InputRotate()final override
+	{
+		return keyStateManager.IsTriggerDown(VK_SPACE);
+	}
 public:
 
 	void Init()final override
@@ -244,6 +251,7 @@ public:
 		keyStateManager.AddKeyState(VK_DOWN);
 		keyStateManager.AddKeyState(VK_LEFT);
 		keyStateManager.AddKeyState(VK_RIGHT);
+		keyStateManager.AddKeyState(VK_SPACE);
 
 		Game::Init();
 	}
@@ -264,7 +272,7 @@ public:
 		for (int h = 0; h < CurPuzzle_Width; h++)
 			for (int w = 0; w < CurPuzzle_Width; w++)
 			{
-				int color = vvCurPuzzle[w][h];
+				int color = vvCurPuzzle[h][w];
 				if (color >= COLOR_COUNT)color = 0;
 				if (color > 0)
 				{
@@ -275,10 +283,10 @@ public:
 			}
 
 		//¤w¸¨¤U
-		for (int h = 0; h < Puzzle_H; h++)
+		for (int h = 0; h<Puzzle_H; h++)
 			for (int w = 0; w<Puzzle_W; w++)
 			{
-				int color = vvPuzzle[w][h];
+				int color = vvPuzzle[h][w];
 				if (color >= COLOR_COUNT)color = 0;
 				if (color > 0)
 				{
@@ -293,8 +301,5 @@ public:
 		//SelectObject(hdc, oriBrush);
 	}
 };
-
-
-
 
 #endif
