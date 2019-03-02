@@ -113,6 +113,12 @@ public:
 	}
 	void Draw(HDC hdc)
 	{
+		int StartX, StartY;
+		StartX = 0;
+		StartY = 60;
+
+
+
 		for (int i = 0; i<PUZZLE_W; i++)
 			for (int j = 0; j < PUZZLE_H; j++)
 			{
@@ -120,15 +126,21 @@ public:
 				//HPEN oriPen = (HPEN)SelectObject(hdc, hPEN[color]);
 				HBRUSH oriBrush = (HBRUSH)SelectObject(hdc, hBRUSH[color]);
 
-				Ellipse(hdc, i*PUZZLE_SIZE_W, j*PUZZLE_SIZE_H, (i + 1)*PUZZLE_SIZE_W, (j + 1)*PUZZLE_SIZE_H);
+				int DrawPuzzleX, DrawPuzzleY;
+				DrawPuzzleX = i * PUZZLE_SIZE_W + StartX;
+				DrawPuzzleY = j * PUZZLE_SIZE_H + StartY;
+				Ellipse(hdc, DrawPuzzleX, DrawPuzzleY, DrawPuzzleX + PUZZLE_SIZE_W, DrawPuzzleY + PUZZLE_SIZE_H);
 
 				//SelectObject(hdc, oriPen);
 				SelectObject(hdc, oriBrush);
 			}
 
+		int DrawFocusX = FocusX * PUZZLE_SIZE_W + StartX;
+		int DrawFocusY = FocusY * PUZZLE_SIZE_H + StartY;
 		HBRUSH oriBrush = (HBRUSH)SelectObject(hdc, hollowBRUSH);
-		Rectangle(hdc, FocusX*PUZZLE_SIZE_W, FocusY*PUZZLE_SIZE_H, (FocusX + 1)*PUZZLE_SIZE_W, (FocusY + 1)*PUZZLE_SIZE_H);
+		Rectangle(hdc, DrawFocusX, DrawFocusY, DrawFocusX + PUZZLE_SIZE_W, DrawFocusY+PUZZLE_SIZE_H);
 		SelectObject(hdc, oriBrush);
+
 	}
 };
 

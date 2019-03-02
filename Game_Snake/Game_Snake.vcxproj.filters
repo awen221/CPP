@@ -24,9 +24,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Standard\ArrayTemplate.h">
       <Filter>Library\Standard</Filter>
     </ClInclude>
@@ -50,6 +47,9 @@
     </ClInclude>
     <ClInclude Include="..\Windows\TcString.h">
       <Filter>Library\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

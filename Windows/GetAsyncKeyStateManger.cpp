@@ -1,19 +1,38 @@
 #include "GetAsyncKeyStateManger.h"
-#include<map>
+
 #include<windows.h>
+#include<map>
 
 //GetAsyncKeyStateBase
 GetAsyncKeyStateBase::GetAsyncKeyStateBase() { }
-GetAsyncKeyStateBase::GetAsyncKeyStateBase(const char& key_code) { KeyCode = key_code; }
-void GetAsyncKeyStateBase::SetKeyCode(const char& key_code) { KeyCode = key_code; }
-char GetAsyncKeyStateBase::GetKeyCode() { return KeyCode; }
-bool GetAsyncKeyStateBase::IsDown() { return PressDown; }
-bool GetAsyncKeyStateBase::IsUp() { return !PressDown; }
+GetAsyncKeyStateBase::GetAsyncKeyStateBase(const char& key_code) 
+{
+	SetKeyCode(key_code);
+}
+void GetAsyncKeyStateBase::SetKeyCode(const char& key_code)
+{
+	KeyCode = key_code; 
+}
+char GetAsyncKeyStateBase::GetKeyCode() 
+{
+	return KeyCode; 
+}
+bool GetAsyncKeyStateBase::IsDown() 
+{
+	return PressDown; 
+}
+bool GetAsyncKeyStateBase::IsUp()
+{ 
+	return !PressDown; 
+}
 bool GetAsyncKeyStateBase::IsTriggerDown() 
 {
 	return TriggerDown; 
 }
-bool GetAsyncKeyStateBase::IsTriggerUp() { return TriggerUp; }
+bool GetAsyncKeyStateBase::IsTriggerUp()
+{
+	return TriggerUp; 
+}
 void GetAsyncKeyStateBase::Work()
 {
 	//取得現在按鍵按壓狀態
@@ -80,6 +99,7 @@ void KeyStateManager::AddKeyState(char key_code)
 }
 void KeyStateManager::Work()
 {
+	if (map_KeyState.size() <= 0)return;
 	for (Map_KeyState::iterator _iterator = map_KeyState.begin(); _iterator != map_KeyState.end(); _iterator++)
 	{
 		_iterator->second.Work();
@@ -87,9 +107,31 @@ void KeyStateManager::Work()
 }
 bool KeyStateManager::IsTriggerDown(char key_code) 
 {
+	if (map_KeyState.size() <= 0)return false;
+	if (map_KeyState.count(key_code) == 0)return false;
 	return map_KeyState[key_code].IsTriggerDown(); 
 }
-bool KeyStateManager::IsTriggerUp(char key_code) { return map_KeyState[key_code].IsTriggerUp(); }
-bool KeyStateManager::IsDown(char key_code) { return map_KeyState[key_code].IsDown(); }
-bool KeyStateManager::IsUp(char key_code) { return map_KeyState[key_code].IsUp(); }
-bool KeyStateManager::IsDouble(char key_code) { return map_KeyState[key_code].IsDouble(); }
+bool KeyStateManager::IsTriggerUp(char key_code) 
+{
+	if (map_KeyState.size() <= 0)return false;
+	if (map_KeyState.count(key_code) == 0)return false;
+	return map_KeyState[key_code].IsTriggerUp(); 
+}
+bool KeyStateManager::IsDown(char key_code) 
+{
+	if (map_KeyState.size() <= 0)return false;
+	if (map_KeyState.count(key_code) == 0)return false;
+	return map_KeyState[key_code].IsDown(); 
+}
+bool KeyStateManager::IsUp(char key_code) 
+{
+	if (map_KeyState.size() <= 0)return false;
+	if (map_KeyState.count(key_code) == 0)return false;
+	return map_KeyState[key_code].IsUp(); 
+}
+bool KeyStateManager::IsDouble(char key_code) 
+{
+	if (map_KeyState.size() <= 0)return false;
+	if (map_KeyState.count(key_code) == 0)return false;
+	return map_KeyState[key_code].IsDouble(); 
+}

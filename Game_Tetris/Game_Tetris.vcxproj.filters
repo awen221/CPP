@@ -14,13 +14,13 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Library">
-      <UniqueIdentifier>{c19c785e-127f-4759-b021-2682404911dd}</UniqueIdentifier>
+      <UniqueIdentifier>{149e49af-229c-4a1c-8a46-b8af94926bf4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Library\Standard">
-      <UniqueIdentifier>{74e6fb4b-856b-4b91-af63-073fe4e2f957}</UniqueIdentifier>
+      <UniqueIdentifier>{6d65777b-0cea-4cd3-8f88-7fdb77087e6a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Library\Windows">
-      <UniqueIdentifier>{763eec62-e8ab-4427-96e3-d7641ef0c948}</UniqueIdentifier>
+      <UniqueIdentifier>{08ffe7bf-5dfd-4cd5-bdff-9f2447ebf285}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -72,7 +72,7 @@
       <Filter>Library\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,26 +2,51 @@
 #define _GAME_TETRIS_H_
 
 //Tetris
+//class Puzzle
+//{
+//	int Width;
+//	int* pPuzzle;
+//public:
+//	Puzzle() {}
+//	~Puzzle() {}
+//};
 class Game
 {
 private:
 
 protected:
+
 	enum { NONE, RED, GREEN, BLUE, YELLOW, COLOR_COUNT };
-	const int Puzzle_Size = 30;
-	//enum { Puzzle_Size = 30 };
-	enum { Puzzle_W = 10, Puzzle_H = 20 };
-	enum { CurPuzzle_W = 4,CurPuzzle_H = 4};
 	enum { PuzzleType_I, PuzzleType_O, PuzzleType_T, PuzzleType_Z, PuzzleType_S, PuzzleType_L, PuzzleType_J, PuzzleType_Count };
 
+	
+	static const int Puzzle_W = 10;
+	static const int Puzzle_H = 20;
+	static const int CurPuzzle_Width = 4;
+
+	//const int Puzzle_I[CurPuzzle_Width][CurPuzzle_Width] =
+	//{
+	//	{ 0,	0,		0,		0},
+	//	{ RED,	RED,	RED,	RED},
+	//	{ 0,	0,		0,		0},
+	//	{ 0,	0,		0,		0}
+	//};
+	//const int Puzzle_O[CurPuzzle_Width][CurPuzzle_Width] =
+	//{
+	//	{ 0,	0,		0,		0 },
+	//	{ 0,	BLUE,	BLUE,	0 },
+	//	{ 0,	BLUE,	BLUE,	0 },
+	//	{ 0,	0,		0,		0 }
+	//};
+
 	int vvPuzzle[Puzzle_W][Puzzle_H];
-	int vvCurPuzzle[CurPuzzle_W][CurPuzzle_H];
+	int vvCurPuzzle[CurPuzzle_Width][CurPuzzle_Width];
 
 	int CurPuzzle_X, CurPuzzle_Y;
 	void CurTetris_Init()
 	{
 		int* pCurPuzzle = &(vvCurPuzzle[0][0]);
-		for (int i = 0; i < CurPuzzle_W*CurPuzzle_H; i++)
+		for (int i = 0; i < CurPuzzle_Width*CurPuzzle_Width; i++)
 		{
 			pCurPuzzle[i] = 0;
 		}
@@ -29,6 +54,13 @@ protected:
 	void SetCurTetris_I()
 	{
 		CurTetris_Init();
+
+		//for (int h = 0; h < CurPuzzle_Width; h++)
+		//	for (int w = 0; w < CurPuzzle_Width; w++)
+		//	{
+		//		vvCurPuzzle[w][h] = Puzzle_I[w][h];
+		//	}
+
 		vvCurPuzzle[0][1] = RED;
 		vvCurPuzzle[1][1] = RED;
 		vvCurPuzzle[2][1] = RED;
@@ -46,8 +78,8 @@ public:
 
 	bool CheckHit()
 	{
-		for (int h = 0; h < CurPuzzle_H; h++)
-			for (int w = 0; w < CurPuzzle_W; w++)
+		for (int h = 0; h < CurPuzzle_Width; h++)
+			for (int w = 0; w < CurPuzzle_Width; w++)
 			{
 				if (vvCurPuzzle[w][h] == 0)continue;
 				int cx = w + CurPuzzle_X;
@@ -57,6 +89,7 @@ public:
 					return true;
 				if (cx >= Puzzle_W)
 					return true;
+
 				if (cy >= Puzzle_H)
 					return true;
 
@@ -69,8 +102,8 @@ public:
 
 	void CopyPuzzle()
 	{
-		for (int h = 0; h < CurPuzzle_H; h++)
-			for (int w = 0; w < CurPuzzle_W; w++)
+		for (int h = 0; h < CurPuzzle_Width; h++)
+			for (int w = 0; w < CurPuzzle_Width; w++)
 			{
 				if (vvCurPuzzle[w][h] == 0)continue;
 
@@ -83,11 +116,15 @@ public:
 
 	virtual void Init()
 	{
-		int* pPuzzle = &(vvPuzzle[0][0]);
-		for (int i = 0; i < Puzzle_W * Puzzle_H; i++)
-		{
-			pPuzzle[i] = 0;
-		}
+		for (int h = 0; h < CurPuzzle_Width; h++)
+			for (int w = 0; w < CurPuzzle_Width; w++)
+				vvPuzzle[w][h] = 0;
+
+		//int* pPuzzle = &(vvPuzzle[0][0]);
+		//for (int i = 0; i < Puzzle_W * Puzzle_H; i++)
+		//{
+		//	pPuzzle[i] = 0;
+		//}
 
 		CurPuzzle_X = 0, CurPuzzle_Y = 0;
 		CurTetris_Init();
@@ -134,51 +171,62 @@ public:
 	}
 };
 
-#include "BaseWindow.h"
 #include "GetAsyncKeyStateManger.h"
-#include "time_ex.h"
-#include "TcString.h"
 
 class WinGame :public Game
 {
 private:
+	const int Puzzle_Size = 30;
+
 	HBRUSH hBRUSH[COLOR_COUNT];
 	HBRUSH hollowBRUSH;
 
-	KeyStateManager keyStateManager;
-	bool InputLeft()final override { return keyStateManager.IsDown(VK_LEFT); }
-	bool InputUp()final override { return keyStateManager.IsDown(VK_UP); }
-	bool InputRight()final override { return keyStateManager.IsDown(VK_RIGHT); }
-	bool InputDown()final override { return keyStateManager.IsDown(VK_DOWN); }
-
-	class TimerWin : public Timer
+	KeyStateManager keyStateManager = KeyStateManager();
+	bool InputUp()final override 
+	{ 
+		return keyStateManager.IsDown(VK_UP); 
+	}
+	bool InputDown()final override 
+	{ 
+		return keyStateManager.IsDown(VK_DOWN); 
+	}
+	bool InputLeft()final override 
 	{
-	public:
-		TimerWin(unsigned int len) :Timer(len) {};
+		return keyStateManager.IsDown(VK_LEFT); 
+	}
+	bool InputRight()final override 
+	{
+		return keyStateManager.IsDown(VK_RIGHT); 
+	}
 
-		void Draw(HDC hdc)
-		{
-			TcString tString = TcString();
-			tString = L"Timer : ";
-			static bool OnTimerPluse = false;
-			if (GetOnTimer())
-			{
-				OnTimerPluse = !OnTimerPluse;
-			}
+	//class TimerWin : public Timer
+	//{
+	//public:
+	//	TimerWin(unsigned int len) :Timer(len) {};
 
-			if (OnTimerPluse)
-			{
-				tString += L"O";
-			}
-			else
-			{
-				tString += L"X";
-			}
+	//	void Draw(HDC hdc)
+	//	{
+	//		TcString tString = TcString();
+	//		tString = L"Timer : ";
+	//		static bool OnTimerPluse = false;
+	//		if (GetOnTimer())
+	//		{
+	//			OnTimerPluse = !OnTimerPluse;
+	//		}
 
-			TextOut(hdc, 0, 20, tString, tString.len);
-		}
-	};
-	TimerWin tr = TimerWin(1000 / 15);
+	//		if (OnTimerPluse)
+	//		{
+	//			tString += L"O";
+	//		}
+	//		else
+	//		{
+	//			tString += L"X";
+	//		}
+
+	//		TextOut(hdc, 0, 20, tString, tString.len);
+	//	}
+	//};
+	//TimerWin tr = TimerWin(1000 / 30);
 public:
 
 	void Init()final override
@@ -190,19 +238,17 @@ public:
 
 		hollowBRUSH = (HBRUSH)GetStockObject(HOLLOW_BRUSH);
 
+		keyStateManager = KeyStateManager();
+
 		keyStateManager.AddKeyState(VK_UP);
 		keyStateManager.AddKeyState(VK_DOWN);
 		keyStateManager.AddKeyState(VK_LEFT);
 		keyStateManager.AddKeyState(VK_RIGHT);
 
-		keyStateManager = KeyStateManager();
-
 		Game::Init();
 	}
-	void Work()
+	void Work()final override
 	{
-		if (!tr.Work())return;
-
 		keyStateManager.Work();
 		Game::Work();
 	}
@@ -215,8 +261,8 @@ public:
 		Rectangle(hdc, startX, startY, startX + Puzzle_Size * Puzzle_W, startY + Puzzle_Size * Puzzle_H);
 
 		//¥¿¸¨¤U
-		for (int h = 0; h < CurPuzzle_H; h++)
-			for (int w = 0; w < CurPuzzle_W; w++)
+		for (int h = 0; h < CurPuzzle_Width; h++)
+			for (int w = 0; w < CurPuzzle_Width; w++)
 			{
 				int color = vvCurPuzzle[w][h];
 				if (color >= COLOR_COUNT)color = 0;
@@ -247,5 +293,8 @@ public:
 		//SelectObject(hdc, oriBrush);
 	}
 };
+
+
+
 
 #endif

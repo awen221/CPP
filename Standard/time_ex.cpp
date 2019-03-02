@@ -79,7 +79,15 @@ bool Timer::Work()
 	if (PassTime >= Length)
 	{
 		onTimer = true;
-		PassTime %= Length;
+		if (Length == 0)
+		{
+			PassTime = 0;
+		}
+		else
+		{
+			PassTime %= Length;
+		}
+		
 	}
 	else
 		onTimer = false;
