@@ -1,98 +1,13 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
-#include "point_base.h"
-typedef PointBase<double> PointBaseD;
-#include "radian.h"
-#include "random.h"
+#include "GameObject.h"
+
+
 #include "ArrayTemplate.h"
 #include <tchar.h>
-#include "Action.h"
-
-class GameObject :public PointBaseD, public Radian
-{
-private:
-	enum RandomPos
-	{
-		xMin = 0,
-		xMax = 800,
-		yMin = 0,
-		yMax = 600,
-	};
-	enum Speed
-	{
-		Default = 4,
-	};
-	enum Size
-	{
-		SizeDefault = 20,
-	};
-public:
-	void Rand(double xMin, double xMax, double yMin, double yMax)
-	{
-		static RANDOM random = RANDOM();
-		int randX = random.GetRand();
-		int randY = random.GetRand();
-
-		double X_rand = xMin + randX % (int)(xMax - xMin);
-		double Y_rand = yMin + randY % (int)(yMax - yMin);
-
-		X = X_rand;
-		Y = Y_rand;
-	}
-	void SetRandomPos()
-	{
-		Rand(RandomPos::xMin, RandomPos::xMax, RandomPos::yMin, RandomPos::yMax);
-	}
-
-protected:
-	double Speed;
-	virtual double GetDefaultSpeed() { return Speed::Default; }
-public:
-	double GetSpeed() { return Speed; }
-	void SetSpeed(double value) { Speed = value; }
-
-	void StepToCharacter(const GameObject& targetCharacter, double speed)
-	{
-		GameObject target = targetCharacter;
-		//目標為雙方接觸點
-		target.Step(*this, Size + targetCharacter.Size);
-		Step(target, speed);
-	}
-
-protected:
-	double Size;
-	virtual double GetDefaultSize() { return Size::SizeDefault; }
-public:
-	double GetSize() { return Size; }
-	void SetSize(double value) { Size = value; }
-
-public:
-	virtual void Init()
-	{
-		SetRandomPos();
-		Speed = GetDefaultSpeed();
-		Size = GetDefaultSize();
-	}
-
-	//取得與指定座標之夾角
-	double GetRadianFromPoint(PointBaseD target)
-	{
-		double radian;
-
-		//笛卡兒座標系(第一象限)公式
-		radian = atan2(target.GetY() - Y, target.GetX() - X);
-		//轉成Windows座標系(第三象限)要加負號
-		radian = -radian;
-
-		return radian;
-	}
-
-protected:
-	bool bDead = false;
-public:
-	virtual bool IsDead() { return bDead; }
-};
+#include "ActionSystem.h"
+#include "GetAsyncKeyStateManger.h"
 
 class Character :public GameObject
 {
@@ -289,6 +204,9 @@ public:
 		}
 	}
 };
+
+#include <vector>
+std::vector<Monster> vMonster;
 //MMO
 class Game
 {
@@ -297,8 +215,10 @@ protected:
 	Player player = Player();
 
 	enum { MonsterMaxCount = 10 };
-	int monstersCount;
-	Monster monsters[MonsterMaxCount];
+
+	//int monstersCount;
+	//Monster monsters[MonsterMaxCount];
+
 
 	enum { BulletsMaxCount = 1000 };
 	int bulletsCount;
@@ -322,9 +242,9 @@ protected:
 	{
 		if (InputPlayerAttack())
 		{
-			for (int i = 0; i < monstersCount; i++)
+			for (int i = 0; i < vMonster.size(); i++)
 			{
-				player.nearAttackAuto(monsters[i], 100);
+				player.nearAttackAuto(vMonster[i], 100);
 			}
 		}
 
@@ -364,7 +284,7 @@ protected:
 public:
 	virtual void Init()
 	{
-		monstersCount = 0;
+		//monstersCount = 0;
 
 		player.Init();
 	}
@@ -395,9 +315,9 @@ public:
 		for (int i = 0; i < bulletsCount; i++)
 		{
 			bullets[i].Work();
-			for (int m = 0; m < monstersCount; m++)
+			for (int m = 0; m < vMonster.size(); m++)
 			{
-				bullets[i].CheckHit(monsters[m], 100);
+				bullets[i].CheckHit(vMonster[m], 100);
 			}
 		}
 
@@ -414,34 +334,50 @@ public:
 		if (InputMonsterCreate())
 		{
 			//生怪
-			Monster* pMonster = ArrayTemplate::AddObj(monstersCount, MonsterMaxCount, monsters);
-			if (pMonster != NULL)
-			{
-				pMonster->Init();
-			}
+			Monster tmp;
+			tmp.Init();
+			vMonster.push_back(tmp);
+			
+			//Monster* pMonster = ArrayTemplate::AddObj(monstersCount, MonsterMaxCount, monsters);
+			//if (pMonster != NULL)
+			//{
+			//	pMonster->Init();
+			//}
 		}
 
 		if (InputMonsterRandom())
 		{
-			for (int i = 0; i < monstersCount; i++)
+			for (int i = 0; i < vMonster.size(); i++)
 			{
-				monsters[i].SetRandomPos();
+				vMonster[i].SetRandomPos();
 			}
 		}
 
-		for (int i = 0; i < monstersCount; i++)
+		for (int i = 0; i < vMonster.size(); i++)
 		{
-			monsters[i].Work(player);
+			vMonster[i].Work(player);
 		}
 
-		for (int i = 0; i < monstersCount; i++)
+		//移除怪物
+		std::vector<Monster>::iterator pi = vMonster.begin();
+		while (pi != vMonster.end())
 		{
-			if (monsters[i].IsDead())
+			if (pi->IsDead())
 			{
-				//移除怪物
-				ArrayTemplate::RemoveObj(i, monstersCount, monsters);
+				vMonster.erase(pi);
+				break;
 			}
+
+			pi++;
 		}
+
+		//for (int i = 0; i < vMonster.size(); i++)
+		//{
+		//	if (vMonster[i].IsDead())
+		//	{
+		//		ArrayTemplate::RemoveObj(i, monstersCount, monsters);
+		//	}
+		//}
 
 	}
 };
@@ -564,7 +500,7 @@ public:
 	void Draw(HDC hdc)
 	{
 		DrawCharacter(hdc, player);
-		for (int i = 0; i < monstersCount; i++)DrawCharacter(hdc, monsters[i]);
+		for (int i = 0; i < vMonster.size(); i++)DrawCharacter(hdc, vMonster[i]);
 		for (int i = 0; i < bulletsCount; i++)
 			DrawGameObject(hdc, bullets[i]);
 	}

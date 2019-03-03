@@ -166,6 +166,8 @@
     <ClCompile Include="..\Windows\BaseWindow.cpp" />
     <ClCompile Include="..\Windows\GetAsyncKeyStateManger.cpp" />
     <ClCompile Include="..\Windows\TcString.cpp" />
+    <ClCompile Include="ActionSystem.cpp" />
+    <ClCompile Include="GameObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Standard\ArrayTemplate.h" />
@@ -176,8 +178,9 @@
     <ClInclude Include="..\Windows\BaseWindow.h" />
     <ClInclude Include="..\Windows\GetAsyncKeyStateManger.h" />
     <ClInclude Include="..\Windows\TcString.h" />
-    <ClInclude Include="Action.h" />
+    <ClInclude Include="ActionSystem.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
