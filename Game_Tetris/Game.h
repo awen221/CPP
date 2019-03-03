@@ -1,6 +1,7 @@
 #ifndef _GAME_TETRIS_H_
 #define _GAME_TETRIS_H_
 
+#include <stdio.h>
 //Tetris
 //class Puzzle
 //{
@@ -68,6 +69,41 @@ protected:
 	virtual bool InputRight() = 0;
 
 	virtual bool InputRotate() = 0;
+
+	virtual bool InputSaveGame() = 0;
+	virtual bool InputLoadGame() = 0;
+
+
+	void SaveGame()
+	{
+		FILE* pFile = fopen("save.sav", "wb");
+		if (pFile == NULL)
+			return;
+		int version = 0;
+		fwrite(&version, sizeof(version), 1, pFile);
+
+		fwrite(&(vvPuzzle[0][0]), sizeof(vvPuzzle), 1, pFile);
+		fwrite(&(vvCurPuzzle[0][0]), sizeof(vvCurPuzzle), 1, pFile);
+		fwrite(&CurPuzzle_X, sizeof(CurPuzzle_X), 1, pFile);
+		fwrite(&CurPuzzle_Y, sizeof(CurPuzzle_Y), 1, pFile);
+
+		fclose(pFile);
+	}
+	void LoadGame()
+	{
+		FILE* pFile = fopen("save.sav", "rb");
+		if (pFile == NULL)
+			return;
+		int version = 0;
+		fread(&version, sizeof(version), 1, pFile);
+
+		fread(&(vvPuzzle[0][0]), sizeof(vvPuzzle), 1, pFile);
+		fread(&(vvCurPuzzle[0][0]), sizeof(vvCurPuzzle), 1, pFile);
+		fread(&CurPuzzle_X, sizeof(CurPuzzle_X), 1, pFile);
+		fread(&CurPuzzle_Y, sizeof(CurPuzzle_Y), 1, pFile);
+
+		fclose(pFile);
+	}
 public:
 
 	Game() {}
@@ -199,6 +235,15 @@ public:
 				CurPuzzle_Y = 0;
 			}
 		}
+
+		if (InputSaveGame())
+		{
+			SaveGame();
+		}
+		if (InputLoadGame())
+		{
+			LoadGame();
+		}
 	}
 };
 
@@ -234,6 +279,15 @@ private:
 	{
 		return keyStateManager.IsTriggerDown(VK_SPACE);
 	}
+
+	bool InputSaveGame()override final
+	{
+		return keyStateManager.IsTriggerDown('S');
+	}
+	bool InputLoadGame()override final
+	{
+		return keyStateManager.IsTriggerDown('L');
+	}
 public:
 
 	void Init()final override
@@ -252,6 +306,8 @@ public:
 		keyStateManager.AddKeyState(VK_LEFT);
 		keyStateManager.AddKeyState(VK_RIGHT);
 		keyStateManager.AddKeyState(VK_SPACE);
+		keyStateManager.AddKeyState('S');
+		keyStateManager.AddKeyState('L');
 
 		Game::Init();
 	}
