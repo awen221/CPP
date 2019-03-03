@@ -1,7 +1,7 @@
 #include "GetAsyncKeyStateManger.h"
 
-#include<windows.h>
-#include<map>
+#include <windows.h>
+#include <map>
 
 //GetAsyncKeyStateBase
 GetAsyncKeyStateBase::GetAsyncKeyStateBase() { }

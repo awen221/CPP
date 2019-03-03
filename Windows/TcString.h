@@ -1,8 +1,8 @@
 #ifndef _TCSTRING_H_
 #define _TCSTRING_H_
 
-#include<windows.h>
-#include<stdio.h>
+#include <windows.h>
+#include <stdio.h>
 
 
 class TcString

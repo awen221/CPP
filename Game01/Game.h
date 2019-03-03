@@ -7,6 +7,75 @@ typedef PointBase<double> PointBaseD;
 #include "random.h"
 #include "ArrayTemplate.h"
 
+#include <tchar.h>
+
+
+#include "GetAsyncKeyStateManger.h"
+
+class Action
+{
+private:
+	int CurAction;
+
+	KeyStateManager keyStateManager;
+	bool InputUp(){ return keyStateManager.IsDown(VK_UP); }
+	bool InputDown(){ return keyStateManager.IsDown(VK_DOWN); }
+	bool InputLeft(){ return keyStateManager.IsDown(VK_LEFT); }
+	bool InputRight(){ return keyStateManager.IsDown(VK_RIGHT); }
+	bool InputPlayerAttack(){ return keyStateManager.IsDown(VK_SPACE); }
+
+public:
+	enum { ACT_STAND, ACT_WALK, ACT_ATTACK };
+	int GetCurAction()
+	{
+		return CurAction;
+	}
+	void Init()
+	{
+		CurAction = ACT_STAND;
+		keyStateManager = KeyStateManager();
+		keyStateManager.AddKeyState(VK_UP);
+		keyStateManager.AddKeyState(VK_DOWN);
+		keyStateManager.AddKeyState(VK_LEFT);
+		keyStateManager.AddKeyState(VK_RIGHT);
+		keyStateManager.AddKeyState(VK_SPACE);
+	}
+	void Work()
+	{
+		if (CurAction == ACT_STAND)
+		{
+			if (InputUp())
+				CurAction = ACT_WALK;
+			if (InputDown())
+				CurAction = ACT_WALK;
+			if (InputLeft())
+				CurAction = ACT_WALK;
+			if (InputRight())
+				CurAction = ACT_WALK;
+		}
+
+		if (CurAction == ACT_WALK)
+		{
+			bool bMove = false;
+
+			if (InputUp())
+				bMove = true;
+			if (InputDown())
+				bMove = true;
+			if (InputLeft())
+				bMove = true;
+			if (InputRight())
+				bMove = true;
+
+			if (!bMove)
+			{
+				CurAction = ACT_STAND;
+			}
+		}
+	}
+
+};
+
 class GameObject :public PointBaseD, public Radian
 {
 private:
@@ -101,10 +170,16 @@ private:
 		defaultAttackDistance = 20,
 		defaultAttackRadius = 25,
 	};
-
+	Action action;
 private:
 	int HP;
 	virtual int GetDefaultHP() { return defaultHP; }
+
+	double AttackDistance;
+	virtual double GetDefaultAttackDistance() { return defaultAttackDistance; }
+	double AttackRadius;
+	virtual double GetDefaultAttackRadius() { return defaultAttackRadius; }
+
 public:
 	int GetHP()
 	{
@@ -126,13 +201,6 @@ public:
 	{
 		return HP <= 0;
 	}
-
-private:
-	double AttackDistance;
-	virtual double GetDefaultAttackDistance() { return defaultAttackDistance; }
-	double AttackRadius;
-	virtual double GetDefaultAttackRadius() { return defaultAttackRadius; }
-public:
 	PointBaseD GetAttackCenterPoint()
 	{
 		Character pnt = *this;
@@ -153,7 +221,11 @@ public:
 		}
 	}
 
-public:
+	int GetCurAction()
+	{
+		return action.GetCurAction();
+	}
+
 	void Init()
 	{
 		GameObject::Init();
@@ -161,6 +233,13 @@ public:
 		HP = GetDefaultHP();
 		AttackDistance = GetDefaultAttackDistance();
 		AttackRadius = GetDefaultAttackRadius();
+
+		action.Init();
+	}
+
+	void Work()
+	{
+		action.Work();
 	}
 };
 
@@ -285,6 +364,8 @@ protected:
 			player.SetDirectionDown();
 			player.MoveToCurrentDirection<double>(player, player.GetSpeed());
 		}
+
+		player.Work();
 	}
 
 public:
@@ -406,46 +487,59 @@ private:
 
 	void DrawCharacter(HDC hdc, Character character)
 	{
+		double characterX = character.GetX();
+		double characterY = character.GetY();
+		double characterSize = character.GetSize();
+
+
 		//攻擊範圍
 		PointBaseD pntD = character.GetAttackCenterPoint();
-		Ellipse(hdc,
-			(int)(pntD.GetX() - character.GetAttackRadius()),
-			(int)(pntD.GetY() - character.GetAttackRadius()),
-			(int)(pntD.GetX() + character.GetAttackRadius()),
-			(int)(pntD.GetY() + character.GetAttackRadius())
+		double pntD_X = pntD.GetX();
+		double pntD_Y = pntD.GetY();
+		double AttackRadius = character.GetAttackRadius();
+		Ellipse
+		(
+			hdc,
+			(int)(pntD_X - AttackRadius),
+			(int)(pntD_Y - AttackRadius),
+			(int)(pntD_X + AttackRadius),
+			(int)(pntD_Y + AttackRadius)
 		);
-
 
 		//SIZE
 		Ellipse(hdc,
-			(int)(character.GetX() - character.GetSize()),
-			(int)(character.GetY() - character.GetSize()),
-			(int)(character.GetX() + character.GetSize()),
-			(int)(character.GetY() + character.GetSize())
+			(int)(characterX - characterSize),
+			(int)(characterY - characterSize),
+			(int)(characterX + characterSize),
+			(int)(characterY + characterSize)
 		);
-
 		//HP
 		TcString buf = TcString();
 		buf = L"HP:";
 		buf += character.GetHP();
 		TextOut(hdc,
-			(int)(character.GetX()),
-			(int)(character.GetY()),
+			(int)characterX,
+			(int)characterY,
 			buf, buf.len);
-
 		//Direction
 		POINT pnt;
 		MoveToEx(hdc,
-			(int)(character.GetX()),
-			(int)(character.GetY()),
+			(int)(characterX),
+			(int)(characterY),
 			&pnt);
-
+		double characterRadian = character.GetRadian();
 		LineTo(hdc,
-			(int)(character.GetX() + cos(character.GetRadian())*character.GetSize()),
-			(int)(character.GetY() - sin(character.GetRadian())*character.GetSize())
+			(int)(characterX + cos(characterRadian)*characterSize),
+			(int)(characterY - sin(characterRadian)*characterSize)
 		);
-
-		//Ellipse(hdc, character.GetX() - character.GetSize(), character.GetY() - character.GetSize(), character.GetX() + character.GetSize(), character.GetY() + character.GetSize());
+		//Action
+		int CurAction = character.GetCurAction();
+		if (CurAction == Action::ACT_STAND)
+			TextOut(hdc, characterX, characterY + 20, _T("站立"), 2);
+		if (CurAction == Action::ACT_WALK)
+			TextOut(hdc, characterX, characterY + 20, _T("走路"), 2);
+		if (CurAction == Action::ACT_ATTACK)
+			TextOut(hdc, characterX, characterY + 20, _T("攻擊"), 2);
 	}
 
 public:

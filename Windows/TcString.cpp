@@ -1,5 +1,5 @@
-#include"TcString.h"
-#include<tchar.h>
+#include "TcString.h"
+#include <tchar.h>
 
 
 enum{MAX_STRING_LEN=1024};

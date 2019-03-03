@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game_Snake", "Game_Snake\Ga
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C9F868A0-403F-4E62-AB42-67D6BADC66D5}"
 	ProjectSection(SolutionItems) = preProject
+		action_system.h = action_system.h
+		ActionSystem.h = ActionSystem.h
 		Source.cpp = Source.cpp
 	EndProjectSection
 EndProject
