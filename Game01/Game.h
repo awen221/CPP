@@ -6,75 +6,8 @@ typedef PointBase<double> PointBaseD;
 #include "radian.h"
 #include "random.h"
 #include "ArrayTemplate.h"
-
 #include <tchar.h>
-
-
-#include "GetAsyncKeyStateManger.h"
-
-class Action
-{
-private:
-	int CurAction;
-
-	KeyStateManager keyStateManager;
-	bool InputUp(){ return keyStateManager.IsDown(VK_UP); }
-	bool InputDown(){ return keyStateManager.IsDown(VK_DOWN); }
-	bool InputLeft(){ return keyStateManager.IsDown(VK_LEFT); }
-	bool InputRight(){ return keyStateManager.IsDown(VK_RIGHT); }
-	bool InputPlayerAttack(){ return keyStateManager.IsDown(VK_SPACE); }
-
-public:
-	enum { ACT_STAND, ACT_WALK, ACT_ATTACK };
-	int GetCurAction()
-	{
-		return CurAction;
-	}
-	void Init()
-	{
-		CurAction = ACT_STAND;
-		keyStateManager = KeyStateManager();
-		keyStateManager.AddKeyState(VK_UP);
-		keyStateManager.AddKeyState(VK_DOWN);
-		keyStateManager.AddKeyState(VK_LEFT);
-		keyStateManager.AddKeyState(VK_RIGHT);
-		keyStateManager.AddKeyState(VK_SPACE);
-	}
-	void Work()
-	{
-		if (CurAction == ACT_STAND)
-		{
-			if (InputUp())
-				CurAction = ACT_WALK;
-			if (InputDown())
-				CurAction = ACT_WALK;
-			if (InputLeft())
-				CurAction = ACT_WALK;
-			if (InputRight())
-				CurAction = ACT_WALK;
-		}
-
-		if (CurAction == ACT_WALK)
-		{
-			bool bMove = false;
-
-			if (InputUp())
-				bMove = true;
-			if (InputDown())
-				bMove = true;
-			if (InputLeft())
-				bMove = true;
-			if (InputRight())
-				bMove = true;
-
-			if (!bMove)
-			{
-				CurAction = ACT_STAND;
-			}
-		}
-	}
-
-};
+#include "Action.h"
 
 class GameObject :public PointBaseD, public Radian
 {
@@ -170,17 +103,17 @@ private:
 		defaultAttackDistance = 20,
 		defaultAttackRadius = 25,
 	};
-	Action action;
-private:
 	int HP;
 	virtual int GetDefaultHP() { return defaultHP; }
-
 	double AttackDistance;
-	virtual double GetDefaultAttackDistance() { return defaultAttackDistance; }
+	double GetDefaultAttackDistance() { return defaultAttackDistance; }
 	double AttackRadius;
-	virtual double GetDefaultAttackRadius() { return defaultAttackRadius; }
+	double GetDefaultAttackRadius() { return defaultAttackRadius; }
+protected:
+	ActionSystem action;
 
 public:
+	Character() {};
 	int GetHP()
 	{
 		return HP;
@@ -226,7 +159,7 @@ public:
 		return action.GetCurAction();
 	}
 
-	void Init()
+	virtual void Init()
 	{
 		GameObject::Init();
 
@@ -234,12 +167,71 @@ public:
 		AttackDistance = GetDefaultAttackDistance();
 		AttackRadius = GetDefaultAttackRadius();
 
+		action = ActionSystem();
 		action.Init();
 	}
 
-	void Work()
+	virtual void Work()
 	{
 		action.Work();
+	}
+};
+
+class Player : public Character
+{
+private:
+	KeyStateManager keyStateManager;
+	bool InputUp(){ return keyStateManager.IsDown(VK_UP); }
+	bool InputDown(){ return keyStateManager.IsDown(VK_DOWN); }
+	bool InputLeft(){ return keyStateManager.IsDown(VK_LEFT); }
+	bool InputRight(){ return keyStateManager.IsDown(VK_RIGHT); }
+	bool InputPlayerAttack(){ return keyStateManager.IsDown(VK_SPACE); }
+	bool InputPlayerFire(){ return keyStateManager.IsDown('F'); }
+	bool InputPlayerRadianForward(){ return keyStateManager.IsDown('A'); }
+	bool InputPlayerRadianReverse(){ return keyStateManager.IsDown('D'); }
+
+public:
+	void Init()override final
+	{
+		Character::Init();
+
+		keyStateManager = KeyStateManager();
+		keyStateManager.AddKeyState(VK_UP);
+		keyStateManager.AddKeyState(VK_DOWN);
+		keyStateManager.AddKeyState(VK_LEFT);
+		keyStateManager.AddKeyState(VK_RIGHT);
+		keyStateManager.AddKeyState(VK_SPACE);
+		keyStateManager.AddKeyState('F');
+		keyStateManager.AddKeyState('A');
+		keyStateManager.AddKeyState('D');
+
+	}
+	void Work()override final
+	{
+		Character::Work();
+		if (action.CanMove())
+		{
+			if (InputLeft())
+			{
+				SetDirectionLeft();
+				MoveToCurrentDirection<double>(*this, GetSpeed());
+			}
+			if (InputRight())
+			{
+				SetDirectionRight();
+				MoveToCurrentDirection<double>(*this, GetSpeed());
+			}
+			if (InputUp())
+			{
+				SetDirectionUp();
+				MoveToCurrentDirection<double>(*this, GetSpeed());
+			}
+			if (InputDown())
+			{
+				SetDirectionDown();
+				MoveToCurrentDirection<double>(*this, GetSpeed());
+			}
+		}
 	}
 };
 
@@ -248,6 +240,7 @@ class Monster :public Character
 private:
 	double GetDefaultSpeed()override final { return 2; }
 public:
+	Monster() {}
 	void Work(Character& player)
 	{
 		SetRadian(GetRadianFromPoint(player));
@@ -301,7 +294,7 @@ class Game
 {
 protected:
 
-	Character player;
+	Player player = Player();
 
 	enum { MonsterMaxCount = 10 };
 	int monstersCount;
@@ -344,26 +337,26 @@ protected:
 			player.SetRadian(player.GetRadian() - 0.1);
 		}
 
-		if (InputLeft())
-		{
-			player.SetDirectionLeft();
-			player.MoveToCurrentDirection<double>(player, player.GetSpeed());
-		}
-		if (InputRight())
-		{
-			player.SetDirectionRight();
-			player.MoveToCurrentDirection<double>(player, player.GetSpeed());
-		}
-		if (InputUp())
-		{
-			player.SetDirectionUp();
-			player.MoveToCurrentDirection<double>(player, player.GetSpeed());
-		}
-		if (InputDown())
-		{
-			player.SetDirectionDown();
-			player.MoveToCurrentDirection<double>(player, player.GetSpeed());
-		}
+		//if (InputLeft())
+		//{
+		//	player.SetDirectionLeft();
+		//	player.MoveToCurrentDirection<double>(player, player.GetSpeed());
+		//}
+		//if (InputRight())
+		//{
+		//	player.SetDirectionRight();
+		//	player.MoveToCurrentDirection<double>(player, player.GetSpeed());
+		//}
+		//if (InputUp())
+		//{
+		//	player.SetDirectionUp();
+		//	player.MoveToCurrentDirection<double>(player, player.GetSpeed());
+		//}
+		//if (InputDown())
+		//{
+		//	player.SetDirectionDown();
+		//	player.MoveToCurrentDirection<double>(player, player.GetSpeed());
+		//}
 
 		player.Work();
 	}
@@ -371,8 +364,8 @@ protected:
 public:
 	virtual void Init()
 	{
-		player = Character();
 		monstersCount = 0;
+
 		player.Init();
 	}
 	virtual void Work()
@@ -466,12 +459,13 @@ private:
 	bool InputDown()final override { return keyStateManager.IsDown(VK_DOWN); }
 	bool InputLeft()final override { return keyStateManager.IsDown(VK_LEFT); }
 	bool InputRight()final override { return keyStateManager.IsDown(VK_RIGHT); }
-	bool InputMonsterRandom()final override { return keyStateManager.IsTriggerDown(VK_F1); }
-	bool InputMonsterCreate()final override { return keyStateManager.IsTriggerDown(VK_F2); }
 	bool InputPlayerAttack()final override { return keyStateManager.IsDown(VK_SPACE); }
 	bool InputPlayerFire()final override { return keyStateManager.IsDown('F'); }
 	bool InputPlayerRadianForward()final override { return keyStateManager.IsDown('A'); }
 	bool InputPlayerRadianReverse()final override { return keyStateManager.IsDown('D'); }
+
+	bool InputMonsterRandom()final override { return keyStateManager.IsTriggerDown(VK_F1); }
+	bool InputMonsterCreate()final override { return keyStateManager.IsTriggerDown(VK_F2); }
 	bool InputPause()final override { return keyStateManager.IsTriggerDown('P'); }
 
 	void DrawGameObject(HDC hdc, GameObject gameObject)
@@ -534,11 +528,11 @@ private:
 		);
 		//Action
 		int CurAction = character.GetCurAction();
-		if (CurAction == Action::ACT_STAND)
+		if (CurAction == ActionSystem::ACT_STAND)
 			TextOut(hdc, characterX, characterY + 20, _T("站立"), 2);
-		if (CurAction == Action::ACT_WALK)
+		if (CurAction == ActionSystem::ACT_WALK)
 			TextOut(hdc, characterX, characterY + 20, _T("走路"), 2);
-		if (CurAction == Action::ACT_ATTACK)
+		if (CurAction == ActionSystem::ACT_ATTACK)
 			TextOut(hdc, characterX, characterY + 20, _T("攻擊"), 2);
 	}
 
@@ -551,12 +545,13 @@ public:
 		keyStateManager.AddKeyState(VK_DOWN);
 		keyStateManager.AddKeyState(VK_LEFT);
 		keyStateManager.AddKeyState(VK_RIGHT);
-		keyStateManager.AddKeyState(VK_F1);
-		keyStateManager.AddKeyState(VK_F2);
 		keyStateManager.AddKeyState(VK_SPACE);
 		keyStateManager.AddKeyState('F');
 		keyStateManager.AddKeyState('A');
 		keyStateManager.AddKeyState('D');
+
+		keyStateManager.AddKeyState(VK_F1);
+		keyStateManager.AddKeyState(VK_F2);
 		keyStateManager.AddKeyState('P');
 
 		Game::Init();
