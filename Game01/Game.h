@@ -364,11 +364,10 @@ public:
 		{
 			if (pi->IsDead())
 			{
-				vMonster.erase(pi);
-				break;
+				pi = vMonster.erase(pi);
 			}
-
-			pi++;
+			else
+				pi++;
 		}
 
 		//for (int i = 0; i < vMonster.size(); i++)
