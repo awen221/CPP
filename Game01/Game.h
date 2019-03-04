@@ -2,90 +2,7 @@
 #define _GAME_H_
 
 
-#include "GameObject.h"
-#include "ActionSystem.h"
-class Character :public GameObject
-{
-private:
-	enum
-	{
-		defaultHP = 1000,
-		defaultAttackDistance = 20,
-		defaultAttackRadius = 25,
-	};
-	int HP;
-	virtual int GetDefaultHP() { return defaultHP; }
-	double AttackDistance;
-	double GetDefaultAttackDistance() { return defaultAttackDistance; }
-	double AttackRadius;
-	double GetDefaultAttackRadius() { return defaultAttackRadius; }
-protected:
-	ActionSystem action;
-
-public:
-	Character() {};
-	int GetHP()
-	{
-		return HP;
-	}
-	void SetHP(int value)
-	{
-		HP = value;
-	}
-	void AddHP(int value)
-	{
-		SetHP(HP + value);
-	}
-	void SubHP(int value)
-	{
-		SetHP(HP - value);
-	}
-	bool IsDead()override final
-	{
-		return HP <= 0;
-	}
-	PointBaseD GetAttackCenterPoint()
-	{
-		Character pnt = *this;
-
-		pnt.MoveToCurrentDirection(pnt, AttackDistance);
-
-		return pnt;
-	}
-	double GetAttackRadius() { return AttackRadius; }
-	//近身攻擊
-	void nearAttackAuto(Character& targetCharacter, int damage)
-	{
-		PointBaseD pnt = GetAttackCenterPoint();
-		//取得攻擊範圍是否與對象角色重疊
-		if (pnt.GetDistance(targetCharacter) <= (targetCharacter.GetSize() + AttackRadius))
-		{
-			targetCharacter.SubHP(damage);
-		}
-	}
-
-	int GetCurAction()
-	{
-		return action.GetCurAction();
-	}
-
-	virtual void Init()
-	{
-		GameObject::Init();
-
-		HP = GetDefaultHP();
-		AttackDistance = GetDefaultAttackDistance();
-		AttackRadius = GetDefaultAttackRadius();
-
-		action = ActionSystem();
-		action.Init();
-	}
-
-	virtual void Work()
-	{
-		action.Work();
-	}
-};
+#include "Character.h"
 
 #include "GetAsyncKeyStateManger.h"
 class Player : public Character
@@ -145,13 +62,13 @@ public:
 		}
 	}
 };
+Player player = Player();
 
 class Monster :public Character
 {
 private:
 	double GetDefaultSpeed()override final { return 2; }
 public:
-	Monster() {}
 	void Work(Character& player)
 	{
 		SetRadian(GetRadianFromPoint(player));
@@ -159,6 +76,10 @@ public:
 		nearAttackAuto(player, 2);
 	}
 };
+enum { MonsterMaxCount = 10 };
+typedef std::vector<Monster> V_MONSTER;
+V_MONSTER vMonster;
+
 
 class Bullet :public GameObject
 {
@@ -200,29 +121,18 @@ public:
 		}
 	}
 };
-
+enum { BulletsMaxCount = 1000 };
+int bulletsCount;
+Bullet bullets[BulletsMaxCount];
 
 
 #include <vector>
-std::vector<Monster> vMonster;
+
 #include "ArrayTemplate.h"
 //MMO
 class Game
 {
 protected:
-
-	Player player = Player();
-
-	enum { MonsterMaxCount = 10 };
-
-	//int monstersCount;
-	//Monster monsters[MonsterMaxCount];
-
-
-	enum { BulletsMaxCount = 1000 };
-	int bulletsCount;
-	Bullet bullets[BulletsMaxCount];
-
 	bool Pause = false;
 
 	virtual bool InputUp() = 0;
@@ -241,10 +151,17 @@ protected:
 	{
 		if (InputPlayerAttack())
 		{
-			for (int i = 0; i < vMonster.size(); i++)
+			V_MONSTER::iterator pi = vMonster.begin();
+			while (pi != vMonster.end())
 			{
-				player.nearAttackAuto(vMonster[i], 100);
+				player.nearAttackAuto(*pi, 100);
+				pi++;
 			}
+
+			//for (int i = 0; i < vMonster.size(); i++)
+			//{
+			//	player.nearAttackAuto(vMonster[i], 100);
+			//}
 		}
 
 		if (InputPlayerRadianForward())
@@ -314,10 +231,17 @@ public:
 		for (int i = 0; i < bulletsCount; i++)
 		{
 			bullets[i].Work();
-			for (int m = 0; m < vMonster.size(); m++)
+
+			V_MONSTER::iterator pi = vMonster.begin();
+			while (pi != vMonster.end())
 			{
-				bullets[i].CheckHit(vMonster[m], 100);
+				bullets[i].CheckHit(*pi, 100);
+				pi++;
 			}
+			//for (int m = 0; m < vMonster.size(); m++)
+			//{
+			//	bullets[i].CheckHit(vMonster[m], 100);
+			//}
 		}
 
 		for (int i = 0; i < bulletsCount; i++)
@@ -346,25 +270,40 @@ public:
 
 		if (InputMonsterRandom())
 		{
-			for (int i = 0; i < vMonster.size(); i++)
+			V_MONSTER::iterator pi = vMonster.begin();
+			while (pi != vMonster.end())
 			{
-				vMonster[i].SetRandomPos();
+				pi->SetRandomPos();
+				pi++;
+			}
+
+			//for (int i = 0; i < vMonster.size(); i++)
+			//{
+			//	vMonster[i].SetRandomPos();
+			//}
+		}
+
+		{
+			V_MONSTER::iterator pi = vMonster.begin();
+			while (pi != vMonster.end())
+			{
+				pi->Work(player);
+				pi++;
 			}
 		}
 
-		for (int i = 0; i < vMonster.size(); i++)
-		{
-			vMonster[i].Work(player);
-		}
+		//for (int i = 0; i < vMonster.size(); i++)
+		//{
+		//	vMonster[i].Work(player);
+		//}
 
 		//移除怪物
-		std::vector<Monster>::iterator pi = vMonster.begin();
+		V_MONSTER::iterator pi = vMonster.begin();
 		while (pi != vMonster.end())
 		{
 			if (pi->IsDead())
 			{
 				pi = vMonster.erase(pi);
-
 			}
 			else
 				pi++;
@@ -498,7 +437,16 @@ public:
 	void Draw(HDC hdc)
 	{
 		DrawCharacter(hdc, player);
-		for (int i = 0; i < vMonster.size(); i++)DrawCharacter(hdc, vMonster[i]);
+
+		V_MONSTER::iterator pi = vMonster.begin();
+		while (pi != vMonster.end())
+		{
+			DrawCharacter(hdc, *pi);
+			pi++;
+		}
+		//for (int i = 0; i < vMonster.size(); i++)
+		//	DrawCharacter(hdc, vMonster[i]);
+
 		for (int i = 0; i < bulletsCount; i++)
 			DrawGameObject(hdc, bullets[i]);
 	}

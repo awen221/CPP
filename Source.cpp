@@ -1,7 +1,7 @@
 #include "BaseWindow.h"
-#include "Game.h"
 #include "time_ex.h"
-#include "TcString.h"
+
+#include "Game.h"
 
 class mainWindow :private BaseWindow
 {
@@ -80,6 +80,8 @@ private:
 	TimerWin tr = TimerWin(1000 / 30);
 	FpsWin fw = FpsWin();
 
+	WinGame winGame = WinGame();
+
 	void Init()final override
 	{
 		winGame.Init();
@@ -101,7 +103,7 @@ private:
 		fw.Draw(hdc);
 	}
 
-	WinGame winGame = WinGame();
+	
 
 public:
 	mainWindow() :BaseWindow() {}

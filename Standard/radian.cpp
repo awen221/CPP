@@ -1,5 +1,7 @@
 #include"radian.h"
 
+static const int Degree180 = 180;
+
 void Radian::Init()
 {
 	radian = 0;

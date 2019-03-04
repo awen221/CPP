@@ -15,7 +15,6 @@ class Radian
 private:
 	//PI*0 ~ PI*2
 	double radian;
-	static const int Degree180 = 180;
 protected:
 	virtual void Init();
 public:
@@ -34,34 +33,35 @@ public:
 	}
 	//目前方向不變往目前方向的偏移方向移動
 	template<class T>
-	void MoveToShiftDirection(double speed, double radian)
+	void MoveToShiftDirection(PointBase<T>& self, double speed, double shift_radian)
 	{
-		MoveToDirection<T>(speed, radian + radian);
+		MoveToDirection<T>(self,speed, radian + shift_radian);
 	}
+
 	//往目前方向之右側平移
 	template<class T>
-	void DirRightMove(double speed)
+	void DirRightMove(PointBase<T>& self, double speed)
 	{
-		MoveToShiftDirection<T>(speed, PI / 2);
+		MoveToShiftDirection<T>(self, speed, PI / 2);
 	}
 	//往目前方向之左側平移
 	template<class T>
-	void DirLeftMove(double speed)
+	void DirLeftMove(PointBase<T>& self, double speed)
 	{
-		MoveToShiftDirection<T>(speed, -PI / 2);
+		MoveToShiftDirection<T>(self, speed, -PI / 2);
 	}
 	//取得與指定座標之夾角
 	template<class T>
 	double GetRadianFromPoint(PointBase<T> self, PointBase<T> target)
 	{
-		double radian;
+		double _radian;
 
 		//笛卡兒座標系(第一象限)公式
-		radian = atan2(target.GetY() - self.GetY(), target.GetX() - self.GetX());
+		_radian = atan2(target.GetY() - self.GetY(), target.GetX() - self.GetX());
 		//轉成Windows座標系(第三象限)要加負號
-		radian = -radian;
+		_radian = -_radian;
 
-		return radian;
+		return _radian;
 	}
 
 
