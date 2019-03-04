@@ -5,7 +5,9 @@
 template<class ValueType>
 class PointBase
 {
-
+protected:
+	ValueType X;
+	ValueType Y;
 public:
 	PointBase()
 	{
@@ -14,10 +16,6 @@ public:
 	{
 	}
 
-protected:
-	ValueType X;
-	ValueType Y;
-public:
 	virtual void Init()
 	{
 		X = 0;

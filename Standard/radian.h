@@ -6,7 +6,9 @@
 #include <math.h>
 const double PI = M_PI;
 
-#include "point_base.h"
+//#include "point_base.h"
+template<class ValueType>
+class PointBase;
 
 class Radian
 {
@@ -15,10 +17,7 @@ private:
 	double radian;
 	static const int Degree180 = 180;
 protected:
-	virtual void Init()
-	{
-		radian = 0;
-	}
+	virtual void Init();
 public:
 	template<class T>
 	static void MoveToDirection(PointBase<T>& self, double speed, const double& radian)
@@ -29,7 +28,7 @@ public:
 	}
 
 	template<class T>
-	void MoveToCurrentDirection(PointBase<T>& self,double speed)
+	void MoveToCurrentDirection(PointBase<T>& self, double speed)
 	{
 		MoveToDirection<T>(self, speed, radian);
 	}
@@ -67,59 +66,22 @@ public:
 
 
 	//角度轉弧度
-	static double GetDegreeFromRadian(const double& radian)
-	{
-		return radian * Degree180 / PI;
-	}
+	static double GetDegreeFromRadian(const double&);
 	//弧度轉角度
-	static double GetRadianFromDegree(const double& degree)
-	{
-		return  degree / Degree180 * PI;
-	}
+	static double GetRadianFromDegree(const double&);
 
-	double GetRadian() 
-	{
-		return radian; 
-	}
-	double GetDegree() 
-	{ 
-		return GetDegreeFromRadian(radian); 
-	}
-	void SetRadian(const double& _radian) 
-	{ 
-		radian = _radian;
-	}
-	void SetDegree(const double& degree) 
-	{ 
-		radian = GetRadianFromDegree(degree); 
-	}
-	void ShfitRadian(const double& _radian)
-	{ 
-		radian += _radian;
-	}
-	void ShfitDegree(const double& degree) 
-	{ 
-		radian += GetRadianFromDegree(degree); 
-	}
+	double GetRadian();
+	double GetDegree();
+	void SetRadian(const double& );
+	void SetDegree(const double& );
+	void ShfitRadian(const double& );
+	void ShfitDegree(const double& );
 
-	void SetDirectionRight()
-	{
-		radian = 0; 
-	}
-	void SetDirectionUp() 
-	{ 
-		radian = PI / 2; 
-	}
-	void SetDirectionLeft()
-	{
-		radian = PI; 
-	}
-	void SetDirectionDown()
-	{
-		radian = - PI / 2; 
-	}
+	void SetDirectionRight();
+	void SetDirectionUp();
+	void SetDirectionLeft();
+	void SetDirectionDown();
 
 };
-
 
 #endif

@@ -1,14 +1,9 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
+
 #include "GameObject.h"
-
-
-#include "ArrayTemplate.h"
-#include <tchar.h>
 #include "ActionSystem.h"
-#include "GetAsyncKeyStateManger.h"
-
 class Character :public GameObject
 {
 private:
@@ -92,6 +87,7 @@ public:
 	}
 };
 
+#include "GetAsyncKeyStateManger.h"
 class Player : public Character
 {
 private:
@@ -205,8 +201,11 @@ public:
 	}
 };
 
+
+
 #include <vector>
 std::vector<Monster> vMonster;
+#include "ArrayTemplate.h"
 //MMO
 class Game
 {
@@ -365,6 +364,7 @@ public:
 			if (pi->IsDead())
 			{
 				pi = vMonster.erase(pi);
+
 			}
 			else
 				pi++;
@@ -382,10 +382,9 @@ public:
 };
 
 
-#include "windows.h"
+#include <tchar.h>
 #include "TcString.h"
 #include "GetAsyncKeyStateManger.h"
-
 class WinGame :public Game
 {
 private:
