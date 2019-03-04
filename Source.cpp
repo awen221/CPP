@@ -2,6 +2,7 @@
 #include "time_ex.h"
 
 #include "Game.h"
+#include "TcString.h"
 
 class mainWindow :private BaseWindow
 {

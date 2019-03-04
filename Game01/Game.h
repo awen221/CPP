@@ -1,6 +1,7 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
+#include <vector>
 
 #include "Character.h"
 
@@ -126,7 +127,7 @@ int bulletsCount;
 Bullet bullets[BulletsMaxCount];
 
 
-#include <vector>
+
 
 #include "ArrayTemplate.h"
 //MMO
