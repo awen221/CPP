@@ -13,12 +13,43 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		action_system.h = action_system.h
 		ActionSystem.h = ActionSystem.h
+		GdiPlusDraw.h = GdiPlusDraw.h
+		GdiPlusWindow.h = GdiPlusWindow.h
+		GUI.h = GUI.h
 		Source.cpp = Source.cpp
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game_Rhytnm", "Game_Rhytnm\Game_Rhytnm.vcxproj", "{BB385564-268F-4440-BFAC-BD1D21EBACF7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game_Tetris", "Game_Tetris\Game_Tetris.vcxproj", "{5733BC7C-723E-4A19-BBF2-D27204925A42}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Standard", "Standard", "{CD1CF29F-5CA7-465D-BE04-4D04288714A5}"
+	ProjectSection(SolutionItems) = preProject
+		Standard\ArrayTemplate.h = Standard\ArrayTemplate.h
+		Standard\point_base.h = Standard\point_base.h
+		Standard\radian.cpp = Standard\radian.cpp
+		Standard\radian.h = Standard\radian.h
+		Standard\random.cpp = Standard\random.cpp
+		Standard\random.h = Standard\random.h
+		Standard\time_ex.cpp = Standard\time_ex.cpp
+		Standard\time_ex.h = Standard\time_ex.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Windows", "Windows", "{DF5D1830-2FC1-48BE-9C6C-3F9EEB018735}"
+	ProjectSection(SolutionItems) = preProject
+		Windows\BaseWindow.cpp = Windows\BaseWindow.cpp
+		Windows\BaseWindow.h = Windows\BaseWindow.h
+		Windows\GetAsyncKeyStateManger.cpp = Windows\GetAsyncKeyStateManger.cpp
+		Windows\GetAsyncKeyStateManger.h = Windows\GetAsyncKeyStateManger.h
+		Windows\TcString.cpp = Windows\TcString.cpp
+		Windows\TcString.h = Windows\TcString.h
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DllCall", "DllCall\DllCall.csproj", "{2A16A6FA-FFE1-43CA-A8D0-D5499DADAF22}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dll", "Dll\Dll.vcxproj", "{D64095E1-B62E-45BC-A28D-FC40525B6309}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dllexport", "dllexport", "{6B3BB774-1450-4B6C-82AE-62BB4AE2E2B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,9 +121,37 @@ Global
 		{5733BC7C-723E-4A19-BBF2-D27204925A42}.Release|x64.Build.0 = Debug|Win32
 		{5733BC7C-723E-4A19-BBF2-D27204925A42}.Release|x86.ActiveCfg = Debug|Win32
 		{5733BC7C-723E-4A19-BBF2-D27204925A42}.Release|x86.Build.0 = Debug|Win32
+		{2A16A6FA-FFE1-43CA-A8D0-D5499DADAF22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A16A6FA-FFE1-43CA-A8D0-D5499DADAF22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A16A6FA-FFE1-43CA-A8D0-D5499DADAF22}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2A16A6FA-FFE1-43CA-A8D0-D5499DADAF22}.Debug|x64.Build.0 = Debug|Any CPU
+		{2A16A6FA-FFE1-43CA-A8D0-D5499DADAF22}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2A16A6FA-FFE1-43CA-A8D0-D5499DADAF22}.Debug|x86.Build.0 = Debug|Any CPU
+		{2A16A6FA-FFE1-43CA-A8D0-D5499DADAF22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A16A6FA-FFE1-43CA-A8D0-D5499DADAF22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A16A6FA-FFE1-43CA-A8D0-D5499DADAF22}.Release|x64.ActiveCfg = Release|Any CPU
+		{2A16A6FA-FFE1-43CA-A8D0-D5499DADAF22}.Release|x64.Build.0 = Release|Any CPU
+		{2A16A6FA-FFE1-43CA-A8D0-D5499DADAF22}.Release|x86.ActiveCfg = Release|Any CPU
+		{2A16A6FA-FFE1-43CA-A8D0-D5499DADAF22}.Release|x86.Build.0 = Release|Any CPU
+		{D64095E1-B62E-45BC-A28D-FC40525B6309}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{D64095E1-B62E-45BC-A28D-FC40525B6309}.Debug|x64.ActiveCfg = Debug|x64
+		{D64095E1-B62E-45BC-A28D-FC40525B6309}.Debug|x64.Build.0 = Debug|x64
+		{D64095E1-B62E-45BC-A28D-FC40525B6309}.Debug|x86.ActiveCfg = Debug|Win32
+		{D64095E1-B62E-45BC-A28D-FC40525B6309}.Debug|x86.Build.0 = Debug|Win32
+		{D64095E1-B62E-45BC-A28D-FC40525B6309}.Release|Any CPU.ActiveCfg = Release|Win32
+		{D64095E1-B62E-45BC-A28D-FC40525B6309}.Release|x64.ActiveCfg = Release|x64
+		{D64095E1-B62E-45BC-A28D-FC40525B6309}.Release|x64.Build.0 = Release|x64
+		{D64095E1-B62E-45BC-A28D-FC40525B6309}.Release|x86.ActiveCfg = Release|Win32
+		{D64095E1-B62E-45BC-A28D-FC40525B6309}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CD1CF29F-5CA7-465D-BE04-4D04288714A5} = {C9F868A0-403F-4E62-AB42-67D6BADC66D5}
+		{DF5D1830-2FC1-48BE-9C6C-3F9EEB018735} = {C9F868A0-403F-4E62-AB42-67D6BADC66D5}
+		{2A16A6FA-FFE1-43CA-A8D0-D5499DADAF22} = {6B3BB774-1450-4B6C-82AE-62BB4AE2E2B7}
+		{D64095E1-B62E-45BC-A28D-FC40525B6309} = {6B3BB774-1450-4B6C-82AE-62BB4AE2E2B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3A36CE43-2F10-4579-A009-8E49E105E144}
