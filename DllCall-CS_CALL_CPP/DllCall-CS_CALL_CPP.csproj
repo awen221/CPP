@@ -48,6 +48,10 @@
       <Project>{d64095e1-b62e-45bc-a28d-fc40525b6309}</Project>
       <Name>Dll_dllexport</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dll_namespace_ref_class\Dll_namespace_ref_class.vcxproj">
+      <Project>{b6e0f15a-f9d1-4d95-b776-b60614695394}</Project>
+      <Name>Dll_namespace_ref_class</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
