@@ -49,6 +49,8 @@ namespace DllCall
             Console.WriteLine(ar.Subtract(10, 20));
             Console.WriteLine(ar.Multiply(10, 20));
             Console.WriteLine(ar.Divide(10, 20));
+
+            Console.ReadKey();
         }
         #endregion
 
