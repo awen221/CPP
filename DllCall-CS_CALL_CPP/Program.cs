@@ -9,19 +9,20 @@ namespace DllCall
     class Program
     {
         //傳入和傳出的型態格式必須同ForExternCall.cpp內的設置！！
+        const string DllName = "Dll_dllexport.dll";
 
         //我將dll檔放到D:，然後設置進入點
-        [DllImport("Dll.dll", EntryPoint = "Add", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllName, EntryPoint = "Add", CallingConvention = CallingConvention.Cdecl)]
         private static extern int add(int a, int b);
 
         //也可以不設置進入點，但函數名稱必須相同
-        [DllImport("Dll.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern int Sub(int a, int b);
 
-        [DllImport("Dll.dll", EntryPoint = "Multi", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllName, EntryPoint = "Multi", CallingConvention = CallingConvention.Cdecl)]
         private static extern int mul(int a, int b);
 
-        [DllImport("Dll.dll", EntryPoint = "Div", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DllName, EntryPoint = "Div", CallingConvention = CallingConvention.Cdecl)]
         private static extern float div(int a, int b);
 
         static void Main(string[] args)
