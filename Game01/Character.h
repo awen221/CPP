@@ -8,11 +8,11 @@ class Character :public GameObject
 private:
 	int HP;
 	double AttackDistance;
-	double AttackRadius;
+	//double AttackRadius;
 
 	virtual int GetDefaultHP();
 	double GetDefaultAttackDistance();
-	double GetDefaultAttackRadius();
+	//double GetDefaultAttackRadius();
 
 	
 protected:
@@ -25,8 +25,9 @@ public:
 	void SubHP(int);
 	bool IsDead()override final;
 	
+	double GetAttackDistance();
 	PointBaseD GetAttackCenterPoint();
-	double GetAttackRadius();
+	//double GetAttackRadius();
 	//ªñ¨­§ðÀ»
 	void nearAttackAuto(Character&, int);
 

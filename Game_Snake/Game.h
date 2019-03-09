@@ -2,7 +2,7 @@
 #define _GAME_TETRIS_H_
 
 #include "point_base.h"
-typedef PointBase<double> obj;
+typedef Point_Template::Point_Template_Class<double> obj;
 #include "random.h"
 
 //Snake

@@ -1,5 +1,5 @@
 #pragma once
-ref class Calculate
+class Calculate
 {
 public:
 	Calculate();//預設的空建構子

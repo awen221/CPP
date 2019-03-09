@@ -43,22 +43,22 @@ public:
 			if (InputLeft())
 			{
 				SetDirectionLeft();
-				MoveToCurrentDirection<double>(*this, GetSpeed());
+				MoveToCurrentDirection();
 			}
 			if (InputRight())
 			{
 				SetDirectionRight();
-				MoveToCurrentDirection<double>(*this, GetSpeed());
+				MoveToCurrentDirection();
 			}
 			if (InputUp())
 			{
 				SetDirectionUp();
-				MoveToCurrentDirection<double>(*this, GetSpeed());
+				MoveToCurrentDirection();
 			}
 			if (InputDown())
 			{
 				SetDirectionDown();
-				MoveToCurrentDirection<double>(*this, GetSpeed());
+				MoveToCurrentDirection();
 			}
 		}
 	}
@@ -98,7 +98,7 @@ public:
 
 	void Work()
 	{
-		MoveToCurrentDirection(*this, Speed);
+		MoveToCurrentDirection();
 
 		if (X < 0)bDead = true;
 		if (Y < 0)bDead = true;
@@ -126,10 +126,12 @@ enum { BulletsMaxCount = 1000 };
 int bulletsCount;
 Bullet bullets[BulletsMaxCount];
 
+typedef std::vector<Bullet> V_BULLET;
+V_BULLET v_BULLET;
 
 
 
-#include "ArrayTemplate.h"
+
 //MMO
 class Game
 {
@@ -219,40 +221,80 @@ public:
 		if (InputPlayerFire())
 		{
 			//生子彈
-			Bullet* Bullet = ArrayTemplate::AddObj(bulletsCount, BulletsMaxCount, bullets);
-			if (Bullet != NULL)
-			{
-				Bullet->Init();
-				double r = player.GetRadian();
-				Bullet->Set(player.GetX(), player.GetY());
-				Bullet->SetRadian(r);
-			}
+
+			Bullet bullet = Bullet();
+			bullet.Init();
+			double r = player.GetRadian();
+			bullet.Set(player.GetX(), player.GetY());
+			bullet.SetRadian(r);
+
+			v_BULLET.push_back(bullet);
+
+			
+			//Bullet* Bullet = ArrayTemplate::AddObj(bulletsCount, BulletsMaxCount, bullets);
+			//if (Bullet != NULL)
+			//{
+			//	Bullet->Init();
+			//	double r = player.GetRadian();
+			//	Bullet->Set(player.GetX(), player.GetY());
+			//	Bullet->SetRadian(r);
+			//}
 		}
 
-		for (int i = 0; i < bulletsCount; i++)
+		V_BULLET::iterator piB = v_BULLET.begin();
+		while (piB != v_BULLET.end())
 		{
-			bullets[i].Work();
+			piB->Work();
 
 			V_MONSTER::iterator pi = vMonster.begin();
 			while (pi != vMonster.end())
 			{
-				bullets[i].CheckHit(*pi, 100);
+				piB->CheckHit(*pi, 100);
 				pi++;
 			}
-			//for (int m = 0; m < vMonster.size(); m++)
-			//{
-			//	bullets[i].CheckHit(vMonster[m], 100);
-			//}
+
+
+			piB++;
 		}
 
-		for (int i = 0; i < bulletsCount; i++)
+
+		//for (int i = 0; i < bulletsCount; i++)
+		//{
+		//	bullets[i].Work();
+
+		//	V_MONSTER::iterator pi = vMonster.begin();
+		//	while (pi != vMonster.end())
+		//	{
+		//		bullets[i].CheckHit(*pi, 100);
+		//		pi++;
+		//	}
+		//	//for (int m = 0; m < vMonster.size(); m++)
+		//	//{
+		//	//	bullets[i].CheckHit(vMonster[m], 100);
+		//	//}
+		//}
+
+		V_BULLET::iterator piBm = v_BULLET.begin();
+		while (piBm != v_BULLET.end())
 		{
-			if (bullets[i].IsDead())
+			if (piBm->IsDead())
 			{
 				//移除子彈
-				ArrayTemplate::RemoveObj(i, bulletsCount, bullets);
+
+				piBm = v_BULLET.erase(piBm);
 			}
+			else
+				piBm++;
 		}
+
+		//for (int i = 0; i < bulletsCount; i++)
+		//{
+		//	if (bullets[i].IsDead())
+		//	{
+		//		//移除子彈
+		//		ArrayTemplate::RemoveObj(i, bulletsCount, bullets);
+		//	}
+		//}
 
 
 		if (InputMonsterCreate())
@@ -364,14 +406,15 @@ private:
 		PointBaseD pntD = character.GetAttackCenterPoint();
 		double pntD_X = pntD.GetX();
 		double pntD_Y = pntD.GetY();
-		double AttackRadius = character.GetAttackRadius();
+		double AttackRadius = character.GetRadian();
+		double AttackDistance = character.GetAttackDistance();
 		Ellipse
 		(
 			hdc,
-			(int)(pntD_X - AttackRadius),
-			(int)(pntD_Y - AttackRadius),
-			(int)(pntD_X + AttackRadius),
-			(int)(pntD_Y + AttackRadius)
+			(int)(pntD_X - AttackDistance),
+			(int)(pntD_Y - AttackDistance),
+			(int)(pntD_X + AttackDistance),
+			(int)(pntD_Y + AttackDistance)
 		);
 
 		//SIZE
@@ -389,6 +432,7 @@ private:
 			(int)characterX,
 			(int)characterY,
 			buf, buf.len);
+
 		//Direction
 		POINT pnt;
 		MoveToEx(hdc,
@@ -400,6 +444,7 @@ private:
 			(int)(characterX + cos(characterRadian)*characterSize),
 			(int)(characterY - sin(characterRadian)*characterSize)
 		);
+
 		//Action
 		int CurAction = character.GetCurAction();
 		if (CurAction == ActionSystem::ACT_STAND)
@@ -448,8 +493,14 @@ public:
 		//for (int i = 0; i < vMonster.size(); i++)
 		//	DrawCharacter(hdc, vMonster[i]);
 
-		for (int i = 0; i < bulletsCount; i++)
-			DrawGameObject(hdc, bullets[i]);
+		V_BULLET::iterator piB = v_BULLET.begin();
+		while (piB != v_BULLET.end())
+		{
+			DrawGameObject(hdc, *piB);
+			piB++;
+		}
+		//for (int i = 0; i < bulletsCount; i++)
+		//	DrawGameObject(hdc, bullets[i]);
 	}
 };
 

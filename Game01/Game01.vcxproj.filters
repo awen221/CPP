@@ -50,9 +50,6 @@
     <ClCompile Include="Character.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Standard\ArrayTemplate.h">
-      <Filter>Library\Standard</Filter>
-    </ClInclude>
     <ClInclude Include="..\Standard\point_base.h">
       <Filter>Library\Standard</Filter>
     </ClInclude>

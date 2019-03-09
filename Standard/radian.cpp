@@ -1,5 +1,10 @@
 #include"radian.h"
 
+//下面兩行一起寫 M_PI才會有效
+#define _USE_MATH_DEFINES
+#include <math.h>
+const double PI = M_PI;
+
 static const int Degree180 = 180;
 
 void Radian::Init()
@@ -24,6 +29,7 @@ double Radian::GetDegree()
 {
 	return GetDegreeFromRadian(radian);
 }
+
 void Radian::SetRadian(const double& _radian)
 {
 	radian = _radian;
@@ -40,19 +46,20 @@ void Radian::ShfitDegree(const double& degree)
 {
 	radian += GetRadianFromDegree(degree);
 }
-void Radian::SetDirectionRight()
-{
-	radian = 0;
-}
+
 void Radian::SetDirectionUp()
 {
 	radian = PI / 2;
+}
+void Radian::SetDirectionDown()
+{
+	radian = -PI / 2;
 }
 void Radian::SetDirectionLeft()
 {
 	radian = PI;
 }
-void Radian::SetDirectionDown()
+void Radian::SetDirectionRight()
 {
-	radian = -PI / 2;
+	radian = 0;
 }

@@ -1,7 +1,8 @@
 #pragma once
 
 #include "point_base.h"
-typedef PointBase<double> PointBaseD;
+typedef Point_Template::Point_Template_Class<double> PointBaseD;
+
 #include "radian.h"
 
 class GameObject :public PointBaseD, public Radian
@@ -32,5 +33,10 @@ public:
 	//取得與指定座標之夾角
 	double GetRadianFromPoint(PointBaseD );
 	virtual bool IsDead();
+
+	void MoveToCurrentDirection()
+	{
+		PointBaseD::MoveToDirection(Speed, radian);
+	}
 };
 

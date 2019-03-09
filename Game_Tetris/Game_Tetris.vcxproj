@@ -151,7 +151,6 @@
     <ClCompile Include="..\Windows\TcString.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Standard\ArrayTemplate.h" />
     <ClInclude Include="..\Standard\point_base.h" />
     <ClInclude Include="..\Standard\radian.h" />
     <ClInclude Include="..\Standard\random.h" />

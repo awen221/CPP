@@ -25,7 +25,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game_Tetris", "Game_Tetris\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Standard", "Standard", "{CD1CF29F-5CA7-465D-BE04-4D04288714A5}"
 	ProjectSection(SolutionItems) = preProject
-		Standard\ArrayTemplate.h = Standard\ArrayTemplate.h
 		Standard\point_base.h = Standard\point_base.h
 		Standard\radian.cpp = Standard\radian.cpp
 		Standard\radian.h = Standard\radian.h

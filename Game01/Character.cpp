@@ -11,11 +11,11 @@ double Character::GetDefaultAttackDistance()
 {
 	return defaultAttackDistance; 
 }
-enum { defaultAttackRadius = 25, };
-double Character::GetDefaultAttackRadius() 
-{
-	return defaultAttackRadius; 
-}
+//enum { defaultAttackRadius = 25, };
+//double Character::GetDefaultAttackRadius() 
+//{
+//	return defaultAttackRadius; 
+//}
 
 
 
@@ -39,23 +39,27 @@ bool Character::IsDead()
 {
 	return HP <= 0;
 }
+double Character::GetAttackDistance()
+{
+	return AttackDistance;
+}
 PointBaseD Character::GetAttackCenterPoint()
 {
 	Character pnt = *this;
 
-	pnt.MoveToCurrentDirection(pnt, AttackDistance);
+	pnt.MoveToDirection(AttackDistance, pnt.radian);
 	return pnt;
 }
-double Character::GetAttackRadius() 
-{
-	return AttackRadius; 
-}
+//double Character::GetAttackRadius() 
+//{
+//	return AttackRadius; 
+//}
 //近身攻擊
 void Character::nearAttackAuto(Character& targetCharacter, int damage)
 {
 	PointBaseD pnt = GetAttackCenterPoint();
 	//取得攻擊範圍是否與對象角色重疊
-	if (pnt.GetDistance(targetCharacter) <= (targetCharacter.GetSize() + AttackRadius))
+	if (pnt.GetDistance(targetCharacter) <= (targetCharacter.GetSize() + radian))
 	{
 		targetCharacter.SubHP(damage);
 	}
@@ -71,7 +75,7 @@ void Character::Init()
 	GameObject::Init();
 	HP = GetDefaultHP();
 	AttackDistance = GetDefaultAttackDistance();
-	AttackRadius = GetDefaultAttackRadius();
+	//AttackRadius = GetDefaultAttackRadius();
 
 	action = ActionSystem();
 	action.Init();

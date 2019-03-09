@@ -56,9 +56,9 @@ namespace DllCall
 
         static void Main(string[] args)
         {
-            //Call_Dll_dllexport();
+            Call_Dll_dllexport();
 
-            Call_Dll_namespace_ref_class();
+            //Call_Dll_namespace_ref_class();
         }
 
     }
