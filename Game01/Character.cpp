@@ -75,7 +75,6 @@ void Character::Init()
 	GameObject::Init();
 	HP = GetDefaultHP();
 	AttackDistance = GetDefaultAttackDistance();
-	//AttackRadius = GetDefaultAttackRadius();
 
 	action = ActionSystem();
 	action.Init();

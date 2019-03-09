@@ -1,53 +1,51 @@
- #ifndef _TIME_EX_H_
-#define _TIME_EX_H_
+#ifndef TIME_EX_H
+#define TIME_EX_H
 
-
-class TimePass
+namespace Time_Ex
 {
-private:
-	unsigned int preTime;
 
-	unsigned int timePass;
-	unsigned int startTime;
-	unsigned int totalTimePass;
-	
-public:
-	TimePass();
-	void Reset();
-	void Work();
-	unsigned int GetTimePass();
-	unsigned int GetStartTime();
-	unsigned int GetTotalTimePass();
-};
+	class TimePass
+	{
+	private:
+		unsigned int PreTime;
 
-class Timer :private TimePass
-{
-private:
-	unsigned int Length;
-	unsigned int PassTime;
-	bool onTimer;
-	void Init();
-public:
-	Timer();
-	Timer(unsigned int);
-	void SetTimer(unsigned int);
-	bool GetOnTimer();
-	bool Work();
-};
+		unsigned int StartTime;
+		unsigned int PassTime;
+		unsigned int TotalPassTime;
+	public:
+		TimePass();
+		void Reset();
+		void Work();
+		unsigned int GetStartTime();
+		unsigned int GetPassTime();
+		unsigned int GetTotalPassTime();
+	};
 
-class FPS
-{
-private:
-	const unsigned int msOfSec = 1000;
+	class Timer :private TimePass
+	{
+	private:
+		unsigned int Interval;
+		unsigned int TimerPassTime;
+		bool onTimer;
+	public:
+		Timer();
+		Timer(unsigned int);
+		void SetTimer(unsigned int);
+		void Work();
+		bool GetOnTimer();
+	};
 
-	unsigned int FramesCount;
-	unsigned int Fps;
-	Timer tr;
-	void Init();
-public:
-	FPS();
-	bool Work();
-	unsigned int GetFPS();
-};
+	class FPS :public Timer
+	{
+	private:
+		unsigned int FramesCount;
+		unsigned int Fps;
+	public:
+		FPS();
+		void Work();
+		unsigned int GetFPS();
+	};
+
+}
 
 #endif

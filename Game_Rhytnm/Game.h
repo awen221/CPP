@@ -52,7 +52,7 @@ protected:
 	
 	void GameWork()
 	{
-		int MusicPlayTime = tp.GetTotalTimePass();
+		int MusicPlayTime = tp.GetTotalPassTime();
 
 		int CurrentY = (MusicPlayTime*noteRunDistanceY) / noteTime;
 		noteY = noteStartY - CurrentY;
@@ -178,7 +178,7 @@ public:
 		TcString tString = TcString();
 
 		tString = L"經過時間 : ";
-		tString += ((float)tp.GetTotalTimePass()) / 1000;
+		tString += ((float)tp.GetTotalPassTime()) / 1000;
 		tString += L"秒";
 		TextOut(hdc, 300, 0, tString, tString.len-5);
 

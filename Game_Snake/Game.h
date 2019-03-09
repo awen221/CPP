@@ -1,9 +1,11 @@
-#ifndef _GAME_TETRIS_H_
-#define _GAME_TETRIS_H_
+#ifndef GAME_TETRIS_H
+#define GAME_TETRIS_H
 
 #include "point_base.h"
-typedef Point_Template::Point_Template_Class<double> obj;
+using obj = Point_Template::Point_Template_Class<double>;
+
 #include "random.h"
+using RANDOM_Class = RANDOM::RANDOM_Class;
 
 //Snake
 class Game
@@ -23,7 +25,7 @@ private:
 	obj* Head;
 	void FoodRand()
 	{
-		static RANDOM random = RANDOM();
+		static RANDOM_Class random = RANDOM_Class();
 		int randX = random.GetRand();
 		int randY = random.GetRand();
 
@@ -212,7 +214,8 @@ public:
 	}
 	void Work()final override
 	{
-		if (!gtr.Work())return;
+		gtr.Work();
+		if (!gtr.GetOnTimer())return;
 
 		keyStateManager.Work();
 

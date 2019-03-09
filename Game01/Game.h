@@ -1,11 +1,21 @@
-#ifndef _GAME_H_
-#define _GAME_H_
+#ifndef GAME_H
+#define GAME_H
 
 #include <vector>
 
 #include "Character.h"
-
 #include "GetAsyncKeyStateManger.h"
+
+enum RandomPos { xMin = 0, xMax = 800, yMin = 0, yMax = 600, };
+enum Speed
+{
+	Default = 4,
+};
+enum Size
+{
+	SizeDefault = 20,
+};
+
 class Player : public Character
 {
 private:
@@ -23,6 +33,8 @@ public:
 	void Init()override final
 	{
 		Character::Init();
+
+		Rand(xMin, xMax, yMin, yMax);
 
 		keyStateManager = KeyStateManager();
 		keyStateManager.AddKeyState(VK_UP);
@@ -73,7 +85,7 @@ public:
 	void Work(Character& player)
 	{
 		SetRadian(GetRadianFromPoint(player));
-		StepToCharacter(player, GetSpeed());
+		StepToCharacter(player);
 		nearAttackAuto(player, 2);
 	}
 };
@@ -303,12 +315,7 @@ public:
 			Monster tmp;
 			tmp.Init();
 			vMonster.push_back(tmp);
-			
-			//Monster* pMonster = ArrayTemplate::AddObj(monstersCount, MonsterMaxCount, monsters);
-			//if (pMonster != NULL)
-			//{
-			//	pMonster->Init();
-			//}
+
 		}
 
 		if (InputMonsterRandom())
@@ -316,14 +323,10 @@ public:
 			V_MONSTER::iterator pi = vMonster.begin();
 			while (pi != vMonster.end())
 			{
-				pi->SetRandomPos();
+				pi->Rand(xMin, xMax, yMin, yMax);
 				pi++;
 			}
 
-			//for (int i = 0; i < vMonster.size(); i++)
-			//{
-			//	vMonster[i].SetRandomPos();
-			//}
 		}
 
 		{
@@ -334,11 +337,6 @@ public:
 				pi++;
 			}
 		}
-
-		//for (int i = 0; i < vMonster.size(); i++)
-		//{
-		//	vMonster[i].Work(player);
-		//}
 
 		//²¾°£©Çª«
 		V_MONSTER::iterator pi = vMonster.begin();

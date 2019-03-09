@@ -1,8 +1,11 @@
 #pragma once
-class RANDOM
+namespace RANDOM
 {
-public:
-	RANDOM();
-	~RANDOM();
-	int GetRand();
-};
+	class RANDOM_Class
+	{
+	public:
+		RANDOM_Class();
+		~RANDOM_Class();
+		int GetRand();
+	};
+}

@@ -1,7 +1,8 @@
-#ifndef _GAME_PUZZLE_H_
-#define _GAME_PUZZLE_H_
+#ifndef GAME_PUZZLE_H
+#define GAME_PUZZLE_H
 
 #include "random.h"
+using RANDOM_Class = RANDOM::RANDOM_Class;
 
 //Puzzle
 class Game
@@ -9,7 +10,7 @@ class Game
 private:
 
 protected:
-	RANDOM _RANDOM = RANDOM();
+	RANDOM_Class _RANDOM = RANDOM_Class();
 	enum { PUZZLE_W = 10, PUZZLE_H = 10 };
 	int VV_PUZZLE[PUZZLE_W][PUZZLE_H];
 	enum { RED, GREEN, BLUE, YELLOW, COLOR_COUNT };

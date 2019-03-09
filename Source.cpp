@@ -1,5 +1,6 @@
 #include "BaseWindow.h"
 #include "time_ex.h"
+using namespace Time_Ex;
 
 #include "Game.h"
 #include "TcString.h"
@@ -33,7 +34,7 @@ private:
 		{
 			TcString tString = TcString();
 			tString = L"TimePass : ";
-			unsigned int tp = GetTimePass();
+			unsigned int tp = GetPassTime();
 			tString += tp;
 			TextOut(hdc, 0, 0, tString, tString.len);
 		}
@@ -89,7 +90,9 @@ private:
 	}
 	void Proc()final override
 	{
-		if (!tr.Work())return;
+		tr.Work();
+
+		if (!tr.GetOnTimer())return;
 		tw.Work();
 		fw.Work();
 
