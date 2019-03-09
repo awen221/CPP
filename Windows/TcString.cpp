@@ -1,18 +1,59 @@
 #include "TcString.h"
 #include <tchar.h>
 
+enum { MAX_STRING_LEN = 1024 };
+const char terminal = '\0';
 
-enum{MAX_STRING_LEN=1024};
+
+void TcString::SetStr(const TCHAR* tchar)
+{
+	int newlen = int(_tcslen(tchar));
+	if (newlen>MAX_STRING_LEN)
+		newlen = MAX_STRING_LEN;
+
+	if (str != NULL && newlen != len)
+		delete str;
+
+	if (str == NULL)
+		str = new TCHAR[newlen + 1];
+
+	if (newlen != len)
+		len = newlen;
+
+	for (int i = 0; i<len; i++)
+		str[i] = tchar[i];
+	str[len] = 0;
+}
+const TCHAR* TcString::StrAppend(const TCHAR* str2, TCHAR* newstr = NULL)
+{
+	int len2 = int(_tcslen(str2));
+	int newlen = len + len2;
+
+	if (newlen > MAX_STRING_LEN)
+		newlen = MAX_STRING_LEN;
+
+	newstr = new TCHAR[MAX_STRING_LEN + 1]();
+
+	for (int i = 0; i<newlen; i++)
+	{
+		if (i<len)
+			newstr[i] = str[i];
+		else
+			newstr[i] = str2[i - len];
+	}
+	newstr[newlen] = terminal;
+	return newstr;
+}
+
+
 
 TcString::TcString()
 {
-	str=NULL;
-	len=-1;
 	SetStr(_T(""));
 }
 TcString::~TcString()
 {
-	if(str != NULL)
+	if (str != NULL)
 		delete str;
 }
 TcString::operator const LPTSTR ()
@@ -25,25 +66,7 @@ TcString::operator const TCHAR*()
 }
 
 
-void TcString::SetStr(const TCHAR* tchar)
-{
-	int newlen = int(_tcslen(tchar));
-	if (newlen>MAX_STRING_LEN)
-		newlen = MAX_STRING_LEN;
 
-	if(str != NULL && newlen!=len)
-		delete str;
-
-	if(str == NULL || newlen != len)
-		str=new TCHAR[newlen+1];
-
-	if (newlen != len)
-		len = newlen;
-
-	for(int i=0;i<len;i++)
-		str[i]=tchar[i];
-	str[len]=0;		
-}
 void TcString::operator = (const TCHAR* tchar)
 {
 	SetStr(tchar);
@@ -98,26 +121,7 @@ bool TcString::operator == (const float num)
 	return CmpStr(buf);
 }
 
-const TCHAR* TcString::StrAppend(const TCHAR* str2, TCHAR* newstr = NULL)
-{		
-	int len2=int ( _tcslen(str2) );
-	int newlen=len+len2;
 
-	if (newlen > MAX_STRING_LEN)
-		newlen = MAX_STRING_LEN;
-
-	newstr = new TCHAR[MAX_STRING_LEN+1]();
-
-	for (int i = 0; i<newlen; i++)
-	{
-		if(i<len)
-			newstr[i]=str[i];
-		else
-			newstr[i]=str2[i-len];
-	}
-	newstr[newlen]='\0';
-	return newstr;
-}
 const TCHAR* TcString::operator + (const TCHAR* tchar)
 {
 	return StrAppend(tchar);

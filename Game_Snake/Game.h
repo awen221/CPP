@@ -149,6 +149,8 @@ public:
 #include "windows.h"
 #include "GetAsyncKeyStateManger.h"
 #include "time_ex.h"
+using namespace Time_Ex;
+
 #include "TcString.h"
 
 class WinGame :public Game

@@ -17,15 +17,27 @@
       <UniqueIdentifier>{b4a19f0d-abc1-422f-a8da-26fdc26e5045}</UniqueIdentifier>
     </Filter>
     <Filter Include="Library\Standard">
-      <UniqueIdentifier>{b4273ddc-19bb-4e76-a822-92b7bbcf1df2}</UniqueIdentifier>
+      <UniqueIdentifier>{b417ea85-e4e6-4c80-b983-f03dc29768a6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Library\Windows">
-      <UniqueIdentifier>{0fc2b441-cd4d-4783-84a2-3262c8de3f0b}</UniqueIdentifier>
+      <UniqueIdentifier>{418c6e8e-35a1-4ae6-a878-40f3949d5659}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source.cpp">
       <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionSystem.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="..\Windows\BaseWindow.cpp">
+      <Filter>Library\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Windows\GetAsyncKeyStateManger.cpp">
+      <Filter>Library\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Windows\TcString.cpp">
+      <Filter>Library\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\Standard\radian.cpp">
       <Filter>Library\Standard</Filter>
@@ -36,20 +48,14 @@
     <ClCompile Include="..\Standard\time_ex.cpp">
       <Filter>Library\Standard</Filter>
     </ClCompile>
-    <ClCompile Include="..\Windows\BaseWindow.cpp">
-      <Filter>Library\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Windows\GetAsyncKeyStateManger.cpp">
-      <Filter>Library\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Windows\TcString.cpp">
-      <Filter>Library\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="ActionSystem.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="Character.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionSystem.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Character.h" />
     <ClInclude Include="..\Standard\point_base.h">
       <Filter>Library\Standard</Filter>
     </ClInclude>
@@ -71,11 +77,5 @@
     <ClInclude Include="..\Windows\TcString.h">
       <Filter>Library\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ActionSystem.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Character.h" />
   </ItemGroup>
 </Project>

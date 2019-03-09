@@ -1,5 +1,5 @@
-#ifndef _TCSTRING_H_
-#define _TCSTRING_H_
+#ifndef TCSTRING_H
+#define TCSTRING_H
 
 #include <windows.h>
 #include <stdio.h>
@@ -10,8 +10,9 @@ class TcString
 private:
 	TCHAR* str;	//pointer
 	void SetStr(const TCHAR*);
-	bool CmpStr(const TCHAR*);
 	const TCHAR* StrAppend(const TCHAR*, TCHAR*);
+
+	bool CmpStr(const TCHAR*);
 
 	WCHAR* CharToWchar(char*,WCHAR*);
 	char* WcharToChar(WCHAR*, char*);
