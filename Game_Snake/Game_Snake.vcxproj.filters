@@ -13,63 +13,10 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Library">
-      <UniqueIdentifier>{79b9a752-d578-48eb-8680-24fc8c1abe75}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Library\Standard">
-      <UniqueIdentifier>{463f7922-6606-4018-8e77-8738e94a9c2f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Library\Windows">
-      <UniqueIdentifier>{60952f6a-65e5-465c-972b-a28aad92f3cf}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Standard\point_base.h">
-      <Filter>Library\Standard</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Standard\radian.h">
-      <Filter>Library\Standard</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Standard\random.h">
-      <Filter>Library\Standard</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Standard\time_ex.h">
-      <Filter>Library\Standard</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Windows\BaseWindow.h">
-      <Filter>Library\Windows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Windows\GetAsyncKeyStateManger.h">
-      <Filter>Library\Windows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Windows\TcString.h">
-      <Filter>Library\Windows</Filter>
-    </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\Standard\radian.cpp">
-      <Filter>Library\Standard</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Standard\random.cpp">
-      <Filter>Library\Standard</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Standard\time_ex.cpp">
-      <Filter>Library\Standard</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Windows\BaseWindow.cpp">
-      <Filter>Library\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Windows\GetAsyncKeyStateManger.cpp">
-      <Filter>Library\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Windows\TcString.cpp">
-      <Filter>Library\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source.cpp">
-      <Filter>Library</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

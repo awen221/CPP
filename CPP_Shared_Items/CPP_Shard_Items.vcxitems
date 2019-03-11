@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{708460a9-5efd-4a4b-80fb-3eac6365886f}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Standard\point_base.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Standard\radian.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Standard\random.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Standard\time_ex.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Standard\TString.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Windows\BaseWindow.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Windows\GetAsyncKeyStateManger.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Windows\TcString.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Standard\radian.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Standard\random.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Standard\time_ex.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Windows\BaseWindow.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Windows\GetAsyncKeyStateManger.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Source.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Windows\TcString.cpp" />
+  </ItemGroup>
+</Project>

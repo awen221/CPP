@@ -1,12 +1,11 @@
-#include "Game.h"
-
-//#include "TcString.h"
 #include "BaseWindow.h"
 #include "time_ex.h"
 using namespace Time_Ex;
+
+#include "Game.h"
 #include "TString.h"
 
-
+//#include "TcString.h"
 
 class mainWindow :private BaseWindow
 {
@@ -15,11 +14,11 @@ private:
 	///overwrite abstract
 	TCHAR * GetTitle()final override
 	{
-		return L"mainWindows";
+		return (TCHAR *)L"mainWindows";
 	}
 	TCHAR* GetWindowsClass()final override
 	{
-		return L"mainWindows";
+		return (TCHAR *)TEXT("mainWindows");
 	}
 	int GetWindowsWidth()final override
 	{
@@ -35,10 +34,10 @@ private:
 	public:
 		void Draw(HDC hdc)
 		{
-			tstring str = L"TimePass : ";
+			tstring tString = L"TimePass : ";
 			unsigned int tp = GetPassTime();
-			str += tp;
-			TextOut(hdc, 0, 0, str, str.len());
+			tString += tp;
+			TextOut(hdc, 0, 0, tString, tString.len());
 		}
 	};
 	class TimerWin : public Timer
@@ -48,8 +47,7 @@ private:
 
 		void Draw(HDC hdc)
 		{
-			tstring str = L"Timer : ";
-
+			tstring tString = L"Timer : ";
 			static bool OnTimerPluse = false;
 			if (GetOnTimer())
 			{
@@ -58,14 +56,14 @@ private:
 
 			if (OnTimerPluse)
 			{
-				str += L"O";
+				tString += L"O";
 			}
 			else
 			{
-				str += L"X";
+				tString += L"X";
 			}
 
-			TextOut(hdc, 0, 20, str, str.len());
+			TextOut(hdc, 0, 20, tString, tString.len());
 		}
 	};
 	class FpsWin : public FPS
@@ -73,11 +71,9 @@ private:
 	public:
 		void Draw(HDC hdc)
 		{
-			tstring str = L"FPS : ";
-			unsigned int fps = GetFPS();
-			str += fps;
-
-			TextOut(hdc, 0, 40, str, str.len());
+			tstring tString = L"FPS : ";
+			tString += GetFPS();
+			TextOut(hdc, 0, 40, tString, tString.len());
 		}
 	};
 	TimePassWin tw = TimePassWin();

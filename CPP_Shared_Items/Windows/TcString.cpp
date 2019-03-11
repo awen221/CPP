@@ -2,7 +2,7 @@
 #include <tchar.h>
 
 enum { MAX_STRING_LEN = 1024 };
-const char terminal = '\0';
+//const TCHAR terminal = '\0';
 
 
 void TcString::SetStr(const TCHAR* tchar)
@@ -12,7 +12,7 @@ void TcString::SetStr(const TCHAR* tchar)
 		newlen = MAX_STRING_LEN;
 
 	if (str != NULL && newlen != len)
-		delete str;
+		delete [] str;
 
 	if (str == NULL)
 		str = new TCHAR[newlen + 1];
@@ -24,8 +24,10 @@ void TcString::SetStr(const TCHAR* tchar)
 		str[i] = tchar[i];
 	str[len] = 0;
 }
-const TCHAR* TcString::StrAppend(const TCHAR* str2, TCHAR* newstr = NULL)
+const TCHAR* TcString::StrAppend(const TCHAR* str2)
 {
+	TCHAR* newstr = NULL;
+
 	int len2 = int(_tcslen(str2));
 	int newlen = len + len2;
 
@@ -41,7 +43,7 @@ const TCHAR* TcString::StrAppend(const TCHAR* str2, TCHAR* newstr = NULL)
 		else
 			newstr[i] = str2[i - len];
 	}
-	newstr[newlen] = terminal;
+	newstr[newlen] = '\0';
 	return newstr;
 }
 
@@ -54,7 +56,7 @@ TcString::TcString()
 TcString::~TcString()
 {
 	if (str != NULL)
-		delete str;
+		delete [] str;
 }
 TcString::operator const LPTSTR ()
 {

@@ -6,6 +6,7 @@ using obj = Point_Template::Point_Template_Class<double>;
 
 #include "random.h"
 using RANDOM_Class = RANDOM::RANDOM_Class;
+#include "time.h"
 
 //Snake
 class Game
@@ -25,7 +26,7 @@ private:
 	obj* Head;
 	void FoodRand()
 	{
-		static RANDOM_Class random = RANDOM_Class();
+		static RANDOM_Class random = RANDOM_Class(clock());
 		int randX = random.GetRand();
 		int randY = random.GetRand();
 
@@ -151,7 +152,7 @@ public:
 #include "time_ex.h"
 using namespace Time_Ex;
 
-#include "TcString.h"
+#include "TString.h"
 
 class WinGame :public Game
 {
@@ -179,8 +180,7 @@ private:
 
 		void Draw(HDC hdc)
 		{
-			TcString tString = TcString();
-			tString = L"Timer : ";
+			tstring tString = L"Timer : ";
 			static bool OnTimerPluse = false;
 			if (GetOnTimer())
 			{
@@ -196,7 +196,7 @@ private:
 				tString += L"X";
 			}
 
-			TextOut(hdc, 0, 20, tString, tString.len);
+			TextOut(hdc, 0, 20, tString, tString.len());
 		}
 	};
 	TimerWin gtr = TimerWin(1000/10);
@@ -227,10 +227,9 @@ public:
 	{
 		Rectangle(hdc, StartX, StartY, StartX + spaceWidth, StartY + spaceHight);
 
-		TcString tString = TcString();
-		tString = L"BodyCurrentCount : ";
+		tstring tString = L"BodyCurrentCount : ";
 		tString += BodyCurrentCount;
-		TextOut(hdc, 300, 0, tString, tString.len);
+		TextOut(hdc, 300, 0, tString, tString.len());
 
 		for (int i = 0; i < BodyCurrentCount; i++)
 		{

@@ -14,9 +14,11 @@ void GameObject::Init()
 	Size = GetDefaultSize();
 }
 
+#include<time.h>
+
 void GameObject::Rand(double xMin, double xMax, double yMin, double yMax)
 {
-	static RANDOM_Class random = RANDOM_Class();
+	static RANDOM_Class random = RANDOM_Class(clock());
 	int randX = random.GetRand();
 	int randY = random.GetRand();
 

@@ -103,7 +103,7 @@ namespace Time_Ex
 	void FPS::Work()
 	{
 		FramesCount++;
-		Work();
+		Timer::Work();
 		if (GetOnTimer())
 		{
 			Fps = FramesCount;

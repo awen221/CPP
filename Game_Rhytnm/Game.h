@@ -5,6 +5,7 @@
 typedef Point_Template::Point_Template_Class<double> obj;
 #include "random.h"
 #include "time_ex.h"
+using namespace Time_Ex;
 
 //Rhythm
 class Game
@@ -126,9 +127,8 @@ public:
 #include "windows.h"
 #include "GetAsyncKeyStateManger.h"
 #include "time_ex.h"
-#include "TcString.h"
-#include<tchar.h>
-#include<string.h>
+#include <tchar.h>
+#include "TString.h"
 
 class WinGame :public Game
 {
@@ -175,16 +175,14 @@ public:
 	{
 		Rectangle(hdc, StartX, StartY, StartX + spaceWidth, StartY + spaceHight);
 
-		TcString tString = TcString();
-
-		tString = L"經過時間 : ";
+		tstring tString = L"經過時間 : ";
 		tString += ((float)tp.GetTotalPassTime()) / 1000;
 		tString += L"秒";
-		TextOut(hdc, 300, 0, tString, tString.len-5);
+		TextOut(hdc, 300, 0, tString, tString.len()-5);
 
 		tString = L"Score : ";
 		tString += Score;
-		TextOut(hdc, 300, 20, tString, tString.len);
+		TextOut(hdc, 300, 20, tString, tString.len());
 
 		MoveToEx(hdc, StartX, noteDestinationY, NULL);
 		LineTo(hdc, StartX + spaceWidth, noteDestinationY);

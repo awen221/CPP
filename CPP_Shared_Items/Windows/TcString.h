@@ -9,8 +9,10 @@ class TcString
 {
 private:
 	TCHAR* str;	//pointer
+
+
 	void SetStr(const TCHAR*);
-	const TCHAR* StrAppend(const TCHAR*, TCHAR*);
+	const TCHAR* StrAppend(const TCHAR*);
 
 	bool CmpStr(const TCHAR*);
 

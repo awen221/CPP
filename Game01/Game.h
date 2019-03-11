@@ -5,6 +5,7 @@
 
 #include "Character.h"
 #include "GetAsyncKeyStateManger.h"
+#include <windows.h>
 
 enum RandomPos { xMin = 0, xMax = 800, yMin = 0, yMax = 600, };
 enum Speed
@@ -19,6 +20,10 @@ enum Size
 class Player : public Character
 {
 private:
+	double GetDefaultSpeed()override final { return 4; }
+	double GetDefaultSize()override final { return 20; }
+	
+	
 	KeyStateManager keyStateManager;
 	bool InputUp(){ return keyStateManager.IsDown(VK_UP); }
 	bool InputDown(){ return keyStateManager.IsDown(VK_DOWN); }
@@ -81,6 +86,7 @@ class Monster :public Character
 {
 private:
 	double GetDefaultSpeed()override final { return 2; }
+	double GetDefaultSize()override final { return 20; }
 public:
 	void Work(Character& player)
 	{
@@ -191,23 +197,20 @@ protected:
 		//if (InputLeft())
 		//{
 		//	player.SetDirectionLeft();
-		//	player.MoveToCurrentDirection<double>(player, player.GetSpeed());
 		//}
 		//if (InputRight())
 		//{
 		//	player.SetDirectionRight();
-		//	player.MoveToCurrentDirection<double>(player, player.GetSpeed());
 		//}
 		//if (InputUp())
 		//{
 		//	player.SetDirectionUp();
-		//	player.MoveToCurrentDirection<double>(player, player.GetSpeed());
 		//}
 		//if (InputDown())
 		//{
 		//	player.SetDirectionDown();
-		//	player.MoveToCurrentDirection<double>(player, player.GetSpeed());
 		//}
+		//player.MoveToCurrentDirection();
 
 		player.Work();
 	}
@@ -362,9 +365,13 @@ public:
 };
 
 
+
+#include <windows.h>
 #include <tchar.h>
-#include "TcString.h"
 #include "GetAsyncKeyStateManger.h"
+//#include "TcString.h"
+#include "TString.h"
+
 class WinGame :public Game
 {
 private:
@@ -423,13 +430,12 @@ private:
 			(int)(characterY + characterSize)
 		);
 		//HP
-		TcString buf = TcString();
-		buf = L"HP:";
-		buf += character.GetHP();
+		tstring hp = tstring(L"HP:");
+		hp += character.GetHP();
 		TextOut(hdc,
 			(int)characterX,
 			(int)characterY,
-			buf, buf.len);
+			hp, hp.len());
 
 		//Direction
 		POINT pnt;
@@ -445,6 +451,8 @@ private:
 
 		//Action
 		int CurAction = character.GetCurAction();
+
+		
 		if (CurAction == ActionSystem::ACT_STAND)
 			TextOut(hdc, characterX, characterY + 20, _T("¯¸¥ß"), 2);
 		if (CurAction == ActionSystem::ACT_WALK)
@@ -488,8 +496,6 @@ public:
 			DrawCharacter(hdc, *pi);
 			pi++;
 		}
-		//for (int i = 0; i < vMonster.size(); i++)
-		//	DrawCharacter(hdc, vMonster[i]);
 
 		V_BULLET::iterator piB = v_BULLET.begin();
 		while (piB != v_BULLET.end())
@@ -497,8 +503,7 @@ public:
 			DrawGameObject(hdc, *piB);
 			piB++;
 		}
-		//for (int i = 0; i < bulletsCount; i++)
-		//	DrawGameObject(hdc, bullets[i]);
+
 	}
 };
 

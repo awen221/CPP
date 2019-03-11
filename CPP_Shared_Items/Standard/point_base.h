@@ -94,7 +94,7 @@ namespace Point_Template
 			double _radian;
 
 			//笛卡兒座標系(第一象限)公式
-			_radian = atan2(target.GetY() - self.GetY(), target.GetX() - self.GetX());
+			_radian = atan2(target.GetY() - GetY(), target.GetX() - GetX());
 			//轉成Windows座標系(第三象限)要加負號
 			_radian = -_radian;
 
