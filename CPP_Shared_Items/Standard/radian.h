@@ -1,14 +1,11 @@
 #ifndef RADIAN_H
 #define RADIAN_H
 
+#include "Point_Template.h"
 
-
-#include "point_base.h"
-using namespace Point_Template;
-
-namespace Radian
+namespace MATH
 {
-	class Radian_Class
+	class Radian
 	{
 	protected:
 		//PI*0 ~ PI*2

@@ -6,6 +6,8 @@
 #include "Character.h"
 #include "GetAsyncKeyStateManger.h"
 #include <windows.h>
+//#include "TCHAR_STR.h"
+//#include <tchar.h>
 
 enum RandomPos { xMin = 0, xMax = 800, yMin = 0, yMax = 600, };
 enum Speed
@@ -194,32 +196,12 @@ protected:
 			player.SetRadian(player.GetRadian() - 0.1);
 		}
 
-		//if (InputLeft())
-		//{
-		//	player.SetDirectionLeft();
-		//}
-		//if (InputRight())
-		//{
-		//	player.SetDirectionRight();
-		//}
-		//if (InputUp())
-		//{
-		//	player.SetDirectionUp();
-		//}
-		//if (InputDown())
-		//{
-		//	player.SetDirectionDown();
-		//}
-		//player.MoveToCurrentDirection();
-
 		player.Work();
 	}
 
 public:
 	virtual void Init()
 	{
-		//monstersCount = 0;
-
 		player.Init();
 	}
 	virtual void Work()
@@ -371,6 +353,7 @@ public:
 #include "GetAsyncKeyStateManger.h"
 //#include "TcString.h"
 #include "TString.h"
+using namespace TString;
 
 class WinGame :public Game
 {
@@ -435,7 +418,7 @@ private:
 		TextOut(hdc,
 			(int)characterX,
 			(int)characterY,
-			hp, hp.len());
+			hp, hp.length());
 
 		//Direction
 		POINT pnt;

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "point_base.h"
-using PointBaseD = Point_Template::Point_Template_Class<double>;
+#include "Point_Template.h"
+using PointBaseD = MATH::Point_Template<double>;
 #include "radian.h"
-using Radian_Class = Radian::Radian_Class;
+using Radian = MATH::Radian;
 
-class GameObject :public PointBaseD, public Radian_Class
+class GameObject :public PointBaseD, public Radian
 {
 protected:
 	bool bDead = false;

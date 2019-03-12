@@ -1,10 +1,10 @@
 #include "random.h"
 #include "stdlib.h"
 
-namespace RANDOM
+namespace MATH
 {
 	//RANDOM
-	RANDOM_Class::RANDOM_Class(unsigned int i)
+	Random::Random(unsigned int i)
 	{
 		srand(i);
 		//建議設置時間為亂數種子
@@ -12,10 +12,10 @@ namespace RANDOM
 		//如果它放在 for loop 裡，每次進行 rand 前就用 srand，
 		//會發現每次取出來的亂數是同一個數字。
 	}
-	RANDOM_Class::~RANDOM_Class()
+	Random::~Random()
 	{
 	}
-	int RANDOM_Class::GetRand()
+	int Random::GetRand()
 	{
 		int res = rand();
 		return res;

@@ -1,8 +1,8 @@
 #ifndef _GAME_TETRIS_H_
 #define _GAME_TETRIS_H_
 
-#include "point_base.h"
-typedef Point_Template::Point_Template_Class<double> obj;
+#include "Point_Template.h"
+using obj = MATH::Point_Template<double>;
 #include "random.h"
 #include "time_ex.h"
 using namespace Time_Ex;
@@ -128,7 +128,9 @@ public:
 #include "GetAsyncKeyStateManger.h"
 #include "time_ex.h"
 #include <tchar.h>
+
 #include "TString.h"
+using namespace TString;
 
 class WinGame :public Game
 {
@@ -178,11 +180,11 @@ public:
 		tstring tString = L"經過時間 : ";
 		tString += ((float)tp.GetTotalPassTime()) / 1000;
 		tString += L"秒";
-		TextOut(hdc, 300, 0, tString, tString.len()-5);
+		TextOut(hdc, 300, 0, tString, tString.length()-5);
 
 		tString = L"Score : ";
 		tString += Score;
-		TextOut(hdc, 300, 20, tString, tString.len());
+		TextOut(hdc, 300, 20, tString, tString.length());
 
 		MoveToEx(hdc, StartX, noteDestinationY, NULL);
 		LineTo(hdc, StartX + spaceWidth, noteDestinationY);

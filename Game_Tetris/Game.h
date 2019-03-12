@@ -12,7 +12,7 @@
 //	~Puzzle() {}
 //};
 
-#include "TcString.h"
+//#include "TcString.h"
 
 class Game
 {
@@ -189,10 +189,6 @@ public:
 
 	virtual void Init()
 	{
-		TcString str = TcString();
-		str = L"LLLL";
-		str += L"MMMM";
-
 		for (int h = 0; h < Puzzle_H; h++)
 			for (int w = 0; w < Puzzle_W; w++)
 				vvPuzzle[h][w] = 0;

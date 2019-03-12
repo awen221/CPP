@@ -1,20 +1,17 @@
-#ifndef POINT_BASE_H
-#define POINT_BASE_H
-
+#pragma once
 #include <math.h>
-
 ///template class不能拆分.cpp,會編譯不過
-namespace Point_Template
+namespace MATH
 {
 	template<class ValueType>
-	class Point_Template_Class
+	class Point_Template
 	{
 	protected:
 		ValueType X;
 		ValueType Y;
 	public:
-		Point_Template_Class() {}
-		~Point_Template_Class(){}
+		Point_Template() {}
+		~Point_Template(){}
 
 		virtual void Init()
 		{
@@ -55,7 +52,7 @@ namespace Point_Template
 		{
 			return sqrt((X - tx)*(X - tx) + (Y - ty)*(Y - ty));
 		}
-		ValueType GetDistance(const Point_Template_Class<ValueType>& target)
+		ValueType GetDistance(const Point_Template<ValueType>& target)
 		{
 			return GetDistance(target.X, target.Y);
 		}
@@ -75,7 +72,7 @@ namespace Point_Template
 			Shift(dx, dy);
 			return false;
 		}
-		bool Step(const Point_Template_Class<ValueType>& target, const ValueType& distance)
+		bool Step(const Point_Template<ValueType>& target, const ValueType& distance)
 		{
 			return Step(target.X, target.Y, distance);
 		}
@@ -89,7 +86,7 @@ namespace Point_Template
 			Shift(shiftX, shiftY);
 		}
 		//取得與指定座標之夾角
-		double GetRadianFromPoint(Point_Template_Class<ValueType> target)
+		double GetRadianFromPoint(Point_Template<ValueType> target)
 		{
 			double _radian;
 
@@ -103,5 +100,3 @@ namespace Point_Template
 
 	};
 }
-
-#endif

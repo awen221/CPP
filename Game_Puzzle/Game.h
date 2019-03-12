@@ -2,7 +2,7 @@
 #define GAME_PUZZLE_H
 
 #include "random.h"
-using RANDOM_Class = RANDOM::RANDOM_Class;
+using Random = MATH::Random;
 #include "time.h"
 
 //Puzzle
@@ -11,7 +11,7 @@ class Game
 private:
 
 protected:
-	RANDOM_Class _RANDOM = RANDOM_Class(clock());
+	Random _RANDOM = Random(clock());
 	enum { PUZZLE_W = 10, PUZZLE_H = 10 };
 	int VV_PUZZLE[PUZZLE_W][PUZZLE_H];
 	enum { RED, GREEN, BLUE, YELLOW, COLOR_COUNT };

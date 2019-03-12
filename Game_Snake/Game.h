@@ -1,11 +1,11 @@
 #ifndef GAME_TETRIS_H
 #define GAME_TETRIS_H
 
-#include "point_base.h"
-using obj = Point_Template::Point_Template_Class<double>;
+#include "Point_Template.h"
+using obj = MATH::Point_Template<double>;
 
 #include "random.h"
-using RANDOM_Class = RANDOM::RANDOM_Class;
+using Random = MATH::Random;
 #include "time.h"
 
 //Snake
@@ -26,7 +26,7 @@ private:
 	obj* Head;
 	void FoodRand()
 	{
-		static RANDOM_Class random = RANDOM_Class(clock());
+		static Random random = Random(clock());
 		int randX = random.GetRand();
 		int randY = random.GetRand();
 
@@ -153,6 +153,7 @@ public:
 using namespace Time_Ex;
 
 #include "TString.h"
+using namespace TString;
 
 class WinGame :public Game
 {
@@ -196,7 +197,7 @@ private:
 				tString += L"X";
 			}
 
-			TextOut(hdc, 0, 20, tString, tString.len());
+			TextOut(hdc, 0, 20, tString, tString.length());
 		}
 	};
 	TimerWin gtr = TimerWin(1000/10);
@@ -229,7 +230,7 @@ public:
 
 		tstring tString = L"BodyCurrentCount : ";
 		tString += BodyCurrentCount;
-		TextOut(hdc, 300, 0, tString, tString.len());
+		TextOut(hdc, 300, 0, tString, tString.length());
 
 		for (int i = 0; i < BodyCurrentCount; i++)
 		{

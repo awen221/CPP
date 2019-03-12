@@ -1,11 +1,11 @@
 #pragma once
-namespace RANDOM
+namespace MATH
 {
-	class RANDOM_Class
+	class Random
 	{
 	public:
-		RANDOM_Class(unsigned int);
-		~RANDOM_Class();
+		Random(unsigned int);
+		~Random();
 		int GetRand();
 	};
 }

@@ -7,61 +7,61 @@ const double PI = M_PI;
 
 const int Degree180 = 180;
 
-namespace Radian
+namespace MATH
 {
-	void Radian_Class::Init()
+	void Radian::Init()
 	{
 		radian = 0;
 	}
 
-	double Radian_Class::GetDegreeFromRadian(const double& radian)
+	double Radian::GetDegreeFromRadian(const double& radian)
 	{
 		return radian * Degree180 / PI;
 	}
-	double Radian_Class::GetRadianFromDegree(const double& degree)
+	double Radian::GetRadianFromDegree(const double& degree)
 	{
 		return  degree / Degree180 * PI;
 	}
 
-	double Radian_Class::GetDegree()
+	double Radian::GetDegree()
 	{
 		return GetDegreeFromRadian(radian);
 	}
 
-	double Radian_Class::GetRadian()
+	double Radian::GetRadian()
 	{
 		return radian;
 	}
-	void Radian_Class::SetRadian(const double& _radian)
+	void Radian::SetRadian(const double& _radian)
 	{
 		radian = _radian;
 	}
-	void Radian_Class::ShfitRadian(const double& _radian)
+	void Radian::ShfitRadian(const double& _radian)
 	{
 		SetRadian(radian + _radian);
 	}
-	void Radian_Class::SetDirectionUp()
+	void Radian::SetDirectionUp()
 	{
 		SetRadian(PI / 2);
 	}
-	void Radian_Class::SetDirectionDown()
+	void Radian::SetDirectionDown()
 	{
 		SetRadian(-PI / 2);
 	}
-	void Radian_Class::SetDirectionLeft()
+	void Radian::SetDirectionLeft()
 	{
 		SetRadian(PI);
 	}
-	void Radian_Class::SetDirectionRight()
+	void Radian::SetDirectionRight()
 	{
 		SetRadian(0);
 	}
-	void Radian_Class::SetDegree(const double& degree)
+	void Radian::SetDegree(const double& degree)
 	{
 		double _radian = GetRadianFromDegree(degree);
 		SetRadian(_radian);
 	}
-	void Radian_Class::ShfitDegree(const double& degree)
+	void Radian::ShfitDegree(const double& degree)
 	{
 		double _radian = GetRadianFromDegree(degree);
 		SetRadian(radian + _radian);

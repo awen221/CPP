@@ -4,6 +4,7 @@ using namespace Time_Ex;
 
 #include "Game.h"
 #include "TString.h"
+using namespace TString;
 
 //#include "TcString.h"
 
@@ -37,7 +38,7 @@ private:
 			tstring tString = L"TimePass : ";
 			unsigned int tp = GetPassTime();
 			tString += tp;
-			TextOut(hdc, 0, 0, tString, tString.len());
+			TextOut(hdc, 0, 0, tString, tString.length());
 		}
 	};
 	class TimerWin : public Timer
@@ -63,7 +64,7 @@ private:
 				tString += L"X";
 			}
 
-			TextOut(hdc, 0, 20, tString, tString.len());
+			TextOut(hdc, 0, 20, tString, tString.length());
 		}
 	};
 	class FpsWin : public FPS
@@ -73,7 +74,7 @@ private:
 		{
 			tstring tString = L"FPS : ";
 			tString += GetFPS();
-			TextOut(hdc, 0, 40, tString, tString.len());
+			TextOut(hdc, 0, 40, tString, tString.length());
 		}
 	};
 	TimePassWin tw = TimePassWin();

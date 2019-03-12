@@ -9,9 +9,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Standard\point_base.h">
-      <Filter>Standard</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Standard\radian.h">
       <Filter>Standard</Filter>
     </ClInclude>
@@ -24,7 +21,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Windows\BaseWindow.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Windows\GetAsyncKeyStateManger.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Standard\TString.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Windows\TcString.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Windows\TCHAR_STR.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Standard\MultiByteAndWideChar.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Standard\Point_Template.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Standard\radian.cpp">
@@ -39,6 +38,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Windows\BaseWindow.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Windows\GetAsyncKeyStateManger.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Source.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Windows\TcString.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Windows\TCHAR_STR.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Standard\MultiByteAndWideChar.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Standard\TString.cpp" />
   </ItemGroup>
 </Project>

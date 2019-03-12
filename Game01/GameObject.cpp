@@ -1,7 +1,7 @@
 #include "GameObject.h"
 
 #include "random.h"
-using RANDOM_Class = RANDOM::RANDOM_Class;
+using Random = MATH::Random;
 
 //protected
 double GameObject::GetDefaultSpeed() { return 0; }
@@ -18,7 +18,7 @@ void GameObject::Init()
 
 void GameObject::Rand(double xMin, double xMax, double yMin, double yMax)
 {
-	static RANDOM_Class random = RANDOM_Class(clock());
+	static Random random = Random(clock());
 	int randX = random.GetRand();
 	int randY = random.GetRand();
 
