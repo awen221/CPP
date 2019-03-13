@@ -1,21 +1,21 @@
 #include "GameObject.h"
 
-#include "random.h"
-using Random = MATH::Random;
-
 //protected
-double GameObject::GetDefaultSpeed() { return 0; }
-double GameObject::GetDefaultSize() { return 0; }
+enum { defaultSize = 20, };
+double GameObject::GetDefaultSize() { return defaultSize; }
 
 //public
+double GameObject::GetSize() { return Size; }
+void GameObject::SetSize(double value) { Size = value; }
+
 void GameObject::Init()
 {
-	Speed = GetDefaultSpeed();
 	Size = GetDefaultSize();
 }
 
 #include<time.h>
-
+#include "random.h"
+using Random = MATH::Random;
 void GameObject::Rand(double xMin, double xMax, double yMin, double yMax)
 {
 	static Random random = Random(clock());
@@ -28,34 +28,3 @@ void GameObject::Rand(double xMin, double xMax, double yMin, double yMax)
 	X = X_rand;
 	Y = Y_rand;
 }
-
-
-double GameObject::GetSpeed() { return Speed; }
-void GameObject::SetSpeed(double value) { Speed = value; }
-
-void GameObject::StepToCharacter(const GameObject& targetCharacter)
-{
-	GameObject target = targetCharacter;
-	//目標為雙方接觸點
-	target.Step(*this, Size + targetCharacter.Size);
-	Step(target, Speed);
-}
-
-double GameObject::GetSize() { return Size; }
-void GameObject::SetSize(double value) { Size = value; }
-
-
-//取得與指定座標之夾角
-double GameObject::GetRadianFromPoint(PointBaseD target)
-{
-	double radian;
-
-	//笛卡兒座標系(第一象限)公式
-	radian = atan2(target.GetY() - Y, target.GetX() - X);
-	//轉成Windows座標系(第三象限)要加負號
-	radian = -radian;
-
-	return radian;
-}
-bool GameObject::IsDead() { return bDead; }
-

@@ -6,16 +6,19 @@
 class Character :public GameObject
 {
 private:
+protected:
 	int HP;
-	double AttackDistance;
-	//double AttackRadius;
+	double Speed;
+	double AttackCenterDistance;
+	double AttackRadius;
 
 	virtual int GetDefaultHP();
-	double GetDefaultAttackDistance();
-	//double GetDefaultAttackRadius();
+	virtual double GetDefaultSpeed();
+	virtual double GetDefaultAttackCenterDistance();
+	virtual double GetDefaultAttackRadius();
 
-	
-protected:
+	bool bDead;
+
 	ActionSystem action;
 
 public:
@@ -23,12 +26,21 @@ public:
 	void SetHP(int);
 	void AddHP(int);
 	void SubHP(int);
-	bool IsDead()override final;
+	bool IsDead();
 	
-	double GetAttackDistance();
-	PointBaseD GetAttackCenterPoint();
-	//double GetAttackRadius();
-	//ªñ¨­§ðÀ»
+	double GetSpeed();
+	void SetSpeed(double);
+
+	void StepToCharacter(GameObject&);
+
+	void MoveToCurrentDirection()
+	{
+		PointBaseD::MoveToDirection(Speed, radian);
+	}
+
+	PointBaseD GetAttackCenter();
+	double GetAttackRadius();
+
 	void nearAttackAuto(Character&, int);
 
 	int GetCurAction();

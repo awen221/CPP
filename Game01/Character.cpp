@@ -1,22 +1,24 @@
 #include "Character.h"
 
 
+//protected
 enum { defaultHP = 1000, };
 int Character::GetDefaultHP()
 {
-	return defaultHP; 
+	return defaultHP;
 }
-enum { defaultAttackDistance = 20, };
-double Character::GetDefaultAttackDistance()
+enum { defaultSpeed = 10, };
+double Character::GetDefaultSpeed() { return defaultSpeed; }
+enum { defaultAttackRangeCenterDistance = 20, };
+double Character::GetDefaultAttackCenterDistance()
 {
-	return defaultAttackDistance; 
+	return defaultAttackRangeCenterDistance;
 }
-//enum { defaultAttackRadius = 25, };
-//double Character::GetDefaultAttackRadius() 
-//{
-//	return defaultAttackRadius; 
-//}
-
+enum { defaultAttackRangeDistance = 20, };
+double Character::GetDefaultAttackRadius()
+{
+	return defaultAttackRangeDistance;
+}
 
 
 int Character::GetHP()
@@ -37,27 +39,39 @@ void Character::SubHP(int value)
 }
 bool Character::IsDead()
 {
-	return HP <= 0;
+	return bDead;
 }
-double Character::GetAttackDistance()
+
+double Character::GetSpeed() { return Speed; }
+void Character::SetSpeed(double value) { Speed = value; }
+
+void Character::StepToCharacter(GameObject& targetCharacter)
 {
-	return AttackDistance;
+	GameObject target = targetCharacter;
+	//目標為雙方接觸點
+	target.Step(*this, Size + targetCharacter.GetSize());
+	Step(target, Speed);
 }
-PointBaseD Character::GetAttackCenterPoint()
+
+//取得攻擊範圍中心點
+PointBaseD Character::GetAttackCenter()
 {
 	Character pnt = *this;
 
-	pnt.MoveToDirection(AttackDistance, pnt.radian);
+	pnt.MoveToDirection(AttackCenterDistance, pnt.radian);
 	return pnt;
 }
-//double Character::GetAttackRadius() 
-//{
-//	return AttackRadius; 
-//}
+//取得攻擊範圍距離
+double Character::GetAttackRadius()
+{
+	return AttackRadius;
+}
+
+
 //近身攻擊
 void Character::nearAttackAuto(Character& targetCharacter, int damage)
 {
-	PointBaseD pnt = GetAttackCenterPoint();
+	PointBaseD pnt = GetAttackCenter();
 	//取得攻擊範圍是否與對象角色重疊
 	if (pnt.GetDistance(targetCharacter) <= (targetCharacter.GetSize() + radian))
 	{
@@ -73,8 +87,11 @@ int Character::GetCurAction()
 void Character::Init()
 {
 	GameObject::Init();
+
 	HP = GetDefaultHP();
-	AttackDistance = GetDefaultAttackDistance();
+	Speed = GetDefaultSpeed();
+	AttackCenterDistance = GetDefaultAttackCenterDistance();
+	AttackRadius = GetDefaultAttackRadius();
 
 	action = ActionSystem();
 	action.Init();
@@ -83,4 +100,5 @@ void Character::Init()
 void Character::Work()
 {
 	action.Work();
+	bDead = HP <= 0;
 }

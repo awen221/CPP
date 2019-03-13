@@ -6,8 +6,7 @@
 #include "Character.h"
 #include "GetAsyncKeyStateManger.h"
 #include <windows.h>
-//#include "TCHAR_STR.h"
-//#include <tchar.h>
+
 
 enum RandomPos { xMin = 0, xMax = 800, yMin = 0, yMax = 600, };
 enum Speed
@@ -52,7 +51,6 @@ public:
 		keyStateManager.AddKeyState('F');
 		keyStateManager.AddKeyState('A');
 		keyStateManager.AddKeyState('D');
-
 	}
 	void Work()override final
 	{
@@ -90,8 +88,14 @@ private:
 	double GetDefaultSpeed()override final { return 2; }
 	double GetDefaultSize()override final { return 20; }
 public:
+	void Init()
+	{
+		Character::Init();
+	}
 	void Work(Character& player)
 	{
+		Character::Work();
+
 		SetRadian(GetRadianFromPoint(player));
 		StepToCharacter(player);
 		nearAttackAuto(player, 2);
@@ -102,7 +106,7 @@ typedef std::vector<Monster> V_MONSTER;
 V_MONSTER vMonster;
 
 
-class Bullet :public GameObject
+class Bullet :public Character
 {
 private:
 	double GetDefaultSpeed()override final { return 1; }
@@ -111,7 +115,6 @@ protected:
 public:
 	void Init()override final
 	{
-		bDead = false;
 		Speed = GetDefaultSpeed();
 		Size = GetDefaultSize();
 	}
@@ -126,7 +129,7 @@ public:
 		if (Y > 600)bDead = true;
 	}
 
-	bool IsDead()override final
+	bool IsDead()
 	{
 		return bDead;
 	}
@@ -180,11 +183,6 @@ protected:
 				player.nearAttackAuto(*pi, 100);
 				pi++;
 			}
-
-			//for (int i = 0; i < vMonster.size(); i++)
-			//{
-			//	player.nearAttackAuto(vMonster[i], 100);
-			//}
 		}
 
 		if (InputPlayerRadianForward())
@@ -215,10 +213,9 @@ public:
 		playerWork();
 
 
+		//生子彈
 		if (InputPlayerFire())
 		{
-			//生子彈
-
 			Bullet bullet = Bullet();
 			bullet.Init();
 			double r = player.GetRadian();
@@ -226,83 +223,43 @@ public:
 			bullet.SetRadian(r);
 
 			v_BULLET.push_back(bullet);
-
-			
-			//Bullet* Bullet = ArrayTemplate::AddObj(bulletsCount, BulletsMaxCount, bullets);
-			//if (Bullet != NULL)
-			//{
-			//	Bullet->Init();
-			//	double r = player.GetRadian();
-			//	Bullet->Set(player.GetX(), player.GetY());
-			//	Bullet->SetRadian(r);
-			//}
 		}
-
+		//檢查子彈碰撞
 		V_BULLET::iterator piB = v_BULLET.begin();
 		while (piB != v_BULLET.end())
 		{
 			piB->Work();
-
 			V_MONSTER::iterator pi = vMonster.begin();
 			while (pi != vMonster.end())
 			{
 				piB->CheckHit(*pi, 100);
 				pi++;
 			}
-
-
 			piB++;
 		}
-
-
-		//for (int i = 0; i < bulletsCount; i++)
-		//{
-		//	bullets[i].Work();
-
-		//	V_MONSTER::iterator pi = vMonster.begin();
-		//	while (pi != vMonster.end())
-		//	{
-		//		bullets[i].CheckHit(*pi, 100);
-		//		pi++;
-		//	}
-		//	//for (int m = 0; m < vMonster.size(); m++)
-		//	//{
-		//	//	bullets[i].CheckHit(vMonster[m], 100);
-		//	//}
-		//}
-
+		//檢查子彈消滅
 		V_BULLET::iterator piBm = v_BULLET.begin();
 		while (piBm != v_BULLET.end())
 		{
 			if (piBm->IsDead())
 			{
 				//移除子彈
-
 				piBm = v_BULLET.erase(piBm);
 			}
 			else
 				piBm++;
 		}
 
-		//for (int i = 0; i < bulletsCount; i++)
-		//{
-		//	if (bullets[i].IsDead())
-		//	{
-		//		//移除子彈
-		//		ArrayTemplate::RemoveObj(i, bulletsCount, bullets);
-		//	}
-		//}
-
-
+		//生怪
 		if (InputMonsterCreate())
 		{
-			//生怪
 			Monster tmp;
 			tmp.Init();
-			vMonster.push_back(tmp);
 
+			vMonster.push_back(tmp);
 		}
 
+		//設定怪物隨機座標
 		if (InputMonsterRandom())
 		{
 			V_MONSTER::iterator pi = vMonster.begin();
@@ -311,9 +268,9 @@ public:
 				pi->Rand(xMin, xMax, yMin, yMax);
 				pi++;
 			}
-
 		}
 
+		//怪物工作
 		{
 			V_MONSTER::iterator pi = vMonster.begin();
 			while (pi != vMonster.end())
@@ -334,15 +291,6 @@ public:
 			else
 				pi++;
 		}
-
-		//for (int i = 0; i < vMonster.size(); i++)
-		//{
-		//	if (vMonster[i].IsDead())
-		//	{
-		//		ArrayTemplate::RemoveObj(i, monstersCount, monsters);
-		//	}
-		//}
-
 	}
 };
 
@@ -351,7 +299,6 @@ public:
 #include <windows.h>
 #include <tchar.h>
 #include "GetAsyncKeyStateManger.h"
-//#include "TcString.h"
 #include "TString.h"
 using namespace TString;
 
@@ -391,18 +338,18 @@ private:
 
 
 		//攻擊範圍
-		PointBaseD pntD = character.GetAttackCenterPoint();
+		PointBaseD pntD = character.GetAttackCenter();
 		double pntD_X = pntD.GetX();
 		double pntD_Y = pntD.GetY();
-		double AttackRadius = character.GetRadian();
-		double AttackDistance = character.GetAttackDistance();
+		double Radian = character.GetRadian();
+		double AttackRadius = character.GetAttackRadius();
 		Ellipse
 		(
 			hdc,
-			(int)(pntD_X - AttackDistance),
-			(int)(pntD_Y - AttackDistance),
-			(int)(pntD_X + AttackDistance),
-			(int)(pntD_Y + AttackDistance)
+			(int)(pntD_X - AttackRadius),
+			(int)(pntD_Y - AttackRadius),
+			(int)(pntD_X + AttackRadius),
+			(int)(pntD_Y + AttackRadius)
 		);
 
 		//SIZE
