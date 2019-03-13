@@ -7,6 +7,8 @@ namespace CppMathFunc {
 
 	Arithmetics::Arithmetics()
 	{
+		TTT.T = 20;
+		i -= TTT.T*100;
 	}
 
 	Arithmetics::~Arithmetics()

@@ -8,6 +8,7 @@ using System.Text;
 
 namespace DllCall
 {
+    using CppMathFunc;
     class Program
     {
 
@@ -42,9 +43,22 @@ namespace DllCall
         #endregion
 
         #region Call_Dll_namespace_ref_class
+
+        class aaa : Arithmetics
+        {
+
+        }
+        
         static void Call_Dll_namespace_ref_class()
         {
-            CppMathFunc.Arithmetics ar = new CppMathFunc.Arithmetics();
+            aaa a = new aaa();
+
+            
+            TEST t = new TEST();
+            t.T++;
+
+            Arithmetics ar = new Arithmetics();
+            ar.i++;
             Console.WriteLine(ar.Add(10, 20));
             Console.WriteLine(ar.Subtract(10, 20));
             Console.WriteLine(ar.Multiply(10, 20));
@@ -56,9 +70,9 @@ namespace DllCall
 
         static void Main(string[] args)
         {
-            Call_Dll_dllexport();
+            //Call_Dll_dllexport();
 
-            //Call_Dll_namespace_ref_class();
+            Call_Dll_namespace_ref_class();
         }
 
     }
