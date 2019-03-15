@@ -7,8 +7,7 @@ int Character::GetDefaultHP()
 {
 	return defaultHP;
 }
-enum { defaultSpeed = 10, };
-double Character::GetDefaultSpeed() { return defaultSpeed; }
+
 enum { defaultAttackRangeCenterDistance = 20, };
 double Character::GetDefaultAttackCenterDistance()
 {
@@ -37,15 +36,15 @@ void Character::SubHP(int value)
 {
 	SetHP(HP - value);
 }
+
 bool Character::IsDead()
 {
 	return bDead;
 }
 
-double Character::GetSpeed() { return Speed; }
-void Character::SetSpeed(double value) { Speed = value; }
 
-void Character::StepToCharacter(GameObject& targetCharacter)
+
+void Character::StepToCharacter(ActiveObject& targetCharacter)
 {
 	GameObject target = targetCharacter;
 	//目標為雙方接觸點
@@ -86,7 +85,7 @@ int Character::GetCurAction()
 
 void Character::Init()
 {
-	GameObject::Init();
+	ActiveObject::Init();
 
 	HP = GetDefaultHP();
 	Speed = GetDefaultSpeed();

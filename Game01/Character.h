@@ -1,19 +1,18 @@
 #pragma once
 
-#include "GameObject.h"
+#include "ActiveObject.h"
 #include "ActionSystem.h"
 
-class Character :public GameObject
+class Character :public ActiveObject
 {
 private:
 	int HP;
 protected:
-	double Speed;
+
 	double AttackCenterDistance;
 	double AttackRadius;
 
 	virtual int GetDefaultHP();
-	virtual double GetDefaultSpeed();
 	virtual double GetDefaultAttackCenterDistance();
 	virtual double GetDefaultAttackRadius();
 
@@ -28,15 +27,11 @@ public:
 	void SubHP(int);
 	bool IsDead();
 	
-	double GetSpeed();
-	void SetSpeed(double);
 
-	void StepToCharacter(GameObject&);
 
-	void MoveToCurrentDirection()
-	{
-		PointBaseD::MoveToDirection(Speed, radian);
-	}
+	void StepToCharacter(ActiveObject&);
+
+
 
 	PointBaseD GetAttackCenter();
 	double GetAttackRadius();

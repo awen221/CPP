@@ -18,6 +18,7 @@
     <ClCompile Include="ActionSystem.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="ActiveObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -26,5 +27,6 @@
     <ClInclude Include="ActionSystem.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="ActiveObject.h" />
   </ItemGroup>
 </Project>
