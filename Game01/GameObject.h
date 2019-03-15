@@ -14,8 +14,16 @@ public:
 	double GetSize();
 	void SetSize(double);
 
-	virtual void Init();
+protected:
+	bool Destroyed;
+public:
+	virtual bool IsDestroyed();
 
+public:
+	GameObject();
+	~GameObject();
+	virtual void Init();
+	virtual void Work();
 	void Rand(double , double , double , double );
 };
 

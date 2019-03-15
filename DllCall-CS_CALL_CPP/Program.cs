@@ -58,7 +58,7 @@ namespace DllCall
             t.T++;
 
             Arithmetics ar = new Arithmetics();
-            ar.i++;
+
             Console.WriteLine(ar.Add(10, 20));
             Console.WriteLine(ar.Subtract(10, 20));
             Console.WriteLine(ar.Multiply(10, 20));

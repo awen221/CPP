@@ -1,18 +1,28 @@
 #include "GameObject.h"
 
-//protected
 enum { defaultSize = 20, };
+//protected
 double GameObject::GetDefaultSize() { return defaultSize; }
-
 //public
 double GameObject::GetSize() { return Size; }
 void GameObject::SetSize(double value) { Size = value; }
 
-void GameObject::Init()
+//public
+bool GameObject::IsDestroyed()
 {
-	Size = GetDefaultSize();
+	return Destroyed;
 }
 
+//public
+GameObject::GameObject()
+{
+	
+}
+GameObject::~GameObject()
+{
+}
+void GameObject::Init() { Size = GetDefaultSize(); }
+void GameObject::Work() {}
 #include<time.h>
 #include "random.h"
 using Random = MATH::Random;

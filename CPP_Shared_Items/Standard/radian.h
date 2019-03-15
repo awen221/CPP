@@ -11,7 +11,9 @@ namespace MATH
 		//PI*0 ~ PI*2
 		double radian;
 	public:
+
 		virtual void Init();
+		virtual void Work();
 		//角度轉弧度
 		static double GetDegreeFromRadian(const double&);
 		//弧度轉角度
@@ -28,8 +30,6 @@ namespace MATH
 		void SetDirectionRight();
 		void SetDegree(const double&);
 		void ShfitDegree(const double&);
-
 	};
 }
-
 #endif

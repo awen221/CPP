@@ -3,12 +3,12 @@
 ///template class不能拆分.cpp,會編譯不過
 namespace MATH
 {
-	template<class ValueType>
+	template<class T>
 	class Point_Template
 	{
 	protected:
-		ValueType X;
-		ValueType Y;
+		T X;
+		T Y;
 	public:
 		Point_Template() {}
 		~Point_Template(){}
@@ -19,47 +19,47 @@ namespace MATH
 			Y = 0;
 		}
 
-		ValueType GetX() { return X; }
-		ValueType GetY() { return Y; }
-		void Get(ValueType& x, ValueType& y)
+		T GetX() { return X; }
+		T GetY() { return Y; }
+		void Get(T& x, T& y)
 		{
 			x = GetX();
 			y = GetY();
 		}
 
-		void SetX(const ValueType& x) { X = x; }
-		void SetY(const ValueType& y) { Y = y; }
-		void Set(const ValueType& x, const ValueType& y)
+		void SetX(const T& x) { X = x; }
+		void SetY(const T& y) { Y = y; }
+		void Set(const T& x, const T& y)
 		{
 			SetX(x);
 			SetY(y);
 		}
-		void ShiftX(const ValueType& dx)
+		void ShiftX(const T& dx)
 		{
 			SetX(X + dx);
 		}
-		void ShiftY(const ValueType& dy)
+		void ShiftY(const T& dy)
 		{
 			SetY(Y + dy);
 		}
-		void Shift(const ValueType& dx, const ValueType& dy)
+		void Shift(const T& dx, const T& dy)
 		{
 			ShiftX(dx);
 			ShiftY(dy);
 		}
 
-		ValueType GetDistance(const ValueType& tx, const ValueType& ty)
+		T GetDistance(const T& tx, const T& ty)
 		{
 			return sqrt((X - tx)*(X - tx) + (Y - ty)*(Y - ty));
 		}
-		ValueType GetDistance(const Point_Template<ValueType>& target)
+		T GetDistance(const Point_Template<T>& target)
 		{
 			return GetDistance(target.X, target.Y);
 		}
 
-		bool Step(const ValueType& tx, const ValueType& ty, const ValueType& speed)
+		bool Step(const T& tx, const T& ty, const T& speed)
 		{
-			ValueType distance = GetDistance(tx, ty);
+			T distance = GetDistance(tx, ty);
 			if (speed >= distance)
 			{
 				Set(tx, ty);
@@ -67,12 +67,12 @@ namespace MATH
 				return true;
 			}
 
-			ValueType dx = (tx - X)*speed / distance;
-			ValueType dy = (ty - Y)*speed / distance;
+			T dx = (tx - X)*speed / distance;
+			T dy = (ty - Y)*speed / distance;
 			Shift(dx, dy);
 			return false;
 		}
-		bool Step(const Point_Template<ValueType>& target, const ValueType& distance)
+		bool Step(const Point_Template<T>& target, const T& distance)
 		{
 			return Step(target.X, target.Y, distance);
 		}
@@ -86,7 +86,7 @@ namespace MATH
 			Shift(shiftX, shiftY);
 		}
 		//取得與指定座標之夾角
-		double GetRadianFromPoint(Point_Template<ValueType> target)
+		double GetRadianFromPoint(Point_Template<T> target)
 		{
 			double _radian;
 

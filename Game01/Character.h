@@ -6,8 +6,8 @@
 class Character :public GameObject
 {
 private:
-protected:
 	int HP;
+protected:
 	double Speed;
 	double AttackCenterDistance;
 	double AttackRadius;

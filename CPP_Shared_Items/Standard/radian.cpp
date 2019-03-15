@@ -13,6 +13,9 @@ namespace MATH
 	{
 		radian = 0;
 	}
+	void Radian::Work()
+	{
+	}
 
 	double Radian::GetDegreeFromRadian(const double& radian)
 	{
