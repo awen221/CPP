@@ -14,5 +14,5 @@ void ActiveObject::SetSpeed(double value) { Speed = value; }
 
 void ActiveObject::MoveToCurrentDirection()
 {
-	PointBaseD::MoveToDirection(Speed, radian);
+	PointBaseD::MoveTo(radian, Speed);
 }

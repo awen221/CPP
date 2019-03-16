@@ -18,23 +18,23 @@ namespace DllCall
 
         //設置進入點
         [DllImport(DllName, EntryPoint = "Add", CallingConvention = CallingConvention.Cdecl)]
-        private static extern int add(int a, int b);
+        private static extern int Add(int a, int b);
 
         //也可以不設置進入點，但函數名稱必須相同
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern int Sub(int a, int b);
 
         [DllImport(DllName, EntryPoint = "Multi", CallingConvention = CallingConvention.Cdecl)]
-        private static extern int mul(int a, int b);
+        private static extern int Mul(int a, int b);
 
         [DllImport(DllName, EntryPoint = "Div", CallingConvention = CallingConvention.Cdecl)]
-        private static extern float div(int a, int b);
+        private static extern float Div(int a, int b);
         static void Call_Dll_dllexport()
         {
-            Console.WriteLine(add(10, 20));
+            Console.WriteLine(Add(10, 20));
             Console.WriteLine(Sub(10, 20));
-            Console.WriteLine(mul(10, 20));
-            Console.WriteLine(div(10, 20));
+            Console.WriteLine(Mul(10, 20));
+            Console.WriteLine(Div(10, 20));
 
             Console.ReadKey();
             //如果出現這種錯誤訊息：System.BadImageFormatException: 試圖載入格式錯誤的程式。 (發生例外狀況於 HRESULT: 0x8007000B)
@@ -44,14 +44,14 @@ namespace DllCall
 
         #region Call_Dll_namespace_ref_class
 
-        class aaa : Arithmetics
+        class Aaa : Arithmetics
         {
 
         }
         
         static void Call_Dll_namespace_ref_class()
         {
-            aaa a = new aaa();
+            Aaa a = new Aaa();
 
             
             TEST t = new TEST();

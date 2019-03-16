@@ -76,25 +76,25 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir)bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Configuration)\$(Platform)\</IntDir>
-    <IncludePath>.\;..\CPP_Shared_Items\;..\CPP_Shared_Items\Standard;..\CPP_Shared_Items\Windows;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>.\;..\CPP_Shared_Items\;..\CPP_Shared_Items\MATH;..\CPP_Shared_Items\Standard;..\CPP_Shared_Items\Windows;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir)bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Configuration)\$(Platform)\</IntDir>
-    <IncludePath>.\;..\CPP_Shared_Items\;..\CPP_Shared_Items\Standard;..\CPP_Shared_Items\Windows;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>.\;..\CPP_Shared_Items\;..\CPP_Shared_Items\MATH;..\CPP_Shared_Items\Standard;..\CPP_Shared_Items\Windows;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir)bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Configuration)\$(Platform)\</IntDir>
-    <IncludePath>.\;..\CPP_Shared_Items\;..\CPP_Shared_Items\Standard;..\CPP_Shared_Items\Windows;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>.\;..\CPP_Shared_Items\;..\CPP_Shared_Items\MATH;..\CPP_Shared_Items\Standard;..\CPP_Shared_Items\Windows;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir)bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Configuration)\$(Platform)\</IntDir>
-    <IncludePath>.\;..\CPP_Shared_Items\;..\CPP_Shared_Items\Standard;..\CPP_Shared_Items\Windows;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>.\;..\CPP_Shared_Items\;..\CPP_Shared_Items\MATH;..\CPP_Shared_Items\Standard;..\CPP_Shared_Items\Windows;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

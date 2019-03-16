@@ -2,11 +2,14 @@
 #define GAME_H
 
 #include <vector>
-
-#include "Character.h"
-#include "GetAsyncKeyStateManger.h"
 #include <windows.h>
 
+#include "GetAsyncKeyStateManger.h"
+#include "Character.h"
+
+
+#include "ActiveObject.h"
+#include "GameObject.h"
 
 enum RandomPos { xMin = 0, xMax = 800, yMin = 0, yMax = 600, };
 enum Speed
@@ -55,6 +58,7 @@ public:
 	void Work()override final
 	{
 		Character::Work();
+		action.Work();
 		if (action.CanMove())
 		{
 			if (InputLeft())
@@ -88,6 +92,9 @@ private:
 	double GetDefaultSpeed()override final { return 2; }
 	double GetDefaultSize()override final { return 20; }
 public:
+	Monster() {}
+	~Monster() {}
+
 	void Init()
 	{
 		Character::Init();
@@ -96,7 +103,7 @@ public:
 	{
 		Character::Work();
 
-		SetRadian(GetRadianFromPoint(player));
+		SetRadian(GetRadianFrom(player));
 		StepToCharacter(player);
 		nearAttackAuto(player, 2);
 	}
@@ -122,7 +129,6 @@ public:
 	void Work()
 	{
 		MoveToCurrentDirection();
-
 		if (X < 0)bDead = true;
 		if (Y < 0)bDead = true;
 		if (X > 800)bDead = true;
@@ -138,7 +144,7 @@ public:
 	void CheckHit(Character& targetCharacter, int damage)
 	{
 		//取得是否與對象角色重疊
-		if (GetDistance(targetCharacter) <= (targetCharacter.GetSize()))
+		if (GetDistanceFrom(targetCharacter) <= (targetCharacter.GetSize()))
 		{
 			targetCharacter.SubHP(damage);
 			bDead = true;
@@ -219,7 +225,7 @@ public:
 			Bullet bullet = Bullet();
 			bullet.Init();
 			double r = player.GetRadian();
-			bullet.Set(player.GetX(), player.GetY());
+			bullet.Set(player);
 			bullet.SetRadian(r);
 
 			v_BULLET.push_back(bullet);
@@ -291,6 +297,7 @@ public:
 			else
 				pi++;
 		}
+
 	}
 };
 
@@ -384,11 +391,11 @@ private:
 
 		
 		if (CurAction == ActionSystem::ACT_STAND)
-			TextOut(hdc, characterX, characterY + 20, _T("站立"), 2);
+			TextOut(hdc, (int)characterX, (int)characterY + 20, _T("站立"), 2);
 		if (CurAction == ActionSystem::ACT_WALK)
-			TextOut(hdc, characterX, characterY + 20, _T("走路"), 2);
+			TextOut(hdc, (int)characterX, (int)characterY + 20, _T("走路"), 2);
 		if (CurAction == ActionSystem::ACT_ATTACK)
-			TextOut(hdc, characterX, characterY + 20, _T("攻擊"), 2);
+			TextOut(hdc, (int)characterX, (int)characterY + 20, _T("攻擊"), 2);
 	}
 
 public:

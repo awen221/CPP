@@ -16,7 +16,6 @@ bool GameObject::IsDestroyed()
 //public
 GameObject::GameObject()
 {
-	
 }
 GameObject::~GameObject()
 {
@@ -35,6 +34,6 @@ void GameObject::Rand(double xMin, double xMax, double yMin, double yMax)
 	double X_rand = xMin + randX % (int)(xMax - xMin);
 	double Y_rand = yMin + randY % (int)(yMax - yMin);
 
-	X = X_rand;
-	Y = Y_rand;
+	SetX(X_rand);
+	SetY(Y_rand);
 }

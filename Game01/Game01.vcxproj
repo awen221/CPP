@@ -73,25 +73,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>.\;..\CPP_Shared_Items\;..\CPP_Shared_Items\Standard;..\CPP_Shared_Items\Windows;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>.\;..\CPP_Shared_Items\;..\CPP_Shared_Items\MATH;..\CPP_Shared_Items\Standard;..\CPP_Shared_Items\Windows;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>.\;..\CPP_Shared_Items\;..\CPP_Shared_Items\Standard;..\CPP_Shared_Items\Windows;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>.\;..\CPP_Shared_Items\;..\CPP_Shared_Items\MATH;..\CPP_Shared_Items\Standard;..\CPP_Shared_Items\Windows;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>.\;..\CPP_Shared_Items\;..\CPP_Shared_Items\Standard;..\CPP_Shared_Items\Windows;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>.\;..\CPP_Shared_Items\;..\CPP_Shared_Items\MATH;..\CPP_Shared_Items\Standard;..\CPP_Shared_Items\Windows;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>.\;..\CPP_Shared_Items\;..\CPP_Shared_Items\Standard;..\CPP_Shared_Items\Windows;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>.\;..\CPP_Shared_Items\;..\CPP_Shared_Items\MATH;..\CPP_Shared_Items\Standard;..\CPP_Shared_Items\Windows;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>

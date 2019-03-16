@@ -3,4 +3,4 @@ $(ProjectDir)bin\$(Configuration)\$(Platform)\
 $(ProjectDir)obj\$(Configuration)\$(Platform)\
 
 VC++ 目錄
-.\;..\CPP_Shared_Items\;..\CPP_Shared_Items\Standard;..\CPP_Shared_Items\Windows;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)
+.\;..\CPP_Shared_Items\;..\CPP_Shared_Items\MATH;..\CPP_Shared_Items\Standard;..\CPP_Shared_Items\Windows;$(IncludePath);$(VC_IncludePath);$(WindowsSDK_IncludePath)

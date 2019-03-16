@@ -2,8 +2,8 @@
 
 #include "Point_Template.h"
 #include "radian.h"
-using namespace MATH;
-using PointBaseD = Point_Template<double>;
+using PointBaseD = MATH::Point_Template<double>;
+using Radian = MATH::Radian;
 
 class GameObject :public PointBaseD, public Radian
 {

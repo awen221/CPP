@@ -21,6 +21,10 @@ protected:
 	ActionSystem action;
 
 public:
+	Character();
+	~Character();
+
+
 	int GetHP();
 	void SetHP(int);
 	void AddHP(int);

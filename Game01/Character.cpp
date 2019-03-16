@@ -20,6 +20,14 @@ double Character::GetDefaultAttackRadius()
 }
 
 
+Character::Character()
+{
+}
+
+Character::~Character()
+{
+}
+
 int Character::GetHP()
 {
 	return HP;
@@ -48,8 +56,8 @@ void Character::StepToCharacter(ActiveObject& targetCharacter)
 {
 	GameObject target = targetCharacter;
 	//目標為雙方接觸點
-	target.Step(*this, Size + targetCharacter.GetSize());
-	Step(target, Speed);
+	target.MoveTo(*this, Size + targetCharacter.GetSize());
+	MoveTo(target, Speed);
 }
 
 //取得攻擊範圍中心點
@@ -57,7 +65,7 @@ PointBaseD Character::GetAttackCenter()
 {
 	Character pnt = *this;
 
-	pnt.MoveToDirection(AttackCenterDistance, pnt.radian);
+	pnt.MoveTo(pnt.radian, AttackCenterDistance);
 	return pnt;
 }
 //取得攻擊範圍距離
@@ -72,7 +80,7 @@ void Character::nearAttackAuto(Character& targetCharacter, int damage)
 {
 	PointBaseD pnt = GetAttackCenter();
 	//取得攻擊範圍是否與對象角色重疊
-	if (pnt.GetDistance(targetCharacter) <= (targetCharacter.GetSize() + radian))
+	if (pnt.GetDistanceFrom(targetCharacter) <= (targetCharacter.GetSize() + radian))
 	{
 		targetCharacter.SubHP(damage);
 	}
@@ -98,6 +106,6 @@ void Character::Init()
 
 void Character::Work()
 {
-	action.Work();
+	//action.Work();
 	bDead = HP <= 0;
 }

@@ -9,37 +9,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Standard\radian.h">
-      <Filter>Standard</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Standard\random.h">
-      <Filter>Standard</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Standard\time_ex.h">
-      <Filter>Standard</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Windows\BaseWindow.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Windows\GetAsyncKeyStateManger.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Standard\TString.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Windows\TCHAR_STR.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Standard\MultiByteAndWideChar.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Standard\Point_Template.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Standard\radian.cpp">
-      <Filter>Standard</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Standard\random.cpp">
-      <Filter>Standard</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Standard\time_ex.cpp">
-      <Filter>Standard</Filter>
-    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Standard\MultiByteAndWideChar.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Standard\random.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Standard\time_ex.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Standard\TString.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Windows\BaseWindow.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Windows\GetAsyncKeyStateManger.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Source.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Windows\TCHAR_STR.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Standard\MultiByteAndWideChar.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Standard\TString.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MATH\Radian.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Standard\MultiByteAndWideChar.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Standard\random.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Standard\time_ex.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Standard\TString.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)_action_system.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)_ActionSystem.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)_GdiPlusDraw.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)_GdiPlusWindow.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)_GUI.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)_WinGame_Interface.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Windows\BaseWindow.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Windows\GetAsyncKeyStateManger.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Windows\TCHAR_STR.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MATH\Point_Template.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MATH\Radian.h" />
   </ItemGroup>
 </Project>
