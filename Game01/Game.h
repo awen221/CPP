@@ -25,7 +25,7 @@ class Player : public Character
 {
 private:
 	double GetDefaultSpeed()override final { return 4; }
-	double GetDefaultSize()override final { return 20; }
+	double GetDefaultRadius()override final { return 20; }
 	
 	
 	KeyStateManager keyStateManager;
@@ -90,7 +90,7 @@ class Monster :public Character
 {
 private:
 	double GetDefaultSpeed()override final { return 2; }
-	double GetDefaultSize()override final { return 20; }
+	double GetDefaultRadius()override final { return 20; }
 public:
 	Monster() {}
 	~Monster() {}
@@ -113,48 +113,49 @@ typedef std::vector<Monster> V_MONSTER;
 V_MONSTER vMonster;
 
 
-class Bullet :public Character
+class Bullet :public ActiveObject
 {
 private:
-	double GetDefaultSpeed()override final { return 1; }
 protected:
-	double GetDefaultSize()override final { return 10; }
+	double GetDefaultRadius()override final { return 5; }
+	double GetDefaultSpeed()override final { return 1; }
 public:
+	Bullet(){}
+	~Bullet() {}
 	void Init()override final
 	{
-		Speed = GetDefaultSpeed();
-		Size = GetDefaultSize();
+		ActiveObject::Init();
 	}
 
 	void Work()
 	{
 		MoveToCurrentDirection();
-		if (X < 0)bDead = true;
-		if (Y < 0)bDead = true;
-		if (X > 800)bDead = true;
-		if (Y > 600)bDead = true;
+		if (X < 0)
+			Destroyed = true;
+		if (Y < 0)
+			Destroyed = true;
+		if (X > 800)
+			Destroyed = true;
+		if (Y > 600)
+			Destroyed = true;
 	}
 
 	bool IsDead()
 	{
-		return bDead;
+		return Destroyed;
 	}
 
 	//偵測擊中
 	void CheckHit(Character& targetCharacter, int damage)
 	{
 		//取得是否與對象角色重疊
-		if (GetDistanceFrom(targetCharacter) <= (targetCharacter.GetSize()))
+		if (GetDistanceFrom(targetCharacter) <= (targetCharacter.GetRadius()))
 		{
 			targetCharacter.SubHP(damage);
-			bDead = true;
+			Destroyed = true;
 		}
 	}
 };
-enum { BulletsMaxCount = 1000 };
-int bulletsCount;
-Bullet bullets[BulletsMaxCount];
-
 typedef std::vector<Bullet> V_BULLET;
 V_BULLET v_BULLET;
 
@@ -330,10 +331,10 @@ private:
 	{
 		//SIZE
 		Ellipse(hdc,
-			(int)(gameObject.GetX() - gameObject.GetSize()),
-			(int)(gameObject.GetY() - gameObject.GetSize()),
-			(int)(gameObject.GetX() + gameObject.GetSize()),
-			(int)(gameObject.GetY() + gameObject.GetSize())
+			(int)(gameObject.GetX() - gameObject.GetRadius()),
+			(int)(gameObject.GetY() - gameObject.GetRadius()),
+			(int)(gameObject.GetX() + gameObject.GetRadius()),
+			(int)(gameObject.GetY() + gameObject.GetRadius())
 		);
 	}
 
@@ -341,7 +342,7 @@ private:
 	{
 		double characterX = character.GetX();
 		double characterY = character.GetY();
-		double characterSize = character.GetSize();
+		double characterSize = character.GetRadius();
 
 
 		//攻擊範圍

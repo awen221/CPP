@@ -173,10 +173,6 @@ void TCHAR_STR::operator += (const int num)
 	_stprintf_s(buf,_T("%d"),num);
 
 	SetStr(StrAppend(buf));
-
-	//TCHAR newstr[MAX_STRING_LEN+1];
-	//_tcscpy_s(newstr,StrAppend(buf));
-	//SetStr(newstr);
 }
 void TCHAR_STR::operator += (const unsigned int num)
 {

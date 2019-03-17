@@ -96,7 +96,7 @@ public:
 		//身體跟著頭
 		for (int i = BodyCountMax - 1; i > 0; i--)
 		{
-			SnakeBodyArray[i].Set(SnakeBodyArray[i - 1].X, SnakeBodyArray[i - 1].Y);
+			SnakeBodyArray[i] = SnakeBodyArray[i - 1];
 		}
 
 		if (HeadDirection == DIR_UP)
@@ -108,19 +108,19 @@ public:
 		if (HeadDirection == DIR_RIGHT)
 			Head->ShiftX(Speed);
 
-		if (Head->X >= SpaceWidth)
+		if (Head->GetX() >= SpaceWidth)
 			Head->SetX(0);
-		if (Head->X < 0)
+		if (Head->GetX() < 0)
 			Head->SetX(SpaceWidth - 1);
-		if (Head->Y >= SpaceHeight)
+		if (Head->GetY() >= SpaceHeight)
 			Head->SetY(0);
-		if (Head->Y < 0)
+		if (Head->GetY() < 0)
 			Head->SetY(SpaceHeight - 1);
 		
 		//吃到身體減一節
 		for (int i = 1; i < BodyCurrentCount; i++)
 		{
-			if ((SnakeBodyArray[i].X == Head->X) && (SnakeBodyArray[i].Y == Head->Y))
+			if ((SnakeBodyArray[i].GetX() == Head->GetX()) && (SnakeBodyArray[i].GetY() == Head->GetY()))
 			{
 				if (BodyCurrentCount > BodyCountMin)
 				{
@@ -132,9 +132,9 @@ public:
 
 		//吃到食物多一節
 		if (
-			(Head->X == Food.X)
+			(Head->GetX() == Food.GetX())
 			&& 
-			(Head->Y == Food.Y)
+			(Head->GetY() == Food.GetY())
 			)
 		{
 			FoodRand();
@@ -234,14 +234,14 @@ public:
 
 		for (int i = 0; i < BodyCurrentCount; i++)
 		{
-			int x = StartX + (int)SnakeBodyArray[i].X * BodySize;
-			int y = StartY + (int)SnakeBodyArray[i].Y * BodySize;
+			int x = StartX + (int)SnakeBodyArray[i].GetX() * BodySize;
+			int y = StartY + (int)SnakeBodyArray[i].GetY() * BodySize;
 
 			Rectangle(hdc, x, y, x + BodySize, y + BodySize);
 		}
 
-		int foodX = (int)(StartX + Food.X * BodySize);
-		int foodY = (int)(StartY + Food.Y * BodySize);
+		int foodX = (int)(StartX + Food.GetX() * BodySize);
+		int foodY = (int)(StartY + Food.GetY() * BodySize);
 		Ellipse(hdc, foodX, foodY, foodX + BodySize, foodY + BodySize);
 	}
 };

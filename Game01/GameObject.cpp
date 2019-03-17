@@ -2,38 +2,17 @@
 
 enum { defaultSize = 20, };
 //protected
-double GameObject::GetDefaultSize() { return defaultSize; }
+double GameObject::GetDefaultRadius() { return 0; }
 //public
-double GameObject::GetSize() { return Size; }
-void GameObject::SetSize(double value) { Size = value; }
-
-//public
-bool GameObject::IsDestroyed()
-{
-	return Destroyed;
-}
+double GameObject::GetRadius() { return Radius; }
+void GameObject::SetRadius(double value) { Radius = value; }
 
 //public
-GameObject::GameObject()
-{
-}
-GameObject::~GameObject()
-{
-}
-void GameObject::Init() { Size = GetDefaultSize(); }
-void GameObject::Work() {}
-#include<time.h>
-#include "random.h"
-using Random = MATH::Random;
-void GameObject::Rand(double xMin, double xMax, double yMin, double yMax)
-{
-	static Random random = Random(clock());
-	int randX = random.GetRand();
-	int randY = random.GetRand();
+bool GameObject::IsDestroyed() { return Destroyed; }
 
-	double X_rand = xMin + randX % (int)(xMax - xMin);
-	double Y_rand = yMin + randY % (int)(yMax - yMin);
+//public
+GameObject::GameObject() :Destroyed(false) {}
+GameObject::~GameObject() {}
 
-	SetX(X_rand);
-	SetY(Y_rand);
-}
+void GameObject::Init() { Radius = GetDefaultRadius(); }
+

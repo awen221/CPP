@@ -33,7 +33,7 @@ public:
 	
 
 
-	void StepToCharacter(ActiveObject&);
+	void StepToCharacter(Character&);
 
 
 
@@ -47,5 +47,7 @@ public:
 	virtual void Init();
 
 	virtual void Work();
+
+	void Rand(double, double, double, double);
 };
 

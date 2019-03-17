@@ -18,6 +18,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Windows\TCHAR_STR.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MATH\Radian.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Source.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MATH\Shape.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Standard\MultiByteAndWideChar.h" />
@@ -35,5 +36,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Windows\TCHAR_STR.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MATH\Point_Template.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MATH\Radian.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MATH\Ellipse.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MATH\Shape.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MATH\Rectangle.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="$(MSBuildThisFileDirectory)專案屬性 組態屬性.txt" />
   </ItemGroup>
 </Project>

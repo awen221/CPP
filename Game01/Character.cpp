@@ -3,60 +3,32 @@
 
 //protected
 enum { defaultHP = 1000, };
-int Character::GetDefaultHP()
-{
-	return defaultHP;
-}
+int Character::GetDefaultHP(){return defaultHP;}
 
 enum { defaultAttackRangeCenterDistance = 20, };
-double Character::GetDefaultAttackCenterDistance()
-{
-	return defaultAttackRangeCenterDistance;
-}
+double Character::GetDefaultAttackCenterDistance(){return defaultAttackRangeCenterDistance;}
 enum { defaultAttackRangeDistance = 20, };
-double Character::GetDefaultAttackRadius()
-{
-	return defaultAttackRangeDistance;
-}
+double Character::GetDefaultAttackRadius(){return defaultAttackRangeDistance;}
 
 
-Character::Character()
-{
-}
+Character::Character(){}
 
-Character::~Character()
-{
-}
+Character::~Character(){}
 
-int Character::GetHP()
-{
-	return HP;
-}
-void Character::SetHP(int value)
-{
-	HP = value;
-}
-void Character::AddHP(int value)
-{
-	SetHP(HP + value);
-}
-void Character::SubHP(int value)
-{
-	SetHP(HP - value);
-}
+int Character::GetHP(){return HP;}
+void Character::SetHP(int value){HP = value;}
+void Character::AddHP(int value){SetHP(HP + value);}
+void Character::SubHP(int value){SetHP(HP - value);}
 
-bool Character::IsDead()
-{
-	return bDead;
-}
+bool Character::IsDead(){return bDead;}
 
 
 
-void Character::StepToCharacter(ActiveObject& targetCharacter)
+void Character::StepToCharacter(Character& targetCharacter)
 {
-	GameObject target = targetCharacter;
+	Character target = targetCharacter;
 	//目標為雙方接觸點
-	target.MoveTo(*this, Size + targetCharacter.GetSize());
+	target.MoveTo(*this, GetRadius() + targetCharacter.GetRadius());
 	MoveTo(target, Speed);
 }
 
@@ -80,7 +52,7 @@ void Character::nearAttackAuto(Character& targetCharacter, int damage)
 {
 	PointBaseD pnt = GetAttackCenter();
 	//取得攻擊範圍是否與對象角色重疊
-	if (pnt.GetDistanceFrom(targetCharacter) <= (targetCharacter.GetSize() + radian))
+	if (pnt.GetDistanceFrom(targetCharacter) <= (targetCharacter.GetRadius() + radian))
 	{
 		targetCharacter.SubHP(damage);
 	}
@@ -106,6 +78,21 @@ void Character::Init()
 
 void Character::Work()
 {
-	//action.Work();
 	bDead = HP <= 0;
+}
+
+#include<time.h>
+#include "random.h"
+using Random = MATH::Random;
+void Character::Rand(double xMin, double xMax, double yMin, double yMax)
+{
+	static Random random = Random(clock());
+	int randX = random.GetRand();
+	int randY = random.GetRand();
+
+	double X_rand = xMin + randX % (int)(xMax - xMin);
+	double Y_rand = yMin + randY % (int)(yMax - yMin);
+
+	SetX(X_rand);
+	SetY(Y_rand);
 }

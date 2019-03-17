@@ -9,6 +9,8 @@ protected:
 public:
 	ActiveObject();
 	~ActiveObject();
+
+	virtual void Init();
 	double GetSpeed();
 	void SetSpeed(double);
 

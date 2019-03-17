@@ -14,6 +14,7 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MATH\Shape.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Source.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Standard\MultiByteAndWideChar.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MATH\Radian.cpp" />
@@ -25,6 +26,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Windows\TCHAR_STR.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MATH\Ellipse.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MATH\Shape.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MATH\Rectangle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Standard\MultiByteAndWideChar.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MATH\Point_Template.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MATH\Radian.h" />
@@ -40,5 +44,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)_GdiPlusWindow.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)_GUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)_WinGame_Interface.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="$(MSBuildThisFileDirectory)專案屬性 組態屬性.txt" />
   </ItemGroup>
 </Project>

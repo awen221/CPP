@@ -7,12 +7,13 @@ using Radian = MATH::Radian;
 
 class GameObject :public PointBaseD, public Radian
 {
+private:
 protected:
-	double Size;
-	virtual double GetDefaultSize();
+	double Radius;
+	virtual double GetDefaultRadius();
 public:
-	double GetSize();
-	void SetSize(double);
+	double GetRadius();
+	void SetRadius(double);
 
 protected:
 	bool Destroyed;
@@ -23,7 +24,5 @@ public:
 	GameObject();
 	~GameObject();
 	virtual void Init();
-	virtual void Work();
-	void Rand(double , double , double , double );
 };
 
